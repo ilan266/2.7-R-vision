@@ -1,0 +1,2293 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UE 2.7 — Défaillances Organiques & Processus Dégénératifs</title>
+<style>
+  :root {
+    --primary: #5E35B1;
+    --primary-dark: #4527A0;
+    --primary-light: #EDE7F6;
+    --blue: #1565C0;
+    --blue-light: #E3F2FD;
+    --green: #2E7D32;
+    --green-light: #E8F5E9;
+    --orange: #E65100;
+    --orange-light: #FFF3E0;
+    --red: #C62828;
+    --red-light: #FFEBEE;
+    --bg: #FAFAFA;
+    --card: #FFFFFF;
+    --text: #212121;
+    --text-soft: #616161;
+    --text-mute: #9E9E9E;
+    --border: #E0E0E0;
+    --shadow: 0 2px 8px rgba(0,0,0,0.06);
+    --shadow-lg: 0 4px 24px rgba(0,0,0,0.10);
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  [data-theme="dark"] {
+    --primary: #B39DDB;
+    --primary-dark: #D1C4E9;
+    --primary-light: #311B62;
+    --blue: #64B5F6;
+    --blue-light: #1A2B3D;
+    --green: #81C784;
+    --green-light: #1B2E1D;
+    --orange: #FFB74D;
+    --orange-light: #3D2914;
+    --red: #E57373;
+    --red-light: #3D1F1F;
+    --bg: #121212;
+    --card: #1E1E1E;
+    --text: #E0E0E0;
+    --text-soft: #B0B0B0;
+    --text-mute: #757575;
+    --border: #333333;
+    --shadow: 0 2px 8px rgba(0,0,0,0.3);
+    --shadow-lg: 0 4px 24px rgba(0,0,0,0.5);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    font-size: 16px;
+    transition: background 0.3s, color 0.3s;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    padding: 24px 20px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -50%; right: -20%;
+    width: 400px; height: 400px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 50%;
+  }
+  .header-inner { max-width: 900px; margin: 0 auto; position: relative; }
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  .logo { font-size: 14px; font-weight: 600; letter-spacing: 1px; opacity: 0.9; }
+  .header-actions { display: flex; gap: 8px; }
+  .icon-btn {
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: white;
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+  .icon-btn:hover { background: rgba(255,255,255,0.25); }
+  h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.5px; }
+  .subtitle { font-size: 16px; opacity: 0.95; margin-bottom: 4px; }
+  .meta { font-size: 14px; opacity: 0.8; }
+
+  /* MAIN */
+  main { max-width: 900px; margin: 0 auto; padding: 24px 20px 40px; }
+  .section { display: none; animation: fadeIn 0.3s ease; }
+  .section.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* CARDS d'accueil */
+  .hero-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    margin-top: -50px;
+    padding: 24px;
+    box-shadow: var(--shadow-lg);
+    margin-bottom: 24px;
+  }
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .hero-stat {
+    background: var(--primary-light);
+    padding: 14px;
+    border-radius: var(--radius-sm);
+    text-align: center;
+  }
+  .hero-stat-num {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary);
+  }
+  .hero-stat-label {
+    font-size: 11px;
+    color: var(--text-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .global-quiz-btn {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+    padding: 18px 24px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    border: none;
+    width: 100%;
+    text-align: left;
+    box-shadow: var(--shadow);
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-family: inherit;
+    margin-bottom: 24px;
+  }
+  .global-quiz-btn:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+  }
+  .global-quiz-btn .icon { font-size: 32px; flex-shrink: 0; }
+  .global-quiz-btn .title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+  .global-quiz-btn .desc { font-size: 13px; opacity: 0.9; }
+
+  .section-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-soft);
+    font-weight: 700;
+    margin: 24px 0 12px;
+  }
+
+  .theme-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+  }
+
+  .theme-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 16px;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-left: 5px solid;
+    transition: all 0.2s;
+  }
+  .theme-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+  }
+  .theme-card-name {
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .theme-card-count {
+    font-size: 12px;
+    color: var(--text-soft);
+  }
+
+  /* VIEW CATEGORIE */
+  .cat-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .back-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text-soft);
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 13px;
+    font-family: inherit;
+    transition: all 0.2s;
+  }
+  .back-btn:hover { background: var(--bg); color: var(--text); }
+
+  .cat-title {
+    flex: 1;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .tab-bar {
+    display: flex;
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 4px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+    gap: 4px;
+  }
+  .tab-btn {
+    flex: 1;
+    background: none;
+    border: none;
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-soft);
+    font-family: inherit;
+    transition: all 0.2s;
+  }
+  .tab-btn:hover { color: var(--text); background: var(--bg); }
+  .tab-btn.active {
+    background: var(--primary);
+    color: white;
+  }
+
+  /* COURS */
+  .cours-section {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+    border-top: 4px solid var(--primary);
+  }
+  .cours-section h2 {
+    font-size: 20px;
+    color: var(--primary);
+    margin-bottom: 12px;
+    font-weight: 700;
+  }
+  .cours-section h3 {
+    font-size: 16px;
+    color: var(--primary-dark);
+    margin: 16px 0 8px;
+    font-weight: 600;
+  }
+  .cours-section h4 {
+    font-size: 14px;
+    color: var(--text);
+    margin: 12px 0 6px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .cours-section p { margin: 8px 0; line-height: 1.7; }
+  .cours-section ul, .cours-section ol { margin: 8px 0 12px 24px; }
+  .cours-section li { margin: 4px 0; line-height: 1.6; }
+  .cours-section strong { color: var(--primary-dark); }
+
+  .box {
+    padding: 14px 18px;
+    border-radius: var(--radius-sm);
+    margin: 14px 0;
+    border-left: 4px solid;
+  }
+  .box-key { background: var(--primary-light); border-color: var(--primary); }
+  .box-info { background: var(--blue-light); border-color: var(--blue); }
+  .box-warn { background: var(--orange-light); border-color: var(--orange); }
+  .box-danger { background: var(--red-light); border-color: var(--red); }
+  .box-success { background: var(--green-light); border-color: var(--green); }
+
+  .box-title { font-weight: 700; margin-bottom: 6px; font-size: 14px; }
+  .box-key .box-title { color: var(--primary-dark); }
+  .box-info .box-title { color: var(--blue); }
+  .box-warn .box-title { color: var(--orange); }
+  .box-danger .box-title { color: var(--red); }
+  .box-success .box-title { color: var(--green); }
+
+  .table-wrap {
+    overflow-x: auto;
+    margin: 12px 0;
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card);
+    font-size: 13px;
+  }
+  th {
+    background: var(--primary);
+    color: white;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+  }
+  td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: var(--bg); }
+
+  /* QUESTIONS LIST */
+  .q-item {
+    background: var(--card);
+    border-radius: var(--radius-sm);
+    margin-bottom: 8px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    border-left: 3px solid var(--primary);
+    transition: all 0.2s;
+  }
+  .q-item-header {
+    padding: 14px 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    user-select: none;
+  }
+  .q-item-header:hover { background: var(--bg); }
+  .q-num-badge {
+    background: var(--primary);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .q-text { flex: 1; font-weight: 500; font-size: 14px; }
+  .q-arrow { color: var(--text-mute); transition: transform 0.2s; flex-shrink: 0; }
+  .q-item.open .q-arrow { transform: rotate(180deg); }
+  .q-answer {
+    display: none;
+    padding: 14px 16px 16px 50px;
+    background: var(--primary-light);
+    font-size: 14px;
+    line-height: 1.7;
+    white-space: pre-wrap;
+  }
+  .q-item.open .q-answer { display: block; }
+
+  .search-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--card);
+    color: var(--text);
+    font-size: 14px;
+    font-family: inherit;
+    margin-bottom: 12px;
+  }
+  .search-input:focus {
+    outline: none;
+    border-color: var(--primary);
+  }
+
+  /* QUIZ - FLASHCARDS */
+  .quiz-stats-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    font-size: 13px;
+    color: var(--text-soft);
+  }
+  .quiz-progress {
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .quiz-progress-fill {
+    height: 100%;
+    background: var(--primary);
+    transition: width 0.3s;
+  }
+
+  .flashcard {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--shadow-lg);
+    border-top: 4px solid var(--primary);
+    min-height: 200px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .flashcard:hover { box-shadow: 0 6px 30px rgba(0,0,0,0.12); }
+  .flashcard-side {
+    font-size: 11px;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 12px;
+    font-weight: 700;
+  }
+  .flashcard-content {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--text);
+    white-space: pre-wrap;
+    min-height: 120px;
+  }
+  .flashcard-category {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--text-soft);
+  }
+  .flashcard-hint {
+    margin-top: 16px;
+    text-align: center;
+    color: var(--text-mute);
+    font-size: 13px;
+    font-style: italic;
+  }
+
+  .quiz-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .quiz-btn {
+    flex: 1;
+    padding: 14px;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    font-family: inherit;
+    transition: all 0.2s;
+  }
+  .quiz-btn-fail {
+    background: var(--red-light);
+    color: var(--red);
+    border: 1px solid var(--red);
+  }
+  .quiz-btn-fail:hover { background: var(--red); color: white; }
+  .quiz-btn-ok {
+    background: var(--green-light);
+    color: var(--green);
+    border: 1px solid var(--green);
+  }
+  .quiz-btn-ok:hover { background: var(--green); color: white; }
+
+  .quiz-done {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 32px 24px;
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+    border-top: 4px solid var(--primary);
+  }
+  .quiz-done-icon { font-size: 48px; margin-bottom: 12px; }
+  .quiz-done-title { font-size: 20px; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
+  .quiz-done-score { font-size: 40px; font-weight: 800; color: var(--text); margin: 12px 0; }
+  .quiz-done-pct { font-size: 14px; color: var(--text-soft); margin-bottom: 20px; }
+  .quiz-done-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-weight: 600;
+    font-family: inherit;
+    font-size: 14px;
+  }
+  .btn-primary:hover { background: var(--primary-dark); }
+  .btn-secondary {
+    background: var(--card);
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 10px 20px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-weight: 600;
+    font-family: inherit;
+    font-size: 14px;
+  }
+  .btn-secondary:hover { background: var(--bg); }
+
+  /* GLOBAL QUIZ FILTERS */
+  .filters-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+  }
+  .filters-title {
+    font-weight: 700;
+    margin-bottom: 14px;
+    color: var(--primary);
+  }
+  .filter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .filter-chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: var(--bg);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .filter-chip:hover { border-color: var(--primary); }
+  .filter-chip.active {
+    background: var(--primary-light);
+    border-color: var(--primary);
+    color: var(--primary-dark);
+    font-weight: 600;
+  }
+  .filter-chip input { accent-color: var(--primary); }
+  .filter-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  /* MEMO mini-cards */
+  .keypoint-card {
+    background: var(--card);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    margin: 6px 0;
+    box-shadow: var(--shadow);
+    border-left: 3px solid var(--primary);
+    font-size: 14px;
+  }
+  .keypoint-card strong { color: var(--primary-dark); }
+
+  footer {
+    text-align: center;
+    padding: 32px 20px;
+    color: var(--text-soft);
+    font-size: 13px;
+    border-top: 1px solid var(--border);
+    margin-top: 32px;
+  }
+
+  @media (max-width: 600px) {
+    h1 { font-size: 22px; }
+    main { padding: 16px 14px 32px; }
+    .cours-section { padding: 18px; }
+    .hero-stats { grid-template-columns: 1fr 1fr; }
+    .tab-btn { padding: 8px 6px; font-size: 12px; }
+    .flashcard-content { font-size: 15px; }
+  }
+</style>
+</head>
+<body data-theme="light">
+
+<header>
+  <div class="header-inner">
+    <div class="header-top">
+      <div class="logo">IFSI · UE 2.7 · SEMESTRE 4</div>
+      <div class="header-actions">
+        <button class="icon-btn" id="themeBtn" title="Mode sombre">🌙</button>
+      </div>
+    </div>
+    <h1>Défaillances organiques</h1>
+    <div class="subtitle">& processus dégénératifs</div>
+    <div class="meta">Fiche de révision interactive · IMF Perpignan</div>
+  </div>
+</header>
+
+<main>
+
+<!-- ================ ACCUEIL ================ -->
+<section id="home" class="section active">
+
+  <div class="hero-card">
+    <div style="font-size: 20px; font-weight: 700; color: var(--primary); margin-bottom: 4px;">Prêt(e) à réviser ?</div>
+    <div style="font-size: 14px; color: var(--text-soft);">Choisis ton mode de révision : un quiz mélangé ou une pathologie en particulier.</div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="hero-stat-num" id="statQuestions">0</div><div class="hero-stat-label">Questions</div></div>
+      <div class="hero-stat"><div class="hero-stat-num" id="statThemes">12</div><div class="hero-stat-label">Thèmes</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">100%</div><div class="hero-stat-label">Cours prof</div></div>
+    </div>
+  </div>
+
+  <button class="global-quiz-btn" onclick="showSection('globalquiz')">
+    <span class="icon">🔀</span>
+    <div>
+      <div class="title">Quiz toutes pathologies mélangées</div>
+      <div class="desc">Filtre par catégories ou prends tout d'un coup</div>
+    </div>
+    <span style="font-size: 24px;">→</span>
+  </button>
+
+  <div class="section-label">📚 Choisir une pathologie</div>
+  <div class="theme-grid" id="themeGrid"></div>
+
+</section>
+
+<!-- ================ THEME ================ -->
+<section id="theme" class="section">
+  <div class="cat-header">
+    <button class="back-btn" onclick="showSection('home')">← Retour</button>
+    <div class="cat-title" id="themeTitle">—</div>
+    <div style="font-size: 12px; color: var(--text-soft);" id="themeCount">—</div>
+  </div>
+
+  <div class="tab-bar">
+    <button class="tab-btn active" data-tab="cours">📋 Cours</button>
+    <button class="tab-btn" data-tab="questions">❓ Questions</button>
+    <button class="tab-btn" data-tab="quiz">🎴 Quiz</button>
+  </div>
+
+  <div id="tab-cours" class="tab-content"></div>
+  <div id="tab-questions" class="tab-content" style="display:none;"></div>
+  <div id="tab-quiz" class="tab-content" style="display:none;"></div>
+</section>
+
+<!-- ================ GLOBAL QUIZ ================ -->
+<section id="globalquiz" class="section">
+  <div class="cat-header">
+    <button class="back-btn" onclick="showSection('home')">← Retour</button>
+    <div class="cat-title">🔀 Quiz mélangé</div>
+  </div>
+
+  <div id="globalQuizSetup">
+    <div class="filters-card">
+      <div class="filters-title">🎯 Choisis les pathologies à inclure</div>
+      <div class="filter-grid" id="filterGrid"></div>
+      <div class="filter-actions">
+        <button class="btn-secondary" onclick="selectAllFilters(true)">✓ Tout sélectionner</button>
+        <button class="btn-secondary" onclick="selectAllFilters(false)">✗ Tout désélectionner</button>
+        <button class="btn-primary" onclick="startGlobalQuiz()">🚀 Démarrer le quiz</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="globalQuizGame" style="display:none;"></div>
+</section>
+
+</main>
+
+<footer>
+  Fiche de révision UE 2.7 · IFSI Semestre 4 · 100 % cours de la prof
+</footer>
+
+<script>
+// =================== DONNÉES ===================
+const THEMES = [
+  { id: "cardio",         label: "🫀 Cardiaques",          color: "#E63946" },
+  { id: "ophtalmo",       label: "👁️ Ophtalmiques",        color: "#2196F3" },
+  { id: "respi",          label: "🫁 Respiratoires",       color: "#4CAF50" },
+  { id: "renale",         label: "🩺 Rénales",             color: "#FF9800" },
+  { id: "hepato",         label: "🟤 Hépatiques",          color: "#795548" },
+  { id: "neuro",          label: "🧠 Neurologiques",       color: "#9C27B0" },
+  { id: "vieillissement", label: "👴 Vieillissement",      color: "#607D8B" },
+  { id: "mi",             label: "🦵 Membres inférieurs",  color: "#009688" },
+  { id: "endocrino",      label: "⚗️ Endocrinologie",      color: "#F44336" },
+  { id: "orl",            label: "👂 ORL",                  color: "#00BCD4" },
+  { id: "rhumato",        label: "🦴 Rhumatismales",        color: "#8BC34A" },
+  { id: "diabete",        label: "🩸 Diabète",              color: "#E91E63" }
+];
+
+// QUESTIONS/RÉPONSES — exactement comme tu les as fournies
+const QA = {
+  cardio: [
+    { q: "Définir l'IC et ses différents types ?", a: "L'insuffisance cardiaque c'est un déséquilibre entre le débit cardiaque et les besoins en O2.\nLes différents types d'IC sont : IC gauche / droite / globale, IC aiguë / chronique." },
+    { q: "Définissez l'insuffisance cardiaque chronique ?", a: "Syndrome chronique lié à une incapacité du cœur à s'adapter aux besoins créant une activation des mécanismes compensateurs." },
+    { q: "Quelles sont les causes de l'IC ?", a: "HTA / Cardiopathie ischémique / Valvulopathies / Cardiomyopathies" },
+    { q: "Quels sont les signes cliniques de l'IC ?", a: "Dyspnée, fatigue, œdèmes, fatigue" },
+    { q: "Quels sont les examens complémentaires pour diagnostiquer l'IC ?", a: "ECG, BNP, échographie cardiaque, radio thorax" },
+    { q: "Quels sont les traitements de l'IC ?", a: "IEC / ARA, bétabloquants, diurétiques, restriction de sel et d'eau (éducation), dispositifs tel que le pacemaker" },
+    { q: "Quels sont les signes cliniques de l'insuffisance cardiaque gauche ?", a: "Dyspnée / orthopnée, OAP" },
+    { q: "Quels sont les signes cliniques de l'insuffisance cardiaque droite ?", a: "Œdèmes des membres inférieurs, hépatomégalie, turgescence jugulaire" },
+    { q: "Quelles sont les conditions essentielles pour une prise de pression artérielle ?", a: "Repos 5 minutes, patient assis ou allongé, plusieurs mesures, brassard adapté." },
+    { q: "Quels sont les signes cliniques d'une hypertension artérielle ?", a: "Souvent asymptomatiques, sinon : céphalées, vertiges." },
+    { q: "Quelles sont les règles hygiéno-diététiques que vous conseillerez à une personne hypotendue ?", a: "Diminution du sel, activité physique, arrêt du tabac, diminution de l'alcool, perte de poids." },
+    { q: "Quels sont les signes cliniques des troubles du rythme ?", a: "Palpitations, malaise / syncope" },
+    { q: "Quelles sont les différences entre les troubles du rythme et l'hypertension artérielle ?", a: "HTA = pression élevée\nTroubles du rythme = anomalie (électrique) fréquence / rythme" },
+    { q: "Quels sont les signes cliniques du choc cardiogénique ?", a: "Hypotension, hypoperfusion, oligurie." },
+    { q: "Quels sont les facteurs de risque de décompensation cardiaque aiguë ?", a: "Infection, mauvaise observance, troubles du rythme, excès de sel / eau" },
+    { q: "Décrivez la prise en charge d'une décompensation cardiaque aiguë.", a: "Oxygène, diurétiques IV, monitorage, traitement de la cause" },
+    { q: "Quelles sont les mesures de prévention de l'ICC ?", a: "Observance du traitement, régime hyposodé, surveillance du poids, activité adaptée" },
+    { q: "Définissez les termes suivants : rythme sinusal, bradycardie, tachycardie, arythmie, Brady arythmie, tachyarythmie, extrasystole.", a: "Rythme sinusal : normal\nBradycardie : <60 bpm\nTachycardie : >100 bpm\nArythmie : irrégulier\nBradyarythmie : lent + irrégulier\nTachyarythmie : rapide + irrégulier\nExtrasystole : battement prématuré" },
+    { q: "Décrivez les caractéristiques d'un ECG normal.", a: "Onde P avant QRS, QRS fin, rythme régulier" },
+    { q: "Qu'est-ce qu'une extrasystole atriale (ESA) ? Quelles sont ses causes et ses conséquences ?", a: "Battement prématuré auriculaire.\nCauses : stress, fatigue, excitants (alcool, café, tabac), déséquilibres électrolytiques (hypokaliémie), pathologies cardiaques, hyperthyroïdie.\nConséquences : généralement bénin ou, palpitations, sensation de pause, anxiété." },
+    { q: "Qu'est-ce que la fibrillation auriculaire (FA) ou l'arythmie complète par fibrillation auriculaire (ACFA) ? Quelles sont ses conséquences et ses traitements ?", a: "C'est un rythme irrégulier rapide.\nRisques : AVC\nTraitements : anticoagulants + contrôle fréquence." },
+    { q: "Qu'est-ce que le flutter auriculaire ? Quelles sont ses caractéristiques et ses traitements ?", a: "Rythme auriculaire rapide irrégulier.\nTraitement : cardioversion, anticoagulant" },
+    { q: "Qu'est-ce qu'une extrasystole ventriculaire (ESV) ? Quelles sont ses caractéristiques et ses traitements ?", a: "Battement prématuré ventriculaire.\nCaractéristiques : QRS large\nTraitement : surveillance" },
+    { q: "Décrivez les différents types de blocs auriculo-ventriculaires ?", a: "BAV 1 : PR allongé\nBAV 2 : bloc intermittent\nBAV 3 : bloc complet" },
+    { q: "Qu'est-ce qu'un pacemaker ? Dans quelles situations est-il indiqué ?", a: "Stimulation cardiaque indiqué pour les bradycardies sévères et les BAV" },
+    { q: "Quelle est la physiopathologie de l'œdème aigu du poumon ?", a: "Augmentation de la pression créant du liquide dans les alvéoles." },
+    { q: "Quels sont les signes cliniques de l'OAP ?", a: "Dyspnée brutale, orthopnée, anxiété" },
+    { q: "Quelles sont les actions infirmières que vous mettez immédiatement en place auprès d'un patient qui présente un œdème aigu du poumon ?", a: "Position demi-assise, oxygène, alerte" },
+    { q: "Quels sont les examens complémentaires à réaliser en cas de suspicion d'OAP ?", a: "Radio du thorax, gaz du sang, ECG" },
+    { q: "Décrivez la prise en charge d'un patient en OAP, y compris les traitements médicamenteux et non médicamenteux.", a: "Oxygène, diurétiques, morphine, nitrés" },
+    { q: "Quelles sont les complications possibles de l'OAP ?", a: "Détresse respiratoire, décès" },
+    { q: "Quels sont les facteurs de risque de récidive d'OAP ?", a: "IC non équilibrée, HTA, non observance" },
+    { q: "Décrivez les mesures de prévention de l'OAP.", a: "Suivi, traitement, régime." }
+  ],
+  ophtalmo: [
+    { q: "Définir la DMLA, les signes cliniques et son traitement ?", a: "DMLA : Dégénérescence maculaire liée à l'âge.\nAffection chronique et évolutive de la macula (zone centrale de la rétine responsable de la vision fine = lecture, écriture, reconnaissance des visages). Elle n'entraîne pas une cécité totale car la vision périphérique est conservée mais altère l'autonomie.\nSignes cliniques : baisse de l'acuité visuelle, scotome central = tache sombre au centre du champ visuel, difficulté à lire / visages, besoin accru de lumière\nTraitement : surveillance régulière, supplémentation en antioxydants (vitamines C, E, zinc, lutéine…), mesures hygiéno-diététiques, injections intravitréennes d'anti-VEGF." },
+    { q: "Définir la cataracte, les signes cliniques et son traitement ?", a: "Opacification progressive du cristallin.\nSignes cliniques : baisse d'acuité visuelle, vision floue, photophobie, éblouissement, diminution des contrastes, diplopie monoculaire, altération de la perception des couleurs.\nTraitement : chirurgical (phacoémulsification, extraction du cristallin opacifié, implantation d'un cristallin artificiel) suites post-op : collyres AINS et antibiotiques, surveillance de la pression intraoculaire." },
+    { q: "Quelles sont les recommandations que l'on peut donner à une personne qui a été opérée de la cataracte ?", a: "Observance du traitement, protection de l'œil, hygiène, activités (reprendre progressivement)." },
+    { q: "Définir le glaucome, les signes cliniques et son traitement ?", a: "Neuropathie optique chronique progressive et irréversible, caractérisée par une destruction des fibres du nerf optique, le plus souvent associée à une pression intraoculaire.\nDéséquilibre entre la production et l'évacuation de l'humeur aqueuse, entraînant une souffrance du nerf optique." }
+  ],
+  respi: [
+    { q: "Définir le syndrome d'apnée du sommeil, les signes cliniques, les TTT et les préconisations hygiéno-diététiques ?", a: "Arrêt du flux aérien durant + de 10 secondes pendant le sommeil, répété avec somnolence diurne." },
+    { q: "Quels sont les signes cliniques et biologiques de l'insuffisance respiratoire aiguë ?", a: "Cliniques : Dyspnée aiguë, cyanose, FR > 25 / min, Sat < 90 %, utilisation des muscles accessoires, troubles de la conscience.\nBiologiques : PaO2 < 60 mmHg, PaCO2 > 45 mmHg, pH < 7,35" },
+    { q: "Définissez l'insuffisance respiratoire chronique et les TTT qui peuvent être mis en place ?", a: "C'est lorsque la PaO2 < 70 mmHg au repos, en dehors d'un épisode aigu.\nTraitements : traitements de la cause, arrêt du tabac, oxygénothérapie long court, réhabilitation respiratoire, VNI si hypercapnie." },
+    { q: "Quels sont les examens diagnostics de l'insuffisance respiratoire chronique ?", a: "Gaz du sang, spirométrie, radiographie thoracique, scanner thoracique, oxymétrie nocturne, polygraphie / polysomnographie." },
+    { q: "Qu'est-ce que la manœuvre du test d'Allen ?", a: "Test vérifiant la perméabilité des artères radiale et ulnaire avant ponction artérielle." },
+    { q: "Quelles sont les actions de prévention proposées à un patient atteint d'insuffisance respiratoire ?", a: "Arrêt du tabac, vaccinations (grippe, pneumocoque), activité physique adaptée, observance des traitements, surveillance (dyspnée, saturation), éducation thérapeutique." },
+    { q: "Quels sont les moyens de prévention des pneumopathies d'inhalation chez les personnes âgées ?", a: "Éviter l'alitement prolongé, adapter l'alimentation (troubles de la déglutition), limiter les neuroleptiques, éviter les IPP inutiles." },
+    { q: "Expliquez l'équilibre acido-basique ?", a: "Équilibre du pH sanguin entre 7,35 et 7,45.\nCela se régule car les poumons éliminent le CO2 (rapide) et les reins régulent HCO3- (lent).\nAcidose : < 7,35\nAlcalose : > 7,45\nD'origine respiratoire (PaCO2) ou métabolique (HCO3-)" },
+    { q: "Définir les troubles métaboliques en fonction des résultats suivants ?", a: "pH < 7,35 | PaCO2 > 45 et plus élevée | HCO3- normale → Acidose respiratoire aiguë\npH > 7,45 | PaCO2 < 35 et très basse | HCO3- normale → Alcalose respiratoire aiguë\npH < 7,35 | PaCO2 normale | HCO3- < 22 et très bas → Acidose métabolique\npH > 7,45 | PaCO2 normale | HCO3- > 26 et très haut → Alcalose métabolique" }
+  ],
+  renale: [
+    { q: "Définissez l'insuffisance rénale chronique et aiguë ?", a: "IRC : altération progressive et irréversible de la fonction rénale avec baisse du DFG. Peut évoluer vers la dialyse ou la greffe.\nIRA : perte brutale, complète ou article des fonctions rénales souvent irréversibles." },
+    { q: "Quelles sont les principales complications biologiques de l'insuffisance rénale chronique et aiguë ?", a: "IRC : anémie, hyperkaliémie, acidose métabolique, troubles phosphocalciques.\nIRA : hyperkaliémie, acidose, œdème pulmonaire." },
+    { q: "Quelles sont les principales complications biologiques de l'IRC ?", a: "Anémie, hyperkaliémie, acidose métabolique, hypocalcémie / hyperphosphatémie." },
+    { q: "Quels sont les conseils éducatifs à donner à un patient porteur d'une fistule artérioveineuse ?", a: "Surveiller le thrill (vibration), garder le bras propre, ne pas porter de charges lourdes, signaler douleur, rongeur, gonflement, protéger le bras porteur." },
+    { q: "Quels sont les facteurs de risques de la maladie rénale Chronique ?", a: "Diabète, HTA, albuminurie, maladies rénales héréditaires, antécédents urologiques." },
+    { q: "Quelles sont les règles hygiéno-diététiques auprès d'un patient dialysé ?", a: "Réduction de sel, restriction hydrique, surveillance potassium, surveillance protéines selon prescription, suivi diététique régulier." },
+    { q: "Définissez et expliquez ce qu'est une fistule artérioveineuse ?", a: "Connexion chirurgicale entre une artère et une veine pour obtenir un débit sanguin suffisant pour l'hémodialyse." },
+    { q: "Quel est le but de la création d'une fistule artérioveineuse dans le cadre d'une hémodialyse ?", a: "Permettre un accès vasculaire durable et efficace pour l'épuration extra corporelle du sang." },
+    { q: "Quelles sont les précautions à prendre par l'IDE en présence d'une fistule artérioveineuse ?", a: "Pas de TA sur ce bras, pas de prise de sang, pas de perfusion, surveiller thrill et souffle, surveiller l'état cutané." },
+    { q: "Quelles sont les complications possibles sur une fistule artério veineuse ?", a: "Thrombose, infection, hématome, sténose, saignement." },
+    { q: "Qu'est-ce qu'une dialyse péritonéale ?", a: "Technique d'épuration utilisant le péritoine comme membrane semi-perméable. Échanges par infusion et drainage d'un liquide de dialyse." },
+    { q: "Quels sont les conseils à donner à un patient porteur d'une fistule ?", a: "Vérifier chaque jour la vibration, éviter traumatismes / compression, éviter la montre trop serrée et les vêtements serrés, consulter si douleur / rougeur ou absence de thrill." }
+  ],
+  hepato: [
+    { q: "Quelle est la physiopathologie de la cirrhose ?", a: "Inflammation chronique du foie, destruction des hépatocytes, régénération anarchique → nodules, fibrose → perte de fonction" },
+    { q: "Définir la cirrhose et les complications majeures ?", a: "Maladie chronique irréversible du foie avec fibrose et altération des fonctions.\nComplications majeures : ascite, hémorragie digestive (varices), encéphalopathie hépatique, carcinome hépatocellulaire." },
+    { q: "Définir les étiologies de la cirrhose ?", a: "L'alcool, NASH (obésité), hépatite B et C.\nHémochromatose, maladies auto-immunes, causes médicamenteuses ou génétiques." },
+    { q: "Quels sont les TTT de la cirrhose ?", a: "Traitement de la cause, surveillance + dépistage complications, traitement des complications (ascite, hémorragie), greffe hépatique si forme grave." },
+    { q: "Définissez les termes suivants : ascite et varices œsophagiennes ?", a: "Ascite : accumulation de liquide dans la cavité péritonéale liée à l'hypertension portale.\nVarices œsophagiennes : dilatations veineuses de l'œsophage dues à l'hypertension entraînant un risque de rupture hémorragique." },
+    { q: "Quelle est la physiopathologie de la pancréatite aiguë ?", a: "Activation prématurée des enzymes pancréatiques, auto-digestion du pancréas, inflammation locale." },
+    { q: "Définir la pancréatite aiguë et les conséquences ?", a: "Inflammation aiguë du pancréas.\nConséquences : douleurs abdominales intenses, réaction inflammatoire systémique, formes graves = défaillances d'organes." },
+    { q: "Définir les étiologies de la pancréatite aiguë ?", a: "Étiologies fréquentes : calculs biliaires (40 %), alcool (40 %)\nAutres : post-CPRE, hypertriglycéridémie, hypercalcémie, médicaments / tumeur." },
+    { q: "Quels sont les TTT de la pancréatite aiguë ?", a: "Mise à jeun, hydratation IV (Ringer), antalgiques IV, anticoagulation préventive, surveillance rapprochée." }
+  ],
+  neuro: [
+    { q: "Définir la sclérose en plaque ?", a: "Maladie inflammatoire démyélinisante du système nerveux central (cerveau + moelle), d'origine dysimmunitaire, entraînant une altération de la conduction nerveuse." },
+    { q: "Les signes cliniques et les étiologies de la SEP ?", a: "Signes cliniques : Troubles visuels (névrite optique), troubles sensitifs (paresthésies), troubles moteurs (faiblesse, spasticité), troubles de la marche, troubles sphinctériens, fatigue ++\nÉtiologie : cause inconnue, maladie auto-immune" },
+    { q: "Quels sont les examens complémentaires qui permettent de poser le diagnostic de la SEP ?", a: "IRM cérébrale et médullaire, ponction lombaire, bilan biologique." },
+    { q: "Quels sont les TTT de la SEP ?", a: "Poussées : corticoïdes IV\nTraitement de fond : immunomodulateurs\nTraitement symptomatique : rééducation" },
+    { q: "Définir la maladie de Parkinson ?", a: "Maladie neurodégénérative liée à la destruction des neurones dopaminergiques de la substance noire." },
+    { q: "Les signes cliniques et les étiologies de la maladie de Parkinson ?", a: "Triade classique : tremblement de repos, bradykinésie (lenteur), rigidité\nAutres signes : troubles posturaux, chutes, troubles du sommeil, dépression" },
+    { q: "Quels sont les examens complémentaires qui permettent de poser le diagnostic de la maladie de Parkinson ?", a: "Diagnostic clinique, IRM si doute, DAT-scan possible" },
+    { q: "Quels sont les TTT de la maladie de Parkinson ?", a: "L-Dopa (référence), agonistes dopaminergiques, anticholinergiques, neurostimulation." },
+    { q: "Quels sont les conseils que l'IDE peut prodiguer à un patient et à sa famille atteint de ces pathologies (SEP / Parkinson) ?", a: "Éducation et accompagnement : expliquer la maladie, favoriser observance des traitements, soutien psychologique\nPrévention complications : prévention des chutes, surveillance nutrition, surveillance troubles urinaires, surveillance déglutition\nRééducation : kinésithérapie, orthophonie, activité physique adaptée.\nVie quotidienne : adapter environnement, aides techniques, soutien famille." }
+  ],
+  vieillissement: [
+    { q: "Définir la maladie d'Alzheimer et la physiopathologie ?", a: "Maladie neurodégénérative progressive responsable d'une détérioration cognitive, surtout de la mémoire.\nPhysiopathologie : accumulation de plaques béta-amyloïdes, dégénérescence neurofibrillaire, mort neuronale progressive." },
+    { q: "Les signes cliniques et les étiologies d'Alzheimer ?", a: "Signes cliniques : troubles de la mémoire récente, désorientation temporo-spatiale, troubles du langage, troubles du comportement, perte d'autonomie.\nÉtiologies : multifactorielle, vieillissement, facteurs génétiques, facteurs cardiovasculaires" },
+    { q: "Quels sont les examens complémentaires qui permettent de poser le diagnostic d'Alzheimer ?", a: "Interrogatoire + évaluation cognitive, MMS / MMSE, IRM cérébrale, bilan biologique." },
+    { q: "Quels sont les TTT d'Alzheimer ?", a: "Inhibiteurs de l'acétylcholinestérase, mémantine, prise en charge non médicamenteuse, maintien autonomie et stimulation cognitive." },
+    { q: "Définir le syndrome confusionnel et démentiel en expliquant leurs physiopathologies ?", a: "Confusionnel : Trouble aigu, fluctuant et réversible de la conscience et de l'attention.\nPhysiopathologie : souffrance cérébrale aiguë secondaire à une cause organique.\nDémentiel : déclin cognitif chronique progressif avec retentissement sur l'autonomie.\nPhysiopathologie : atteinte neuronale progressive irréversible." },
+    { q: "Quels sont les signes cliniques et les étiologies du confusionnel et du démentiel ?", a: "Confusionnel : signes (désorientation, agitation ou somnolence, hallucinations, inattention, fluctuation des symptômes) et étiologie (infection, déshydratation, médicaments, douleur, troubles métaboliques)\nDémentiel : signes (troubles mémoire, troubles jugement, aphasie / apraxie, perte d'autonomie) et étiologies (alzheimer, démence vasculaire, corps de Lewy)" },
+    { q: "Quels sont les examens complémentaires qui permettent de poser les diagnostics différentiels (confusionnel / démentiel) ?", a: "Examen clinique, MMS / MMSE, bilan biologique, ECBU, IRM / scanner cérébral" },
+    { q: "Quels sont les TTT du confusionnel et du démentiel ?", a: "Confusionnel : traitement de la cause, réhydratation, réassurance, réorientation temporo-spatiale.\nDémentiel : traitement symptomatique, accompagnement médico-social, stimulation cognitive." },
+    { q: "Définir la dépression chez la personne âgée ?", a: "Trouble de l'humeur fréquent chez la personne âgée avec tristesse persistante, ralentissement psychomoteur et perte d'intérêt." },
+    { q: "Quels sont les signes cliniques du syndrome confusionnel, les étiologies et les actions à mettre en place ?", a: "Signes cliniques : désorientation, agitation, hallucinations, troubles attentionnels, inversion rythme nycthéméral\nÉtiologies : infection, déshydratation, médicaments, douleur, rétention urinaire\nActions IDE : Surveillance rapprochée, réorientation régulière, hydratation, prévention des chutes, recherche et traitement de la cause, environnement calme." }
+  ],
+  mi: [
+    { q: "Quelle est la méthode de calcul de l'Indice de Pression Systolique (IPS) ?", a: "Formule : IPS = pression systolique cheville / pression systolique bras\nPermet d'évaluer l'artériopathie des membres inférieurs." },
+    { q: "Quel est le but de la mesure de l'IPS ?", a: "Évaluer la qualité de la circulation artérielle des membres inférieurs et rechercher une artériopathie." },
+    { q: "Donnez la grille d'évaluation de l'IPS ?", a: "IPS > 1,3 : artères rigides / calcifiées\nIPS entre 0,9 et 1,3 : normal\nIPS entre 0,7 et 0,9 : artériopathie modérée\nIPS entre 0,4 et 0,7 : artériopathie sévère\nIPS < 0,4 : ischémie critique" },
+    { q: "Définir les caractéristiques des plaies des ulcères artériels et veineux ?", a: "Artériel : très douloureux, extrémités froides, plaie creusante, nécrotique, pouls diminués / absents, siège : pieds, orteils.\nVeineux : peu douloureux, douloureux, peau ocre, plaie suintante, siège : malléole interne." },
+    { q: "Quelles sont les actions à mettre en place en fonction du type d'ulcère ?", a: "Artériel : pas de compression forte, soulager douleur, surveillance ischémie, soins de plaie adaptés, avis vasculaire.\nVeineux : compression veineuse si IPS compatible, surélévation jambes, mobilisation / marche, soins locaux." },
+    { q: "Définir les varices des membres inférieurs et les conseils à mettre en œuvre ?", a: "Dilatation permanente des veines superficielles liée à une insuffisance veineuse." }
+  ],
+  endocrino: [
+    { q: "Hypothyroïdie : définition, étiologies, examens et TTT ?", a: "Diminution de la production des hormones thyroïdiennes entraînant un ralentissement du métabolisme.\nÉtiologies : thyroïdites d'Hashimoto, carence en iode, thyroïdectomie, médicaments\nExamens complémentaires : TSH augmentée, T4 diminuée, anticorps antithyroïdiens, échographie thyroïdienne\nTraitement : hormones thyroïdiennes substitutives" },
+    { q: "Hyperthyroïdie : définition, étiologies, examens et TTT ?", a: "Production excessive d'hormones thyroïdiennes provoquant une accélération du métabolisme.\nÉtiologies : maladie de Basedow, nodule toxique, goitre multinodulaire toxique\nExamens complémentaires : TSH basse, T3 / T4 élevées, scintigraphie thyroïdienne, échographie thyroïdienne.\nTraitements : antithyroïdiens de synthèse, bêtabloquants, iode radioactif, chirurgie." },
+    { q: "Maladie de Cushing : définition, étiologies, examens et TTT ?", a: "Excès chronique de cortisol lié à une hypersécrétion d'ACTH ou à une corticothérapie prolongée.\nÉtiologies : adénome hypophysaire, tumeur surrénalienne, corticothérapie prolongée.\nExamens complémentaires : cortisol sanguin et urinaire, test de freinage à la dexaméthasone, IRM hypophysaire, scanner surrénalien.\nTraitements : chirurgie, radiothérapie, adaptation / arrêt corticothérapie si possible." },
+    { q: "Acromégalie : définition, étiologies, examens et TTT ?", a: "Hypersécrétion d'hormone de croissance après la puberté provoquant une augmentation des extrémités et des tissus.\nÉtiologies : adénome hypophysaire somatotrope +++\nExamens complémentaires : IGF-1 augmentée, test HGPO, IRM hypophysaire\nTraitements : chirurgie hypophysaire, analogues de la somatostatine, radiothérapie." },
+    { q: "Quels sont les rôles des différentes glandes endocrines ?", a: "Hypophyse : contrôle les autres glandes endocrines.\nThyroïde : régule le métabolisme\nParathyroïdes : régulation du calcium\nSurrénales : cortisol, adrénaline\nPancréas endocrine : régulation glycémie\nOvaires / testicules : hormones sexuelles." }
+  ],
+  orl: [
+    { q: "Définir les différents types de surdité.", a: "Surdité de transmission : atteinte du système vibratoire = pavillon, conduit auditif, tympan ou osselets\nSurdité de perception : atteinte neurosensorielle = cochlée, nerf auditif ou voies auditives centrales\nSurdité mixte : association d'une surdité de transmission et de perception" },
+    { q: "Quelles sont les causes de la surdité de transmission ?", a: "Bouchon de cérumen, otites, otospongiose, traumatisme tympanique ou ossiculaire, malformations congénitales" },
+    { q: "Quelles sont les causes de la surdité de perception ?", a: "Presbyacousie, traumatisme sonore, médicaments ototoxiques, maladie de Ménière, neurinome du VIII, causes génétiques." },
+    { q: "Quels sont les examens complémentaires pour diagnostiquer la surdité ?", a: "Acoumétrie, audiométrie tonale et vocale, PEA (potentiels évoqués auditifs), OEA (otoémissions acoustiques)" },
+    { q: "Quels sont les traitements de la surdité ?", a: "Transmission : traitement médical, chirurgie, BAHA / lunettes auditives\nPerception : prothèses auditives, implant cochléaire, rééducation." },
+    { q: "Définir la maladie de Ménière, son risque majeur, son TTT et les signes cliniques ?", a: "Affection chronique de l'oreille interne liée à un hydrops endolymphatique.\nSignes cliniques : vertiges rotatoires récidivants, hypoacousie fluctuante, acouphènes, sensation d'oreille pleine, nausées / vomissements\nRisque majeur : Chute liée aux vertiges, évolution vers une surdité progressive\nTraitements :\npendant la crise : antiémétiques, anti-vertigineux, repos en environnement calme\ntraitement de fond : bétahistine, régime hyposodé, diminution alcool / café, gestion stress, diurétiques parfois" }
+  ],
+  rhumato: [
+    { q: "Définir l'arthrose, la sarcopénie et l'ostéoporose ?", a: "Arthrose : maladie articulaire chronique caractérisée par une dégradation du cartilage avec atteinte de l'os sous-chondral.\nSarcopénie : diminution progressive de la masse et de la force musculaire liée au vieillissement.\nOstéoporose : maladie diffuse du squelette avec diminution de la densité osseuse entraînant une fragilité osseuse et un risque de fracture." },
+    { q: "Quelles sont les étiologies de l'arthrose, la sarcopénie et l'ostéoporose ?", a: "Arthrose : vieillissement, génétique, traumatisme, surpoids, troubles statiques\nSarcopénie : vieillissement, sédentarité, dénutrition, maladies inflammatoires chroniques\nOstéoporose : ménopause, vieillissement, corticothérapie, tabac / alcool, endocrinopathies." },
+    { q: "Quels sont les risques majeurs de chacune de ces pathologies pour les patients ?", a: "Arthrose : douleurs chroniques, limitation mobilité, perte autonomie\nSarcopénie : chutes, fractures, dépendance\nOstéoporose : fractures ostéoporotiques, fracture col du fémur, perte autonomie, risque mortalité après fracture." },
+    { q: "Quels sont les rôles IDE pour chacune des pathologies (arthrose, sarcopénie, ostéoporose) ?", a: "Arthrose : évaluation douleur, aide à la mobilité, conseils activité physique / perte poids, surveillance traitements antalgiques\nSarcopénie : prévention des chutes, encourager activité physique, surveillance nutrition / protéines, maintien autonomie\nOstéoporose : prévention fractures / chutes, conseils hygiéno-diététiques, surveillance traitements, encourager activité physique et apports calciques / vitamine D" }
+  ],
+  diabete: [
+    { q: "Définir le diabète de type 1 et 2 ainsi que leurs physiopathologies ?", a: "Diabète de type 1 : maladie auto-immune avec destruction des cellules bêta du pancréas provoquant l'absence d'insuline.\nPhysiopathologie : carence absolue en insuline → hyperglycémie.\nDiabète de type 2 : maladie métabolique avec insulinorésistance puis épuisement pancréatique.\nPhysiopathologie : insuline inefficace + diminution progressive de sa sécrétion." },
+    { q: "Quels sont les signes cliniques annonciateurs du diabète Type 1 ou 2 ?", a: "Polyurie, polydipsie, amaigrissement, asthénie, polyphagie, infections répétées" },
+    { q: "Citez les signes cliniques d'une hypo et hyperglycémie et les normes associées ?", a: "Hypoglycémie : < 0,70 g / L\nSignes : sueurs, tremblements, faim, malaise, troubles conscience\nHyperglycémie : > 1,26 g / L à jeun\nSignes : soif, polyurie, fatigue, haleine acétonique" },
+    { q: "Quelles sont les conduites à tenir en cas d'hypo et d'hyperglycémie ?", a: "Hypoglycémie : resucrage rapide, contrôle glycémie, collation secondaire\nHyperglycémie : contrôle glycémie / cétonurie, hydratation, adaptation traitement, surveillance signes de gravité." },
+    { q: "Qu'est-ce que l'hémoglobine glyquée ?", a: "HbA1c = reflet de la glycémie moyenne des 2 - 3 derniers mois.\nObjectif souvent < 7 %" },
+    { q: "Quelles sont les complications à long terme du diabète ?", a: "Rétinopathie, néphropathie, neuropathie, artériopathie, risque cardio-vasculaire." },
+    { q: "Quels sont les organes affectés par cette pathologie et les examens de surveillance à réaliser ?", a: "Yeux : fond d'œil\nReins : créatinine + microalbuminurie\nPieds : examen podologique\nCœur / vaisseaux : TA, ECG\nNerfs : examen sensibilité" },
+    { q: "Quels sont les TTT à mettre en œuvre en fonction du type de diabète ? Effets secondaires et rôle IDE ?", a: "Type 1 : insuline obligatoire. Effet secondaire : hypoglycémie.\nRôle IDE : surveillance glycémie, éducation injections / rotation sites, prévention hypoglycémie\nType 2 : mesures hygiéno-diététiques, anti-diabétiques oraux, +/- insuline. Effet secondaire : hypoglycémie, troubles digestifs.\nRôle IDE : éducation thérapeutique, surveillance glycémie, conseils alimentation / activité physique." },
+    { q: "Quels sont les conseils à donner à un patient diabétique pour prendre soin de ses pieds ?", a: "Inspection quotidienne, bonne hygiène / séchage, chaussures adaptées, couper ongles correctement, ne pas marcher pieds nus, consulter rapidement si plaie." },
+    { q: "Quelles sont les conséquences personnelles et professionnelles pour un patient à qui on vient de diagnostiquer un diabète ?", a: "Adaptation mode de vie, contraintes psychologiques, réorganisation travail / alimentation, risque complications chroniques" },
+    { q: "Définir le diabète gestationnel ?", a: "Hyperglycémie apparaissant pendant la grossesse, liée à une insulinorésistance gravidique." },
+    { q: "Définir la neuropathie diabétique et ses conséquences ?", a: "Atteinte des nerfs périphériques liée à l'hyperglycémie chronique.\nConséquences : douleurs, perte sensibilité, troubles équilibre, pied diabétique, risque ulcères / amputations" }
+  ]
+};
+
+// =================== COURS (intégrant les réponses dans le récit) ===================
+const COURS = {
+  cardio: `
+    <div class="cours-section">
+      <h2>🫀 L'insuffisance cardiaque (IC)</h2>
+      <p>L'insuffisance cardiaque correspond à un <strong>déséquilibre entre le débit cardiaque et les besoins en O₂</strong> de l'organisme. Le cœur ne parvient plus à répondre aux demandes.</p>
+
+      <h3>Les différents types d'IC</h3>
+      <ul>
+        <li>Selon le ventricule : IC <strong>gauche</strong>, IC <strong>droite</strong>, IC <strong>globale</strong></li>
+        <li>Selon l'évolution : IC <strong>aiguë</strong> ou IC <strong>chronique</strong></li>
+      </ul>
+
+      <div class="box box-info">
+        <div class="box-title">Insuffisance cardiaque chronique</div>
+        C'est un syndrome chronique lié à une incapacité du cœur à s'adapter aux besoins, créant une activation des mécanismes compensateurs.
+      </div>
+
+      <h3>Étiologies / Causes</h3>
+      <ul>
+        <li>HTA</li>
+        <li>Cardiopathie ischémique</li>
+        <li>Valvulopathies</li>
+        <li>Cardiomyopathies</li>
+      </ul>
+
+      <h3>Signes cliniques</h3>
+      <p>Les signes généraux de l'IC : <strong>dyspnée, fatigue, œdèmes</strong>.</p>
+      <div class="box box-key">
+        <div class="box-title">IC gauche</div>
+        Dyspnée / orthopnée, OAP
+      </div>
+      <div class="box box-key">
+        <div class="box-title">IC droite</div>
+        Œdèmes des membres inférieurs, hépatomégalie, turgescence jugulaire
+      </div>
+
+      <h3>Examens complémentaires</h3>
+      <ul>
+        <li><strong>ECG</strong></li>
+        <li><strong>BNP</strong></li>
+        <li><strong>Échographie cardiaque</strong></li>
+        <li><strong>Radio thorax</strong></li>
+      </ul>
+
+      <h3>Traitements</h3>
+      <ul>
+        <li>IEC / ARA II</li>
+        <li>Bêtabloquants</li>
+        <li>Diurétiques</li>
+        <li>Restriction de sel et d'eau (éducation thérapeutique)</li>
+        <li>Dispositifs (pacemaker)</li>
+      </ul>
+
+      <h3>Prévention de l'ICC</h3>
+      <ul>
+        <li>Observance du traitement</li>
+        <li>Régime hyposodé</li>
+        <li>Surveillance du poids</li>
+        <li>Activité adaptée</li>
+      </ul>
+    </div>
+
+    <div class="cours-section">
+      <h2>💢 HTA & choc cardiogénique</h2>
+
+      <h3>Prise de pression artérielle</h3>
+      <p>Les conditions essentielles : <strong>repos 5 minutes</strong>, patient assis ou allongé, plusieurs mesures, brassard adapté.</p>
+
+      <h3>Signes cliniques de l'HTA</h3>
+      <p>Souvent <strong>asymptomatique</strong>. Sinon : <strong>céphalées, vertiges</strong>.</p>
+
+      <div class="box box-success">
+        <div class="box-title">Règles hygiéno-diététiques pour HTA</div>
+        Diminution du sel · Activité physique · Arrêt du tabac · Diminution de l'alcool · Perte de poids
+      </div>
+
+      <h3>Choc cardiogénique</h3>
+      <p>Signes cliniques : <strong>hypotension, hypoperfusion, oligurie</strong> → URGENCE.</p>
+
+      <h3>Décompensation cardiaque aiguë</h3>
+      <p><strong>Facteurs de risque :</strong> infection, mauvaise observance, troubles du rythme, excès de sel / eau.</p>
+      <p><strong>Prise en charge :</strong> oxygène, diurétiques IV, monitorage, traitement de la cause.</p>
+    </div>
+
+    <div class="cours-section">
+      <h2>⚡ Les troubles du rythme</h2>
+
+      <h3>Signes cliniques</h3>
+      <p>Palpitations, malaise / syncope.</p>
+
+      <div class="box box-info">
+        <div class="box-title">HTA vs Troubles du rythme</div>
+        <strong>HTA</strong> = pression élevée.<br>
+        <strong>Troubles du rythme</strong> = anomalie (électrique) de la fréquence / du rythme.
+      </div>
+
+      <h3>Définitions à connaître par cœur</h3>
+      <ul>
+        <li><strong>Rythme sinusal</strong> : normal</li>
+        <li><strong>Bradycardie</strong> : &lt; 60 bpm</li>
+        <li><strong>Tachycardie</strong> : &gt; 100 bpm</li>
+        <li><strong>Arythmie</strong> : irrégulier</li>
+        <li><strong>Bradyarythmie</strong> : lent + irrégulier</li>
+        <li><strong>Tachyarythmie</strong> : rapide + irrégulier</li>
+        <li><strong>Extrasystole</strong> : battement prématuré</li>
+      </ul>
+
+      <h3>ECG normal</h3>
+      <p>Onde P avant QRS · QRS fin · rythme régulier.</p>
+
+      <h3>Extrasystole atriale (ESA)</h3>
+      <p>Battement prématuré auriculaire.</p>
+      <p><strong>Causes :</strong> stress, fatigue, excitants (alcool, café, tabac), déséquilibres électrolytiques (hypokaliémie), pathologies cardiaques, hyperthyroïdie.</p>
+      <p><strong>Conséquences :</strong> généralement bénin — palpitations, sensation de pause, anxiété.</p>
+
+      <h3>Fibrillation auriculaire (FA / ACFA)</h3>
+      <p>C'est un <strong>rythme irrégulier rapide</strong>.</p>
+      <p><strong>Risque :</strong> AVC.<br>
+      <strong>Traitements :</strong> anticoagulants + contrôle de la fréquence.</p>
+
+      <h3>Flutter auriculaire</h3>
+      <p>Rythme auriculaire rapide irrégulier.<br>
+      <strong>Traitement :</strong> cardioversion, anticoagulant.</p>
+
+      <h3>Extrasystole ventriculaire (ESV)</h3>
+      <p>Battement prématuré ventriculaire.<br>
+      <strong>Caractéristique :</strong> QRS large.<br>
+      <strong>Traitement :</strong> surveillance.</p>
+
+      <h3>Blocs auriculo-ventriculaires (BAV)</h3>
+      <ul>
+        <li><strong>BAV 1</strong> : PR allongé</li>
+        <li><strong>BAV 2</strong> : bloc intermittent</li>
+        <li><strong>BAV 3</strong> : bloc complet</li>
+      </ul>
+
+      <h3>Pacemaker</h3>
+      <p>Stimulation cardiaque artificielle. <strong>Indications :</strong> bradycardies sévères et BAV.</p>
+    </div>
+
+    <div class="cours-section">
+      <h2>🌊 OAP — Œdème aigu du poumon</h2>
+
+      <h3>Physiopathologie</h3>
+      <p>Augmentation de la pression créant du liquide dans les alvéoles.</p>
+
+      <h3>Signes cliniques</h3>
+      <p>Dyspnée brutale, orthopnée, anxiété.</p>
+
+      <div class="box box-danger">
+        <div class="box-title">Actions IDE immédiates</div>
+        <strong>1. Position demi-assise</strong> · <strong>2. Oxygène</strong> · <strong>3. Alerte médicale</strong>
+      </div>
+
+      <h3>Examens complémentaires</h3>
+      <ul><li>Radio du thorax</li><li>Gaz du sang</li><li>ECG</li></ul>
+
+      <h3>Prise en charge</h3>
+      <p>Oxygène · Diurétiques · Morphine · Nitrés.</p>
+
+      <h3>Complications</h3>
+      <p>Détresse respiratoire · Décès.</p>
+
+      <h3>FDR de récidive</h3>
+      <p>IC non équilibrée · HTA · non-observance.</p>
+
+      <h3>Mesures de prévention</h3>
+      <p>Suivi · Traitement · Régime.</p>
+    </div>
+  `,
+
+  ophtalmo: `
+    <div class="cours-section">
+      <h2>👁️ DMLA — Dégénérescence Maculaire Liée à l'Âge</h2>
+      <p>La DMLA est une <strong>affection chronique et évolutive de la macula</strong> (zone centrale de la rétine responsable de la vision fine = lecture, écriture, reconnaissance des visages). Elle n'entraîne pas une cécité totale car la <strong>vision périphérique est conservée</strong>, mais elle altère l'autonomie.</p>
+
+      <h3>Signes cliniques</h3>
+      <ul>
+        <li>Baisse de l'acuité visuelle</li>
+        <li><strong>Scotome central</strong> = tache sombre au centre du champ visuel</li>
+        <li>Difficulté à lire / à reconnaître les visages</li>
+        <li>Besoin accru de lumière</li>
+      </ul>
+
+      <h3>Traitements</h3>
+      <ul>
+        <li>Surveillance régulière</li>
+        <li>Supplémentation en antioxydants (vitamines C, E, zinc, lutéine…)</li>
+        <li>Mesures hygiéno-diététiques</li>
+        <li><strong>Injections intravitréennes d'anti-VEGF</strong></li>
+      </ul>
+    </div>
+
+    <div class="cours-section">
+      <h2>🌫️ Cataracte</h2>
+      <p>Opacification progressive du cristallin.</p>
+
+      <h3>Signes cliniques</h3>
+      <ul>
+        <li>Baisse d'acuité visuelle</li>
+        <li>Vision floue</li>
+        <li>Photophobie</li>
+        <li>Éblouissement</li>
+        <li>Diminution des contrastes</li>
+        <li>Diplopie monoculaire</li>
+        <li>Altération de la perception des couleurs</li>
+      </ul>
+
+      <h3>Traitement</h3>
+      <p>Chirurgical : <strong>phacoémulsification</strong>, extraction du cristallin opacifié, implantation d'un cristallin artificiel.</p>
+      <p><strong>Suites post-op :</strong> collyres AINS et antibiotiques, surveillance de la pression intraoculaire.</p>
+
+      <div class="box box-info">
+        <div class="box-title">Recommandations post-opératoires</div>
+        Observance du traitement · Protection de l'œil · Hygiène · Reprise progressive des activités
+      </div>
+    </div>
+
+    <div class="cours-section">
+      <h2>💧 Glaucome</h2>
+      <p><strong>Neuropathie optique chronique progressive et irréversible</strong>, caractérisée par une destruction des fibres du nerf optique, le plus souvent associée à une pression intraoculaire élevée.</p>
+
+      <h3>Physiopathologie</h3>
+      <p>Déséquilibre entre la <strong>production et l'évacuation de l'humeur aqueuse</strong>, entraînant une souffrance du nerf optique.</p>
+    </div>
+  `,
+
+  respi: `
+    <div class="cours-section">
+      <h2>😴 Syndrome d'apnée du sommeil (SAS)</h2>
+      <p>Arrêt du flux aérien durant plus de <strong>10 secondes</strong> pendant le sommeil, répété, avec <strong>somnolence diurne</strong>.</p>
+    </div>
+
+    <div class="cours-section">
+      <h2>🚨 Insuffisance respiratoire aiguë (IRA)</h2>
+
+      <h3>Signes cliniques</h3>
+      <ul>
+        <li>Dyspnée aiguë</li>
+        <li>Cyanose</li>
+        <li>FR &gt; 25 / min</li>
+        <li>Saturation &lt; 90 %</li>
+        <li>Utilisation des muscles accessoires</li>
+        <li>Troubles de la conscience</li>
+      </ul>
+
+      <div class="box box-danger">
+        <div class="box-title">Signes biologiques de l'IRA</div>
+        PaO₂ &lt; 60 mmHg · PaCO₂ &gt; 45 mmHg · pH &lt; 7,35
+      </div>
+    </div>
+
+    <div class="cours-section">
+      <h2>🫁 Insuffisance respiratoire chronique (IRC)</h2>
+      <p>C'est lorsque la <strong>PaO₂ &lt; 70 mmHg au repos</strong>, en dehors d'un épisode aigu.</p>
+
+      <h3>Traitements</h3>
+      <ul>
+        <li>Traitement de la cause</li>
+        <li>Arrêt du tabac</li>
+        <li>Oxygénothérapie longue durée (OLD)</li>
+        <li>Réhabilitation respiratoire</li>
+        <li>VNI si hypercapnie</li>
+      </ul>
+
+      <h3>Examens diagnostiques</h3>
+      <ul>
+        <li>Gaz du sang</li>
+        <li>Spirométrie</li>
+        <li>Radiographie thoracique</li>
+        <li>Scanner thoracique</li>
+        <li>Oxymétrie nocturne</li>
+        <li>Polygraphie / polysomnographie</li>
+      </ul>
+
+      <div class="box box-info">
+        <div class="box-title">Test d'Allen</div>
+        Test vérifiant la perméabilité des artères radiale et ulnaire avant ponction artérielle.
+      </div>
+
+      <h3>Actions de prévention pour un patient atteint d'IR</h3>
+      <ul>
+        <li>Arrêt du tabac</li>
+        <li>Vaccinations (grippe, pneumocoque)</li>
+        <li>Activité physique adaptée</li>
+        <li>Observance des traitements</li>
+        <li>Surveillance (dyspnée, saturation)</li>
+        <li>Éducation thérapeutique</li>
+      </ul>
+
+      <h3>Prévention des pneumopathies d'inhalation chez les PA</h3>
+      <ul>
+        <li>Éviter l'alitement prolongé</li>
+        <li>Adapter l'alimentation (troubles de la déglutition)</li>
+        <li>Limiter les neuroleptiques</li>
+        <li>Éviter les IPP inutiles</li>
+      </ul>
+    </div>
+
+    <div class="cours-section">
+      <h2>⚖️ Équilibre acido-basique</h2>
+      <p>Équilibre du <strong>pH sanguin entre 7,35 et 7,45</strong>.</p>
+      <p>La régulation se fait par les <strong>poumons</strong> (élimination du CO₂, mécanisme rapide) et les <strong>reins</strong> (régulation des HCO₃⁻, mécanisme lent).</p>
+      <ul>
+        <li><strong>Acidose</strong> : pH &lt; 7,35</li>
+        <li><strong>Alcalose</strong> : pH &gt; 7,45</li>
+      </ul>
+      <p>Origine <strong>respiratoire</strong> (PaCO₂) ou <strong>métabolique</strong> (HCO₃⁻).</p>
+
+      <h3>Identification des troubles métaboliques</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>pH</th><th>PaCO₂ (mmHg)</th><th>HCO₃⁻ (mEq/L)</th><th>Trouble</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>&lt; 7,35</td><td>&gt; 45 (très élevée)</td><td>Normale</td><td>Acidose respiratoire aiguë</td></tr>
+            <tr><td>&gt; 7,45</td><td>&lt; 35 (très basse)</td><td>Normale</td><td>Alcalose respiratoire aiguë</td></tr>
+            <tr><td>&lt; 7,35</td><td>Normale</td><td>&lt; 22 (très bas)</td><td>Acidose métabolique</td></tr>
+            <tr><td>&gt; 7,45</td><td>Normale</td><td>&gt; 26 (très haut)</td><td>Alcalose métabolique</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `,
+
+  renale: `
+    <div class="cours-section">
+      <h2>🩺 Insuffisances rénales</h2>
+
+      <h3>IRC — Insuffisance rénale chronique</h3>
+      <p><strong>Altération progressive et irréversible</strong> de la fonction rénale avec baisse du DFG. Peut évoluer vers la dialyse ou la greffe.</p>
+
+      <h3>IRA — Insuffisance rénale aiguë</h3>
+      <p><strong>Perte brutale</strong>, complète ou partielle, des fonctions rénales — souvent réversible.</p>
+
+      <h3>Complications biologiques</h3>
+      <div class="box box-warn">
+        <div class="box-title">IRC</div>
+        Anémie · Hyperkaliémie · Acidose métabolique · Troubles phosphocalciques (hypocalcémie / hyperphosphatémie)
+      </div>
+      <div class="box box-warn">
+        <div class="box-title">IRA</div>
+        Hyperkaliémie · Acidose · Œdème pulmonaire
+      </div>
+
+      <h3>Facteurs de risque de l'IRC</h3>
+      <ul>
+        <li>Diabète</li>
+        <li>HTA</li>
+        <li>Albuminurie</li>
+        <li>Maladies rénales héréditaires</li>
+        <li>Antécédents urologiques</li>
+      </ul>
+
+      <h3>Règles hygiéno-diététiques pour un patient dialysé</h3>
+      <ul>
+        <li>Réduction de sel</li>
+        <li>Restriction hydrique</li>
+        <li>Surveillance du potassium</li>
+        <li>Surveillance des protéines selon prescription</li>
+        <li>Suivi diététique régulier</li>
+      </ul>
+    </div>
+
+    <div class="cours-section">
+      <h2>🩸 La fistule artérioveineuse (FAV)</h2>
+      <p>Connexion chirurgicale entre une <strong>artère et une veine</strong> pour obtenir un débit sanguin suffisant pour l'hémodialyse.</p>
+
+      <div class="box box-info">
+        <div class="box-title">But de la FAV</div>
+        Permettre un accès vasculaire <strong>durable et efficace</strong> pour l'épuration extracorporelle du sang.
+      </div>
+
+      <h3>Précautions IDE en présence d'une FAV</h3>
+      <div class="box box-danger">
+        <ul>
+          <li><strong>Pas de TA</strong> sur ce bras</li>
+          <li><strong>Pas de prise de sang</strong></li>
+          <li><strong>Pas de perfusion</strong></li>
+          <li>Surveiller le <strong>thrill</strong> et le souffle</li>
+          <li>Surveiller l'état cutané</li>
+        </ul>
+      </div>
+
+      <h3>Conseils éducatifs au patient</h3>
+      <ul>
+        <li>Surveiller le <strong>thrill (vibration)</strong></li>
+        <li>Garder le bras propre</li>
+        <li>Ne pas porter de charges lourdes</li>
+        <li>Signaler douleur, rougeur, gonflement</li>
+        <li>Protéger le bras porteur</li>
+        <li>Vérifier <strong>chaque jour</strong> la vibration</li>
+        <li>Éviter traumatismes / compression</li>
+        <li>Éviter montre serrée et vêtements serrés</li>
+        <li>Consulter si douleur, rougeur ou <strong>absence de thrill</strong></li>
+      </ul>
+
+      <h3>Complications possibles</h3>
+      <ul>
+        <li>Thrombose</li>
+        <li>Infection</li>
+        <li>Hématome</li>
+        <li>Sténose</li>
+        <li>Saignement</li>
+      </ul>
+
+      <h3>Dialyse péritonéale</h3>
+      <p>Technique d'épuration utilisant le <strong>péritoine comme membrane semi-perméable</strong>. Échanges par infusion et drainage d'un liquide de dialyse.</p>
+    </div>
+  `,
+
+  hepato: `
+    <div class="cours-section">
+      <h2>🟤 La cirrhose</h2>
+
+      <h3>Physiopathologie</h3>
+      <p>Inflammation chronique du foie → destruction des hépatocytes → régénération anarchique → <strong>nodules</strong> → <strong>fibrose</strong> → perte de fonction.</p>
+
+      <h3>Définition</h3>
+      <p>Maladie chronique <strong>irréversible</strong> du foie avec fibrose et altération des fonctions hépatiques.</p>
+
+      <div class="box box-danger">
+        <div class="box-title">Complications majeures</div>
+        <ul>
+          <li><strong>Ascite</strong></li>
+          <li><strong>Hémorragie digestive</strong> (varices)</li>
+          <li><strong>Encéphalopathie hépatique</strong></li>
+          <li><strong>Carcinome hépatocellulaire</strong></li>
+        </ul>
+      </div>
+
+      <h3>Étiologies</h3>
+      <ul>
+        <li><strong>Alcool</strong></li>
+        <li><strong>NASH</strong> (obésité)</li>
+        <li><strong>Hépatites B et C</strong></li>
+        <li>Hémochromatose</li>
+        <li>Maladies auto-immunes</li>
+        <li>Causes médicamenteuses ou génétiques</li>
+      </ul>
+
+      <h3>Traitements</h3>
+      <ul>
+        <li>Traitement de la cause</li>
+        <li>Surveillance + dépistage des complications</li>
+        <li>Traitement des complications (ascite, hémorragie)</li>
+        <li>Greffe hépatique si forme grave</li>
+      </ul>
+
+      <h3>Définitions</h3>
+      <div class="box box-info">
+        <div class="box-title">Ascite</div>
+        Accumulation de liquide dans la cavité péritonéale liée à l'<strong>hypertension portale</strong>.
+      </div>
+      <div class="box box-info">
+        <div class="box-title">Varices œsophagiennes</div>
+        Dilatations veineuses de l'œsophage dues à l'hypertension portale, entraînant un <strong>risque de rupture hémorragique</strong>.
+      </div>
+    </div>
+
+    <div class="cours-section">
+      <h2>🔥 Pancréatite aiguë</h2>
+
+      <h3>Physiopathologie</h3>
+      <p><strong>Activation prématurée des enzymes pancréatiques</strong> → auto-digestion du pancréas → inflammation locale.</p>
+
+      <h3>Définition et conséquences</h3>
+      <p>Inflammation aiguë du pancréas.</p>
+      <p><strong>Conséquences :</strong> douleurs abdominales intenses, réaction inflammatoire systémique, formes graves = défaillances d'organes.</p>
+
+      <h3>Étiologies</h3>
+      <ul>
+        <li><strong>Calculs biliaires</strong> (40 %)</li>
+        <li><strong>Alcool</strong> (40 %)</li>
+        <li>Post-CPRE</li>
+        <li>Hypertriglycéridémie</li>
+        <li>Hypercalcémie</li>
+        <li>Médicaments / tumeur</li>
+      </ul>
+
+      <h3>Traitements</h3>
+      <ul>
+        <li>Mise à jeun</li>
+        <li>Hydratation IV (Ringer)</li>
+        <li>Antalgiques IV</li>
+        <li>Anticoagulation préventive</li>
+        <li>Surveillance rapprochée</li>
+      </ul>
+    </div>
+  `,
+
+  neuro: `
+    <div class="cours-section">
+      <h2>🧠 Sclérose en plaques (SEP)</h2>
+
+      <h3>Définition</h3>
+      <p>Maladie <strong>inflammatoire démyélinisante</strong> du système nerveux central (cerveau + moelle), d'origine <strong>dysimmunitaire</strong>, entraînant une altération de la conduction nerveuse.</p>
+
+      <h3>Signes cliniques</h3>
+      <ul>
+        <li>Troubles visuels (<strong>névrite optique</strong>)</li>
+        <li>Troubles sensitifs (paresthésies)</li>
+        <li>Troubles moteurs (faiblesse, spasticité)</li>
+        <li>Troubles de la marche</li>
+        <li>Troubles sphinctériens</li>
+        <li><strong>Fatigue ++</strong></li>
+      </ul>
+
+      <h3>Étiologie</h3>
+      <p>Cause inconnue, maladie <strong>auto-immune</strong>.</p>
+
+      <h3>Examens complémentaires</h3>
+      <ul>
+        <li>IRM cérébrale et médullaire</li>
+        <li>Ponction lombaire</li>
+        <li>Bilan biologique</li>
+      </ul>
+
+      <h3>Traitements</h3>
+      <div class="box box-info">
+        <div class="box-title">Poussées</div>
+        Corticoïdes IV
+      </div>
+      <div class="box box-info">
+        <div class="box-title">Traitement de fond</div>
+        Immunomodulateurs
+      </div>
+      <div class="box box-info">
+        <div class="box-title">Traitement symptomatique</div>
+        Rééducation
+      </div>
+    </div>
+
+    <div class="cours-section">
+      <h2>🫨 Maladie de Parkinson</h2>
+
+      <h3>Définition</h3>
+      <p>Maladie <strong>neurodégénérative</strong> liée à la destruction des neurones dopaminergiques de la <strong>substance noire</strong>.</p>
+
+      <h3>Signes cliniques</h3>
+      <div class="box box-key">
+        <div class="box-title">Triade classique</div>
+        <strong>Tremblement de repos</strong> · <strong>Bradykinésie</strong> (lenteur) · <strong>Rigidité</strong>
+      </div>
+      <p><strong>Autres signes :</strong> troubles posturaux, chutes, troubles du sommeil, dépression.</p>
+
+      <h3>Examens complémentaires</h3>
+      <ul>
+        <li>Diagnostic clinique</li>
+        <li>IRM si doute</li>
+        <li>DAT-scan possible</li>
+      </ul>
+
+      <h3>Traitements</h3>
+      <ul>
+        <li><strong>L-Dopa</strong> (référence)</li>
+        <li>Agonistes dopaminergiques</li>
+        <li>Anticholinergiques</li>
+        <li>Neurostimulation</li>
+      </ul>
+    </div>
+
+    <div class="cours-section">
+      <h2>👨‍⚕️ Conseils IDE (SEP & Parkinson)</h2>
+
+      <h3>Éducation et accompagnement</h3>
+      <ul>
+        <li>Expliquer la maladie</li>
+        <li>Favoriser l'observance des traitements</li>
+        <li>Soutien psychologique</li>
+      </ul>
+
+      <h3>Prévention des complications</h3>
+      <ul>
+        <li>Prévention des chutes</li>
+        <li>Surveillance nutrition</li>
+        <li>Surveillance troubles urinaires</li>
+        <li>Surveillance déglutition</li>
+      </ul>
+
+      <h3>Rééducation</h3>
+      <p>Kinésithérapie · Orthophonie · Activité physique adaptée.</p>
+
+      <h3>Vie quotidienne</h3>
+      <p>Adapter l'environnement · Aides techniques · Soutien à la famille.</p>
+    </div>
+  `,
+
+  vieillissement: `
+    <div class="cours-section">
+      <h2>🧓 Maladie d'Alzheimer</h2>
+
+      <h3>Définition</h3>
+      <p>Maladie <strong>neurodégénérative progressive</strong> responsable d'une <strong>détérioration cognitive</strong>, surtout de la mémoire.</p>
+
+      <h3>Physiopathologie</h3>
+      <ul>
+        <li><strong>Accumulation de plaques bêta-amyloïdes</strong></li>
+        <li><strong>Dégénérescence neurofibrillaire</strong></li>
+        <li>Mort neuronale progressive</li>
+      </ul>
+
+      <h3>Signes cliniques</h3>
+      <ul>
+        <li>Troubles de la mémoire <strong>récente</strong></li>
+        <li>Désorientation temporo-spatiale</li>
+        <li>Troubles du langage</li>
+        <li>Troubles du comportement</li>
+        <li>Perte d'autonomie</li>
+      </ul>
+
+      <h3>Étiologies</h3>
+      <p>Multifactorielle : vieillissement, facteurs génétiques, facteurs cardiovasculaires.</p>
+
+      <h3>Examens complémentaires</h3>
+      <ul>
+        <li>Interrogatoire + évaluation cognitive</li>
+        <li><strong>MMS / MMSE</strong></li>
+        <li>IRM cérébrale</li>
+        <li>Bilan biologique</li>
+      </ul>
+
+      <h3>Traitements</h3>
+      <ul>
+        <li><strong>Inhibiteurs de l'acétylcholinestérase</strong></li>
+        <li><strong>Mémantine</strong></li>
+        <li>Prise en charge non médicamenteuse</li>
+        <li>Maintien de l'autonomie et stimulation cognitive</li>
+      </ul>
+    </div>
+
+    <div class="cours-section">
+      <h2>🤯 Syndromes confusionnel vs démentiel</h2>
+
+      <h3>Confusionnel — Définition</h3>
+      <p>Trouble <strong>aigu, fluctuant et réversible</strong> de la conscience et de l'attention.</p>
+      <p><strong>Physiopathologie :</strong> souffrance cérébrale aiguë secondaire à une cause organique.</p>
+
+      <h3>Démentiel — Définition</h3>
+      <p>Déclin cognitif <strong>chronique progressif</strong> avec retentissement sur l'autonomie.</p>
+      <p><strong>Physiopathologie :</strong> atteinte neuronale progressive <strong>irréversible</strong>.</p>
+
+      <h3>Signes cliniques</h3>
+      <div class="box box-warn">
+        <div class="box-title">Confusionnel</div>
+        Désorientation · Agitation ou somnolence · Hallucinations · Inattention · Fluctuation des symptômes · Inversion rythme nycthéméral
+      </div>
+      <div class="box box-info">
+        <div class="box-title">Démentiel</div>
+        Troubles mémoire · Troubles jugement · Aphasie / apraxie · Perte d'autonomie
+      </div>
+
+      <h3>Étiologies</h3>
+      <p><strong>Confusionnel :</strong> infection, déshydratation, médicaments, douleur, troubles métaboliques, rétention urinaire.</p>
+      <p><strong>Démentiel :</strong> Alzheimer, démence vasculaire, corps de Lewy.</p>
+
+      <h3>Examens complémentaires (différentiels)</h3>
+      <ul>
+        <li>Examen clinique</li>
+        <li>MMS / MMSE</li>
+        <li>Bilan biologique</li>
+        <li>ECBU</li>
+        <li>IRM / scanner cérébral</li>
+      </ul>
+
+      <h3>Traitements</h3>
+      <div class="box box-success">
+        <div class="box-title">Confusionnel</div>
+        Traitement de la cause · Réhydratation · Réassurance · Réorientation temporo-spatiale
+      </div>
+      <div class="box box-success">
+        <div class="box-title">Démentiel</div>
+        Traitement symptomatique · Accompagnement médico-social · Stimulation cognitive
+      </div>
+
+      <h3>Actions IDE face à une confusion</h3>
+      <ul>
+        <li>Surveillance rapprochée</li>
+        <li>Réorientation régulière</li>
+        <li>Hydratation</li>
+        <li>Prévention des chutes</li>
+        <li>Recherche et traitement de la cause</li>
+        <li>Environnement calme</li>
+      </ul>
+    </div>
+
+    <div class="cours-section">
+      <h2>😔 Dépression chez la personne âgée</h2>
+      <p>Trouble de l'humeur fréquent chez la personne âgée avec :</p>
+      <ul>
+        <li>Tristesse persistante</li>
+        <li>Ralentissement psychomoteur</li>
+        <li>Perte d'intérêt</li>
+      </ul>
+    </div>
+  `,
+
+  mi: `
+    <div class="cours-section">
+      <h2>📏 L'IPS — Indice de Pression Systolique</h2>
+
+      <div class="box box-key">
+        <div class="box-title">Formule</div>
+        <strong>IPS = pression systolique cheville / pression systolique bras</strong>
+      </div>
+
+      <h3>But</h3>
+      <p>Évaluer la qualité de la circulation artérielle des membres inférieurs et rechercher une <strong>artériopathie</strong>.</p>
+
+      <h3>Grille d'évaluation</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>IPS</th><th>Interprétation</th></tr></thead>
+          <tbody>
+            <tr><td>&gt; 1,3</td><td>Artères rigides / calcifiées</td></tr>
+            <tr><td>0,9 – 1,3</td><td>Normal</td></tr>
+            <tr><td>0,7 – 0,9</td><td>Artériopathie modérée</td></tr>
+            <tr><td>0,4 – 0,7</td><td>Artériopathie sévère</td></tr>
+            <tr><td>&lt; 0,4</td><td><strong>Ischémie critique</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="cours-section">
+      <h2>🦵 Ulcères de jambe</h2>
+
+      <h3>Ulcère artériel</h3>
+      <div class="box box-danger">
+        <ul>
+          <li><strong>Très douloureux</strong></li>
+          <li>Extrémités froides</li>
+          <li>Plaie <strong>creusante, nécrotique</strong></li>
+          <li>Pouls diminués / absents</li>
+          <li>Siège : <strong>pieds, orteils</strong></li>
+        </ul>
+      </div>
+
+      <h3>Ulcère veineux</h3>
+      <div class="box box-info">
+        <ul>
+          <li>Peu douloureux</li>
+          <li>Peau ocre</li>
+          <li>Plaie <strong>suintante</strong></li>
+          <li>Siège : <strong>malléole interne</strong></li>
+        </ul>
+      </div>
+
+      <h3>Actions à mettre en place selon le type</h3>
+      <div class="box box-warn">
+        <div class="box-title">Ulcère artériel</div>
+        <strong>Pas de compression forte</strong> · Soulager la douleur · Surveillance ischémie · Soins de plaie adaptés · Avis vasculaire
+      </div>
+      <div class="box box-warn">
+        <div class="box-title">Ulcère veineux</div>
+        <strong>Compression veineuse si IPS compatible</strong> · Surélévation jambes · Mobilisation / marche · Soins locaux
+      </div>
+    </div>
+
+    <div class="cours-section">
+      <h2>🌀 Varices des MI</h2>
+      <p><strong>Dilatation permanente des veines superficielles</strong> liée à une insuffisance veineuse.</p>
+    </div>
+  `,
+
+  endocrino: `
+    <div class="cours-section">
+      <h2>🔻 Hypothyroïdie</h2>
+      <p><strong>Diminution de la production des hormones thyroïdiennes</strong> entraînant un ralentissement du métabolisme.</p>
+
+      <h3>Étiologies</h3>
+      <ul>
+        <li>Thyroïdite d'Hashimoto</li>
+        <li>Carence en iode</li>
+        <li>Thyroïdectomie</li>
+        <li>Médicaments</li>
+      </ul>
+
+      <h3>Examens complémentaires</h3>
+      <ul>
+        <li><strong>TSH augmentée</strong></li>
+        <li>T4 diminuée</li>
+        <li>Anticorps antithyroïdiens</li>
+        <li>Échographie thyroïdienne</li>
+      </ul>
+
+      <h3>Traitement</h3>
+      <p><strong>Hormones thyroïdiennes substitutives</strong>.</p>
+    </div>
+
+    <div class="cours-section">
+      <h2>🔺 Hyperthyroïdie</h2>
+      <p><strong>Production excessive d'hormones thyroïdiennes</strong> provoquant une accélération du métabolisme.</p>
+
+      <h3>Étiologies</h3>
+      <ul>
+        <li><strong>Maladie de Basedow</strong></li>
+        <li>Nodule toxique</li>
+        <li>Goitre multinodulaire toxique</li>
+      </ul>
+
+      <h3>Examens complémentaires</h3>
+      <ul>
+        <li><strong>TSH basse</strong></li>
+        <li>T3 / T4 élevées</li>
+        <li>Scintigraphie thyroïdienne</li>
+        <li>Échographie thyroïdienne</li>
+      </ul>
+
+      <h3>Traitements</h3>
+      <ul>
+        <li>Antithyroïdiens de synthèse</li>
+        <li>Bêtabloquants</li>
+        <li>Iode radioactif</li>
+        <li>Chirurgie</li>
+      </ul>
+    </div>
+
+    <div class="cours-section">
+      <h2>🌕 Maladie de Cushing</h2>
+      <p><strong>Excès chronique de cortisol</strong> lié à une hypersécrétion d'ACTH ou à une corticothérapie prolongée.</p>
+
+      <h3>Étiologies</h3>
+      <ul>
+        <li>Adénome hypophysaire</li>
+        <li>Tumeur surrénalienne</li>
+        <li>Corticothérapie prolongée</li>
+      </ul>
+
+      <h3>Examens complémentaires</h3>
+      <ul>
+        <li>Cortisol sanguin et urinaire</li>
+        <li><strong>Test de freinage à la dexaméthasone</strong></li>
+        <li>IRM hypophysaire</li>
+        <li>Scanner surrénalien</li>
+      </ul>
+
+      <h3>Traitements</h3>
+      <ul>
+        <li>Chirurgie</li>
+        <li>Radiothérapie</li>
+        <li>Adaptation / arrêt corticothérapie si possible</li>
+      </ul>
+    </div>
+
+    <div class="cours-section">
+      <h2>📈 Acromégalie</h2>
+      <p><strong>Hypersécrétion d'hormone de croissance après la puberté</strong>, provoquant une augmentation des extrémités et des tissus.</p>
+
+      <h3>Étiologie</h3>
+      <p><strong>Adénome hypophysaire somatotrope</strong> +++</p>
+
+      <h3>Examens complémentaires</h3>
+      <ul>
+        <li>IGF-1 augmentée</li>
+        <li>Test HGPO</li>
+        <li>IRM hypophysaire</li>
+      </ul>
+
+      <h3>Traitements</h3>
+      <ul>
+        <li>Chirurgie hypophysaire</li>
+        <li>Analogues de la somatostatine</li>
+        <li>Radiothérapie</li>
+      </ul>
+    </div>
+
+    <div class="cours-section">
+      <h2>⚙️ Rôles des glandes endocrines</h2>
+      <div class="box box-info">
+        <ul>
+          <li><strong>Hypophyse</strong> : contrôle les autres glandes endocrines</li>
+          <li><strong>Thyroïde</strong> : régule le métabolisme</li>
+          <li><strong>Parathyroïdes</strong> : régulation du calcium</li>
+          <li><strong>Surrénales</strong> : cortisol, adrénaline</li>
+          <li><strong>Pancréas endocrine</strong> : régulation de la glycémie</li>
+          <li><strong>Ovaires / testicules</strong> : hormones sexuelles</li>
+        </ul>
+      </div>
+    </div>
+  `,
+
+  orl: `
+    <div class="cours-section">
+      <h2>👂 Les surdités</h2>
+
+      <h3>Surdité de transmission</h3>
+      <p>Atteinte du <strong>système vibratoire</strong> : pavillon, conduit auditif, tympan ou osselets.</p>
+      <p><strong>Causes :</strong> bouchon de cérumen, otites, otospongiose, traumatisme tympanique ou ossiculaire, malformations congénitales.</p>
+      <p><strong>Traitements :</strong> traitement médical, chirurgie, BAHA / lunettes auditives.</p>
+
+      <h3>Surdité de perception</h3>
+      <p>Atteinte <strong>neurosensorielle</strong> : cochlée, nerf auditif ou voies auditives centrales.</p>
+      <p><strong>Causes :</strong> presbyacousie, traumatisme sonore, médicaments ototoxiques, maladie de Ménière, neurinome du VIII, causes génétiques.</p>
+      <p><strong>Traitements :</strong> prothèses auditives, implant cochléaire, rééducation.</p>
+
+      <h3>Surdité mixte</h3>
+      <p>Association d'une surdité de transmission et de perception.</p>
+
+      <h3>Examens complémentaires</h3>
+      <ul>
+        <li>Acoumétrie</li>
+        <li>Audiométrie tonale et vocale</li>
+        <li><strong>PEA</strong> (potentiels évoqués auditifs)</li>
+        <li><strong>OEA</strong> (otoémissions acoustiques)</li>
+      </ul>
+    </div>
+
+    <div class="cours-section">
+      <h2>🌀 Maladie de Ménière</h2>
+      <p>Affection chronique de l'oreille interne liée à un <strong>hydrops endolymphatique</strong>.</p>
+
+      <h3>Signes cliniques</h3>
+      <ul>
+        <li><strong>Vertiges rotatoires récidivants</strong></li>
+        <li>Hypoacousie fluctuante</li>
+        <li>Acouphènes</li>
+        <li>Sensation d'oreille pleine</li>
+        <li>Nausées / vomissements</li>
+      </ul>
+
+      <div class="box box-danger">
+        <div class="box-title">Risque majeur</div>
+        <strong>Chute</strong> liée aux vertiges · Évolution vers une surdité progressive
+      </div>
+
+      <h3>Traitements</h3>
+      <div class="box box-warn">
+        <div class="box-title">Pendant la crise</div>
+        Antiémétiques · Anti-vertigineux · Repos en environnement calme
+      </div>
+      <div class="box box-success">
+        <div class="box-title">Traitement de fond</div>
+        Bétahistine · Régime hyposodé · Diminution alcool / café · Gestion du stress · Diurétiques parfois
+      </div>
+    </div>
+  `,
+
+  rhumato: `
+    <div class="cours-section">
+      <h2>🦴 Arthrose</h2>
+      <p>Maladie articulaire chronique caractérisée par une <strong>dégradation du cartilage</strong> avec atteinte de l'os sous-chondral.</p>
+
+      <h3>Étiologies</h3>
+      <ul>
+        <li>Vieillissement</li>
+        <li>Génétique</li>
+        <li>Traumatisme</li>
+        <li>Surpoids</li>
+        <li>Troubles statiques</li>
+      </ul>
+
+      <h3>Risques majeurs</h3>
+      <ul>
+        <li>Douleurs chroniques</li>
+        <li>Limitation de la mobilité</li>
+        <li>Perte d'autonomie</li>
+      </ul>
+
+      <h3>Rôle IDE</h3>
+      <ul>
+        <li>Évaluation de la douleur</li>
+        <li>Aide à la mobilité</li>
+        <li>Conseils activité physique / perte de poids</li>
+        <li>Surveillance des traitements antalgiques</li>
+      </ul>
+    </div>
+
+    <div class="cours-section">
+      <h2>💪 Sarcopénie</h2>
+      <p><strong>Diminution progressive de la masse et de la force musculaire</strong> liée au vieillissement.</p>
+
+      <h3>Étiologies</h3>
+      <ul>
+        <li>Vieillissement</li>
+        <li>Sédentarité</li>
+        <li>Dénutrition</li>
+        <li>Maladies inflammatoires chroniques</li>
+      </ul>
+
+      <h3>Risques majeurs</h3>
+      <ul>
+        <li><strong>Chutes</strong></li>
+        <li>Fractures</li>
+        <li>Dépendance</li>
+      </ul>
+
+      <h3>Rôle IDE</h3>
+      <ul>
+        <li>Prévention des chutes</li>
+        <li>Encourager l'activité physique</li>
+        <li>Surveillance nutrition / protéines</li>
+        <li>Maintien de l'autonomie</li>
+      </ul>
+    </div>
+
+    <div class="cours-section">
+      <h2>🦴 Ostéoporose</h2>
+      <p>Maladie diffuse du squelette avec <strong>diminution de la densité osseuse</strong> entraînant une fragilité osseuse et un risque de fracture.</p>
+
+      <h3>Étiologies</h3>
+      <ul>
+        <li>Ménopause</li>
+        <li>Vieillissement</li>
+        <li>Corticothérapie</li>
+        <li>Tabac / alcool</li>
+        <li>Endocrinopathies</li>
+      </ul>
+
+      <h3>Risques majeurs</h3>
+      <div class="box box-danger">
+        <ul>
+          <li>Fractures ostéoporotiques</li>
+          <li><strong>Fracture du col du fémur</strong></li>
+          <li>Perte d'autonomie</li>
+          <li>Risque de mortalité après fracture</li>
+        </ul>
+      </div>
+
+      <h3>Rôle IDE</h3>
+      <ul>
+        <li>Prévention des fractures / chutes</li>
+        <li>Conseils hygiéno-diététiques</li>
+        <li>Surveillance des traitements</li>
+        <li>Encourager l'activité physique</li>
+        <li>Apports calciques / vitamine D</li>
+      </ul>
+    </div>
+  `,
+
+  diabete: `
+    <div class="cours-section">
+      <h2>🩸 Diabète type 1 et type 2</h2>
+
+      <h3>Diabète de type 1</h3>
+      <p>Maladie <strong>auto-immune</strong> avec destruction des cellules bêta du pancréas provoquant l'absence d'insuline.</p>
+      <p><strong>Physiopathologie :</strong> carence absolue en insuline → hyperglycémie.</p>
+
+      <h3>Diabète de type 2</h3>
+      <p>Maladie métabolique avec <strong>insulinorésistance puis épuisement pancréatique</strong>.</p>
+      <p><strong>Physiopathologie :</strong> insuline inefficace + diminution progressive de sa sécrétion.</p>
+
+      <h3>Signes cliniques annonciateurs</h3>
+      <div class="box box-warn">
+        <ul>
+          <li>Polyurie</li>
+          <li>Polydipsie</li>
+          <li>Amaigrissement</li>
+          <li>Asthénie</li>
+          <li>Polyphagie</li>
+          <li>Infections répétées</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="cours-section">
+      <h2>📉 Hypoglycémie & 📈 Hyperglycémie</h2>
+
+      <div class="box box-danger">
+        <div class="box-title">Hypoglycémie · &lt; 0,70 g/L</div>
+        <strong>Signes :</strong> sueurs, tremblements, faim, malaise, troubles de la conscience.<br>
+        <strong>CAT :</strong> resucrage rapide · contrôle glycémie · collation secondaire.
+      </div>
+
+      <div class="box box-warn">
+        <div class="box-title">Hyperglycémie · &gt; 1,26 g/L à jeun</div>
+        <strong>Signes :</strong> soif, polyurie, fatigue, haleine acétonique.<br>
+        <strong>CAT :</strong> contrôle glycémie / cétonurie · hydratation · adaptation traitement · surveillance signes de gravité.
+      </div>
+    </div>
+
+    <div class="cours-section">
+      <h2>🧬 HbA1c — Hémoglobine glyquée</h2>
+      <p>Reflet de la glycémie moyenne des <strong>2-3 derniers mois</strong>.</p>
+      <p>Objectif souvent <strong>&lt; 7 %</strong>.</p>
+    </div>
+
+    <div class="cours-section">
+      <h2>⚠️ Complications à long terme du diabète</h2>
+      <div class="box box-danger">
+        <ul>
+          <li><strong>Rétinopathie</strong></li>
+          <li><strong>Néphropathie</strong></li>
+          <li><strong>Neuropathie</strong></li>
+          <li><strong>Artériopathie</strong></li>
+          <li>Risque <strong>cardio-vasculaire</strong></li>
+        </ul>
+      </div>
+
+      <h3>Organes affectés & surveillance</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Organe</th><th>Examen</th></tr></thead>
+          <tbody>
+            <tr><td>Yeux</td><td>Fond d'œil</td></tr>
+            <tr><td>Reins</td><td>Créatinine + microalbuminurie</td></tr>
+            <tr><td>Pieds</td><td>Examen podologique</td></tr>
+            <tr><td>Cœur / vaisseaux</td><td>TA, ECG</td></tr>
+            <tr><td>Nerfs</td><td>Examen de sensibilité</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="cours-section">
+      <h2>💉 Traitements selon le type de diabète</h2>
+
+      <h3>Diabète de type 1</h3>
+      <p><strong>Insuline obligatoire.</strong></p>
+      <p><strong>Effet secondaire :</strong> hypoglycémie.</p>
+      <p><strong>Rôle IDE :</strong> surveillance glycémie · éducation injections / rotation sites · prévention hypoglycémie.</p>
+
+      <h3>Diabète de type 2</h3>
+      <p>Mesures hygiéno-diététiques · antidiabétiques oraux · ± insuline.</p>
+      <p><strong>Effets secondaires :</strong> hypoglycémie, troubles digestifs.</p>
+      <p><strong>Rôle IDE :</strong> éducation thérapeutique · surveillance glycémie · conseils alimentation / activité physique.</p>
+    </div>
+
+    <div class="cours-section">
+      <h2>🦶 Soins des pieds chez le diabétique</h2>
+      <div class="box box-key">
+        <ul>
+          <li><strong>Inspection quotidienne</strong></li>
+          <li>Bonne hygiène / séchage</li>
+          <li>Chaussures adaptées</li>
+          <li>Couper les ongles correctement</li>
+          <li><strong>Ne pas marcher pieds nus</strong></li>
+          <li>Consulter rapidement si plaie</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="cours-section">
+      <h2>👨‍⚕️ Vie avec le diabète</h2>
+      <h3>Conséquences personnelles et professionnelles</h3>
+      <ul>
+        <li>Adaptation du mode de vie</li>
+        <li>Contraintes psychologiques</li>
+        <li>Réorganisation travail / alimentation</li>
+        <li>Risque de complications chroniques</li>
+      </ul>
+
+      <h3>Diabète gestationnel</h3>
+      <p>Hyperglycémie apparaissant pendant la grossesse, liée à une <strong>insulinorésistance gravidique</strong>.</p>
+
+      <h3>Neuropathie diabétique</h3>
+      <p>Atteinte des nerfs périphériques liée à l'hyperglycémie chronique.</p>
+      <p><strong>Conséquences :</strong> douleurs, perte de sensibilité, troubles équilibre, <strong>pied diabétique</strong>, risque d'ulcères / amputations.</p>
+    </div>
+  `
+};
+
+// =================== ÉTAT ===================
+let currentTheme = null;
+let currentTab = 'cours';
+let quizState = {
+  questions: [],
+  idx: 0,
+  score: 0,
+  flipped: false,
+  done: false,
+  context: null  // 'theme' or 'global'
+};
+
+// =================== HELPERS ===================
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function escapeHtml(s) {
+  return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+// =================== NAVIGATION ===================
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function openTheme(themeId) {
+  currentTheme = themeId;
+  const theme = THEMES.find(t => t.id === themeId);
+  document.getElementById('themeTitle').textContent = theme.label;
+  document.getElementById('themeCount').textContent = `${QA[themeId].length} questions`;
+
+  // Render tabs
+  renderCours(themeId);
+  renderQuestions(themeId);
+
+  switchTab('cours');
+  showSection('theme');
+}
+
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+  ['cours', 'questions', 'quiz'].forEach(t => {
+    document.getElementById(`tab-${t}`).style.display = t === tab ? 'block' : 'none';
+  });
+
+  if (tab === 'quiz') {
+    startThemeQuiz();
+  }
+}
+
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+});
+
+// =================== RENDER HOME ===================
+function renderHome() {
+  let totalQ = 0;
+  Object.values(QA).forEach(arr => totalQ += arr.length);
+  document.getElementById('statQuestions').textContent = totalQ;
+
+  const grid = document.getElementById('themeGrid');
+  grid.innerHTML = THEMES.map(t => `
+    <div class="theme-card" style="border-left-color: ${t.color};" onclick="openTheme('${t.id}')">
+      <div class="theme-card-name">${t.label}</div>
+      <div class="theme-card-count">${(QA[t.id] || []).length} questions · cours · quiz</div>
+    </div>
+  `).join('');
+
+  // Render filters for global quiz
+  const fg = document.getElementById('filterGrid');
+  fg.innerHTML = THEMES.map(t => `
+    <label class="filter-chip active" data-theme="${t.id}">
+      <input type="checkbox" checked onchange="toggleFilter(this)">
+      <span>${t.label} <span style="color: var(--text-mute); font-size: 11px;">(${QA[t.id].length})</span></span>
+    </label>
+  `).join('');
+}
+
+function toggleFilter(input) {
+  input.closest('.filter-chip').classList.toggle('active', input.checked);
+}
+
+function selectAllFilters(state) {
+  document.querySelectorAll('#filterGrid input').forEach(cb => {
+    cb.checked = state;
+    cb.closest('.filter-chip').classList.toggle('active', state);
+  });
+}
+
+// =================== RENDER COURS ===================
+function renderCours(themeId) {
+  document.getElementById('tab-cours').innerHTML = COURS[themeId] || '<p>Cours en cours de rédaction.</p>';
+}
+
+// =================== RENDER QUESTIONS ===================
+function renderQuestions(themeId) {
+  const container = document.getElementById('tab-questions');
+  const questions = QA[themeId];
+  container.innerHTML = `
+    <input type="text" class="search-input" placeholder="🔍 Rechercher une question…" id="qSearch" oninput="filterQuestions()">
+    <div id="qList">
+      ${questions.map((item, idx) => `
+        <div class="q-item" data-q-text="${escapeHtml((item.q + ' ' + item.a).toLowerCase())}">
+          <div class="q-item-header" onclick="this.parentElement.classList.toggle('open')">
+            <span class="q-num-badge">${idx + 1}</span>
+            <span class="q-text">${escapeHtml(item.q)}</span>
+            <span class="q-arrow">▼</span>
+          </div>
+          <div class="q-answer">${escapeHtml(item.a)}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function filterQuestions() {
+  const search = document.getElementById('qSearch').value.toLowerCase();
+  document.querySelectorAll('#qList .q-item').forEach(item => {
+    item.style.display = item.dataset.qText.includes(search) ? '' : 'none';
+  });
+}
+
+// =================== QUIZ ===================
+function startThemeQuiz() {
+  const theme = THEMES.find(t => t.id === currentTheme);
+  const questions = QA[currentTheme].map(q => ({ ...q, theme: theme.label, themeId: theme.id, color: theme.color }));
+  startQuiz(questions, 'theme');
+}
+
+function startGlobalQuiz() {
+  const selected = Array.from(document.querySelectorAll('#filterGrid input:checked'))
+    .map(cb => cb.closest('.filter-chip').dataset.theme);
+  if (selected.length === 0) {
+    alert('Sélectionne au moins une pathologie !');
+    return;
+  }
+  const questions = [];
+  selected.forEach(tid => {
+    const theme = THEMES.find(t => t.id === tid);
+    QA[tid].forEach(q => {
+      questions.push({ ...q, theme: theme.label, themeId: tid, color: theme.color });
+    });
+  });
+
+  document.getElementById('globalQuizSetup').style.display = 'none';
+  document.getElementById('globalQuizGame').style.display = 'block';
+  startQuiz(questions, 'global');
+}
+
+function startQuiz(questions, context) {
+  quizState = {
+    questions: shuffle(questions),
+    idx: 0,
+    score: 0,
+    flipped: false,
+    done: false,
+    context
+  };
+  renderQuiz();
+}
+
+function renderQuiz() {
+  const container = quizState.context === 'global'
+    ? document.getElementById('globalQuizGame')
+    : document.getElementById('tab-quiz');
+
+  if (quizState.done) {
+    const pct = Math.round(quizState.score / quizState.questions.length * 100);
+    const emoji = pct >= 80 ? '🌟' : pct >= 60 ? '👍' : pct >= 40 ? '💪' : '📚';
+    const message = pct >= 80 ? 'Excellent !' : pct >= 60 ? 'Bien joué !' : pct >= 40 ? 'Encore un effort !' : 'À retravailler';
+
+    container.innerHTML = `
+      <div class="quiz-done">
+        <div class="quiz-done-icon">${emoji}</div>
+        <div class="quiz-done-title">${message}</div>
+        <div class="quiz-done-score">${quizState.score} / ${quizState.questions.length}</div>
+        <div class="quiz-done-pct">${pct} % de réussite</div>
+        <div class="quiz-done-actions">
+          <button class="btn-primary" onclick="${quizState.context === 'global' ? 'restartGlobalQuiz()' : 'startThemeQuiz()'}">🔄 Recommencer</button>
+          <button class="btn-secondary" onclick="${quizState.context === 'global' ? 'backToGlobalSetup()' : "switchTab('cours')"}">${quizState.context === 'global' ? '← Filtres' : '📋 Cours'}</button>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  const q = quizState.questions[quizState.idx];
+  const pct = (quizState.idx / quizState.questions.length) * 100;
+
+  container.innerHTML = `
+    <div class="quiz-stats-bar">
+      <span>Question ${quizState.idx + 1} / ${quizState.questions.length}</span>
+      <span style="color: var(--green);">✓ ${quizState.score}</span>
+    </div>
+    <div class="quiz-progress">
+      <div class="quiz-progress-fill" style="width: ${pct}%;"></div>
+    </div>
+    <div class="flashcard" onclick="flipCard()" style="border-top-color: ${q.color};">
+      <div class="flashcard-side" style="color: ${q.color};">${quizState.flipped ? 'RÉPONSE' : 'QUESTION'}</div>
+      <div class="flashcard-content">${escapeHtml(quizState.flipped ? q.a : q.q)}</div>
+      ${q.theme ? `<div class="flashcard-category">${q.theme}</div>` : ''}
+      ${!quizState.flipped ? '<div class="flashcard-hint">👆 Clique pour voir la réponse</div>' : ''}
+    </div>
+    ${quizState.flipped ? `
+      <div class="quiz-actions">
+        <button class="quiz-btn quiz-btn-fail" onclick="answerCard(false)">✗ À revoir</button>
+        <button class="quiz-btn quiz-btn-ok" onclick="answerCard(true)">✓ Je savais</button>
+      </div>
+    ` : ''}
+  `;
+}
+
+function flipCard() {
+  quizState.flipped = !quizState.flipped;
+  renderQuiz();
+}
+
+function answerCard(known) {
+  if (known) quizState.score++;
+  if (quizState.idx + 1 >= quizState.questions.length) {
+    quizState.done = true;
+  } else {
+    quizState.idx++;
+    quizState.flipped = false;
+  }
+  renderQuiz();
+}
+
+function restartGlobalQuiz() {
+  startQuiz(quizState.questions, 'global');
+}
+
+function backToGlobalSetup() {
+  document.getElementById('globalQuizSetup').style.display = 'block';
+  document.getElementById('globalQuizGame').style.display = 'none';
+}
+
+// =================== THEME (clair/sombre) ===================
+const themeBtn = document.getElementById('themeBtn');
+function setTheme(theme) {
+  document.body.dataset.theme = theme;
+  themeBtn.textContent = theme === 'dark' ? '☀️' : '🌙';
+  localStorage.setItem('ue27Theme', theme);
+}
+themeBtn.addEventListener('click', () => {
+  setTheme(document.body.dataset.theme === 'dark' ? 'light' : 'dark');
+});
+
+// =================== INIT ===================
+function init() {
+  const saved = localStorage.getItem('ue27Theme');
+  if (saved) setTheme(saved);
+  else if (window.matchMedia('(prefers-color-scheme: dark)').matches) setTheme('dark');
+
+  renderHome();
+}
+
+init();
+</script>
+</body>
+</html>
