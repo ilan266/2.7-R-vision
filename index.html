@@ -313,6 +313,184 @@
   .box-danger { background: var(--red-light); border-color: var(--red); }
   .box-success { background: var(--green-light); border-color: var(--green); }
 
+  /* ========== FICHE VISUELLE / CARTE MENTALE ========== */
+  .fiche-hero {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+    padding: 20px 24px;
+    border-radius: var(--radius);
+    margin-bottom: 18px;
+    box-shadow: var(--shadow-lg);
+  }
+  .fiche-hero h2 { color: white; font-size: 20px; margin: 0 0 4px; }
+  .fiche-hero p { margin: 0; opacity: 0.92; font-size: 14px; }
+
+  /* Flash facts : les chiffres clés */
+  .flash-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+    margin: 16px 0;
+  }
+  .flash-card {
+    background: var(--card);
+    border-radius: var(--radius-sm);
+    padding: 14px 12px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    border-top: 3px solid var(--fc, var(--primary));
+  }
+  .flash-num {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--fc, var(--primary));
+    line-height: 1.2;
+  }
+  .flash-label {
+    font-size: 11.5px;
+    color: var(--text-soft);
+    margin-top: 4px;
+    line-height: 1.3;
+  }
+
+  /* Carte mentale */
+  .mindmap {
+    margin: 20px 0;
+  }
+  .mm-center {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+    text-align: center;
+    padding: 16px 20px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 16px;
+    box-shadow: var(--shadow-lg);
+    margin: 0 auto 4px;
+    max-width: 380px;
+    position: relative;
+    z-index: 2;
+  }
+  .mm-stem {
+    width: 3px;
+    height: 18px;
+    background: var(--border);
+    margin: 0 auto;
+  }
+  .mm-branches {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 12px;
+    position: relative;
+  }
+  .mm-branch {
+    background: var(--card);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    border-left: 5px solid var(--bc, var(--primary));
+  }
+  .mm-branch-head {
+    padding: 10px 14px;
+    font-weight: 700;
+    font-size: 13.5px;
+    color: white;
+    background: var(--bc, var(--primary));
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .mm-branch-body {
+    padding: 10px 14px;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--text);
+  }
+  .mm-branch-body ul { margin: 0; padding-left: 18px; }
+  .mm-branch-body li { margin: 3px 0; }
+  .mm-branch-body strong { color: var(--bc, var(--primary-dark)); }
+  .mm-tag {
+    display: inline-block;
+    background: var(--primary-light);
+    color: var(--primary-dark);
+    padding: 1px 7px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    margin: 2px 2px 0 0;
+  }
+
+  /* Schéma visuel */
+  .fiche-schema {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 18px;
+    margin: 16px 0;
+    box-shadow: var(--shadow);
+    text-align: center;
+  }
+  .fiche-schema-title {
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 12px;
+    font-size: 14px;
+  }
+  .fiche-schema svg { max-width: 100%; height: auto; }
+  .fiche-schema-caption {
+    font-size: 12px;
+    color: var(--text-soft);
+    font-style: italic;
+    margin-top: 8px;
+  }
+
+  /* Mémo essentiel */
+  .memo-essentiel {
+    background: var(--primary-light);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    margin: 16px 0;
+    border-left: 5px solid var(--primary);
+  }
+  .memo-essentiel-title {
+    font-weight: 700;
+    color: var(--primary-dark);
+    margin-bottom: 10px;
+    font-size: 15px;
+  }
+  .memo-essentiel ul { margin: 0; padding-left: 20px; }
+  .memo-essentiel li { margin: 6px 0; font-size: 13.5px; line-height: 1.5; }
+  .memo-essentiel strong { color: var(--primary-dark); }
+
+  /* flow horizontal (étapes / process) */
+  .flow {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    flex-wrap: wrap;
+    margin: 16px 0;
+  }
+  .flow-step {
+    flex: 1;
+    min-width: 120px;
+    background: var(--card);
+    box-shadow: var(--shadow);
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    text-align: center;
+    position: relative;
+    border-top: 3px solid var(--primary);
+  }
+  .flow-arrow {
+    display: flex;
+    align-items: center;
+    color: var(--primary);
+    font-size: 22px;
+    font-weight: 700;
+    padding: 0 4px;
+  }
+  .flow-step-title { font-weight: 700; font-size: 13px; color: var(--primary-dark); margin-bottom: 4px; }
+  .flow-step-body { font-size: 12px; color: var(--text-soft); line-height: 1.4; }
+
   .box-title { font-weight: 700; margin-bottom: 6px; font-size: 14px; }
   .box-key .box-title { color: var(--primary-dark); }
   .box-info .box-title { color: var(--blue); }
@@ -666,11 +844,13 @@
 
   <div class="tab-bar">
     <button class="tab-btn active" data-tab="cours">📋 Cours</button>
+    <button class="tab-btn" data-tab="fiche">🧠 Fiche visuelle</button>
     <button class="tab-btn" data-tab="questions">❓ Questions</button>
     <button class="tab-btn" data-tab="quiz">🎴 Quiz</button>
   </div>
 
   <div id="tab-cours" class="tab-content"></div>
+  <div id="tab-fiche" class="tab-content" style="display:none;"></div>
   <div id="tab-questions" class="tab-content" style="display:none;"></div>
   <div id="tab-quiz" class="tab-content" style="display:none;"></div>
 </section>
@@ -2021,9 +2201,714 @@ const COURS = {
   `
 };
 
+// =================== FICHES VISUELLES / CARTES MENTALES ===================
+const MEMO = {
+  cardio: `
+    <div class="fiche-hero">
+      <h2>🫀 Cardiaques — l'essentiel en un coup d'œil</h2>
+      <p>IC · HTA · troubles du rythme · OAP</p>
+    </div>
+
+    <div class="flash-row">
+      <div class="flash-card" style="--fc:#E63946;"><div class="flash-num">&lt; 60</div><div class="flash-label">bpm = bradycardie</div></div>
+      <div class="flash-card" style="--fc:#E63946;"><div class="flash-num">&gt; 100</div><div class="flash-label">bpm = tachycardie</div></div>
+      <div class="flash-card" style="--fc:#E63946;"><div class="flash-num">BNP</div><div class="flash-label">marqueur clé de l'IC</div></div>
+      <div class="flash-card" style="--fc:#E63946;"><div class="flash-num">FAST</div><div class="flash-label">FA → risque AVC</div></div>
+    </div>
+
+    <div class="mindmap">
+      <div class="mm-center">INSUFFISANCE CARDIAQUE</div>
+      <div class="mm-stem"></div>
+      <div class="mm-branches">
+        <div class="mm-branch" style="--bc:#E63946;">
+          <div class="mm-branch-head">📖 Définition</div>
+          <div class="mm-branch-body">Déséquilibre entre <strong>débit cardiaque</strong> et <strong>besoins en O₂</strong>.<br>Types : gauche / droite / globale · aiguë / chronique.</div>
+        </div>
+        <div class="mm-branch" style="--bc:#FF6B6B;">
+          <div class="mm-branch-head">⚠️ Causes</div>
+          <div class="mm-branch-body">HTA · cardiopathie ischémique · valvulopathies · cardiomyopathies.</div>
+        </div>
+        <div class="mm-branch" style="--bc:#D62828;">
+          <div class="mm-branch-head">🔍 Signes</div>
+          <div class="mm-branch-body"><strong>Gauche :</strong> dyspnée, orthopnée, OAP.<br><strong>Droite :</strong> œdèmes MI, hépatomégalie, turgescence jugulaire.</div>
+        </div>
+        <div class="mm-branch" style="--bc:#A4161A;">
+          <div class="mm-branch-head">🩺 Examens</div>
+          <div class="mm-branch-body">ECG · BNP · échographie cardiaque · radio thorax.</div>
+        </div>
+        <div class="mm-branch" style="--bc:#E5383B;">
+          <div class="mm-branch-head">💊 Traitements</div>
+          <div class="mm-branch-body">IEC/ARA II · bêtabloquants · diurétiques · restriction sel/eau · pacemaker.</div>
+        </div>
+        <div class="mm-branch" style="--bc:#BA181B;">
+          <div class="mm-branch-head">🛡️ Prévention ICC</div>
+          <div class="mm-branch-body">Observance · régime hyposodé · surveillance du poids · activité adaptée.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fiche-schema-title" style="text-align:center; margin: 24px 0 8px; color: var(--primary); font-weight:700;">⚡ Les troubles du rythme en bref</div>
+    <div class="mm-branches">
+      <div class="mm-branch" style="--bc:#E63946;">
+        <div class="mm-branch-head">FA / ACFA</div>
+        <div class="mm-branch-body">Rythme irrégulier rapide → <strong>risque AVC</strong>. TTT : anticoagulants + contrôle fréquence.</div>
+      </div>
+      <div class="mm-branch" style="--bc:#FF6B6B;">
+        <div class="mm-branch-head">Flutter</div>
+        <div class="mm-branch-body">Rythme auriculaire rapide. TTT : cardioversion + anticoagulant.</div>
+      </div>
+      <div class="mm-branch" style="--bc:#D62828;">
+        <div class="mm-branch-head">ESA / ESV</div>
+        <div class="mm-branch-body">Battements prématurés (auriculaire / ventriculaire). ESV = QRS large. TTT : surveillance.</div>
+      </div>
+      <div class="mm-branch" style="--bc:#A4161A;">
+        <div class="mm-branch-head">BAV</div>
+        <div class="mm-branch-body">BAV1 : PR allongé · BAV2 : intermittent · BAV3 : complet → <strong>pacemaker</strong>.</div>
+      </div>
+    </div>
+
+    <div class="fiche-schema">
+      <div class="fiche-schema-title">🌊 OAP — réflexe d'urgence</div>
+      <div class="flow">
+        <div class="flow-step"><div class="flow-step-title">1. Demi-assis</div><div class="flow-step-body">jambes pendantes</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="flow-step-title">2. Oxygène</div><div class="flow-step-body">haut débit</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="flow-step-title">3. Alerte</div><div class="flow-step-body">médecin</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="flow-step-title">4. TTT</div><div class="flow-step-body">diurétiques, nitrés, morphine</div></div>
+      </div>
+      <div class="fiche-schema-caption">Physiopath : ↑ pression → liquide dans les alvéoles · Signes : dyspnée brutale, orthopnée, anxiété</div>
+    </div>
+
+    <div class="memo-essentiel">
+      <div class="memo-essentiel-title">⭐ À retenir absolument</div>
+      <ul>
+        <li><strong>Choc cardiogénique</strong> = hypotension + hypoperfusion + oligurie → urgence.</li>
+        <li><strong>Prise de TA</strong> : repos 5 min, assis/allongé, plusieurs mesures, brassard adapté.</li>
+        <li><strong>HTA</strong> : souvent asymptomatique (sinon céphalées, vertiges). Règles : ↓ sel, sport, arrêt tabac, ↓ alcool, perte de poids.</li>
+        <li><strong>ECG normal</strong> : onde P avant QRS, QRS fin, rythme régulier.</li>
+        <li><strong>Décompensation</strong> : O₂, diurétiques IV, monitorage, traitement de la cause.</li>
+      </ul>
+    </div>
+  `,
+
+  ophtalmo: `
+    <div class="fiche-hero">
+      <h2>👁️ Ophtalmiques — l'essentiel</h2>
+      <p>DMLA · cataracte · glaucome</p>
+    </div>
+
+    <div class="flash-row">
+      <div class="flash-card" style="--fc:#2196F3;"><div class="flash-num">Macula</div><div class="flash-label">DMLA = vision centrale</div></div>
+      <div class="flash-card" style="--fc:#2196F3;"><div class="flash-num">Cristallin</div><div class="flash-label">cataracte = opacification</div></div>
+      <div class="flash-card" style="--fc:#2196F3;"><div class="flash-num">Nerf optique</div><div class="flash-label">glaucome + PIO ↑</div></div>
+    </div>
+
+    <div class="mindmap">
+      <div class="mm-center">PATHOLOGIES DE L'ŒIL</div>
+      <div class="mm-stem"></div>
+      <div class="mm-branches">
+        <div class="mm-branch" style="--bc:#2196F3;">
+          <div class="mm-branch-head">👁️ DMLA</div>
+          <div class="mm-branch-body">Dégénérescence de la <strong>macula</strong> (vision fine). Vision périphérique conservée.<br><strong>Signes :</strong> ↓ acuité, scotome central, besoin de lumière.<br><strong>TTT :</strong> antioxydants, anti-VEGF intravitréens.</div>
+        </div>
+        <div class="mm-branch" style="--bc:#64B5F6;">
+          <div class="mm-branch-head">🌫️ Cataracte</div>
+          <div class="mm-branch-body">Opacification du <strong>cristallin</strong>.<br><strong>Signes :</strong> vision floue, photophobie, éblouissement, diplopie monoculaire.<br><strong>TTT :</strong> chirurgie (phacoémulsification + implant).</div>
+        </div>
+        <div class="mm-branch" style="--bc:#1976D2;">
+          <div class="mm-branch-head">💧 Glaucome</div>
+          <div class="mm-branch-body">Neuropathie optique chronique <strong>irréversible</strong>, souvent liée à une <strong>PIO élevée</strong>.<br>Déséquilibre production/évacuation de l'humeur aqueuse.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="memo-essentiel">
+      <div class="memo-essentiel-title">⭐ À retenir</div>
+      <ul>
+        <li><strong>Post-op cataracte</strong> : collyres (observance), protection de l'œil, hygiène, reprise progressive.</li>
+        <li><strong>DMLA ≠ cécité totale</strong> : la vision périphérique reste.</li>
+        <li><strong>Glaucome = irréversible</strong> → dépistage +++ (PIO).</li>
+      </ul>
+    </div>
+  `,
+
+  respi: `
+    <div class="fiche-hero">
+      <h2>🫁 Respiratoires — l'essentiel</h2>
+      <p>SAS · IRA · IRC · équilibre acido-basique</p>
+    </div>
+
+    <div class="flash-row">
+      <div class="flash-card" style="--fc:#4CAF50;"><div class="flash-num">7,35–7,45</div><div class="flash-label">pH normal</div></div>
+      <div class="flash-card" style="--fc:#4CAF50;"><div class="flash-num">&lt; 60</div><div class="flash-label">PaO₂ mmHg = IRA</div></div>
+      <div class="flash-card" style="--fc:#4CAF50;"><div class="flash-num">&lt; 70</div><div class="flash-label">PaO₂ repos = IRC</div></div>
+      <div class="flash-card" style="--fc:#4CAF50;"><div class="flash-num">10 s</div><div class="flash-label">apnée = SAS</div></div>
+    </div>
+
+    <div class="mindmap">
+      <div class="mm-center">INSUFFISANCES RESPIRATOIRES</div>
+      <div class="mm-stem"></div>
+      <div class="mm-branches">
+        <div class="mm-branch" style="--bc:#4CAF50;">
+          <div class="mm-branch-head">😴 SAS</div>
+          <div class="mm-branch-body">Arrêt du flux aérien &gt; 10 s, répété, + somnolence diurne.<br><strong>TTT :</strong> PPC. Conseils : perte poids, éviter alcool/sédatifs.</div>
+        </div>
+        <div class="mm-branch" style="--bc:#66BB6A;">
+          <div class="mm-branch-head">🚨 IRA</div>
+          <div class="mm-branch-body"><strong>Clinique :</strong> dyspnée, cyanose, FR&gt;25, Sat&lt;90%.<br><strong>Bio :</strong> PaO₂&lt;60, PaCO₂&gt;45, pH&lt;7,35.</div>
+        </div>
+        <div class="mm-branch" style="--bc:#388E3C;">
+          <div class="mm-branch-head">🫁 IRC</div>
+          <div class="mm-branch-body">PaO₂&lt;70 au repos.<br><strong>TTT :</strong> cause, arrêt tabac, OLD, réhab respiratoire, VNI si hypercapnie.</div>
+        </div>
+        <div class="mm-branch" style="--bc:#2E7D32;">
+          <div class="mm-branch-head">🩺 Test d'Allen</div>
+          <div class="mm-branch-body">Vérifie la perméabilité des artères <strong>radiale et ulnaire</strong> avant ponction artérielle.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fiche-schema">
+      <div class="fiche-schema-title">⚖️ Équilibre acido-basique — la logique</div>
+      <svg viewBox="0 0 480 200" xmlns="http://www.w3.org/2000/svg">
+        <rect x="10" y="80" width="460" height="40" rx="8" fill="#E8F5E9" stroke="#4CAF50" stroke-width="2"/>
+        <text x="240" y="105" text-anchor="middle" font-size="15" font-weight="700" fill="#2E7D32">pH normal : 7,35 – 7,45</text>
+        <polygon points="120,80 120,55 140,67" fill="#1565C0"/>
+        <text x="80" y="45" text-anchor="middle" font-size="13" font-weight="700" fill="#1565C0">ACIDOSE</text>
+        <text x="80" y="62" text-anchor="middle" font-size="11" fill="#1565C0">&lt; 7,35</text>
+        <polygon points="360,80 360,55 340,67" fill="#C62828"/>
+        <text x="400" y="45" text-anchor="middle" font-size="13" font-weight="700" fill="#C62828">ALCALOSE</text>
+        <text x="400" y="62" text-anchor="middle" font-size="11" fill="#C62828">&gt; 7,45</text>
+        <text x="240" y="155" text-anchor="middle" font-size="12" fill="#616161">Poumons → CO₂ (rapide) · Reins → HCO₃⁻ (lent)</text>
+        <text x="240" y="178" text-anchor="middle" font-size="12" font-weight="600" fill="#424242">Origine RESPIRATOIRE (PaCO₂) ou MÉTABOLIQUE (HCO₃⁻)</text>
+      </svg>
+      <div class="fiche-schema-caption">↑ PaCO₂ + pH bas = acidose respi · ↓ HCO₃⁻ + pH bas = acidose métabolique</div>
+    </div>
+
+    <div class="memo-essentiel">
+      <div class="memo-essentiel-title">⭐ Tableau express des 4 troubles</div>
+      <ul>
+        <li><strong>Acidose respiratoire</strong> : pH↓ · PaCO₂↑ · HCO₃⁻ normal</li>
+        <li><strong>Alcalose respiratoire</strong> : pH↑ · PaCO₂↓ · HCO₃⁻ normal</li>
+        <li><strong>Acidose métabolique</strong> : pH↓ · PaCO₂ normal · HCO₃⁻↓</li>
+        <li><strong>Alcalose métabolique</strong> : pH↑ · PaCO₂ normal · HCO₃⁻↑</li>
+        <li><strong>Prévention pneumopathie d'inhalation PA</strong> : éviter alitement, adapter alimentation, limiter neuroleptiques, éviter IPP inutiles.</li>
+      </ul>
+    </div>
+  `,
+
+  renale: `
+    <div class="fiche-hero">
+      <h2>🩺 Rénales — l'essentiel</h2>
+      <p>IRC · IRA · FAV · dialyse</p>
+    </div>
+
+    <div class="flash-row">
+      <div class="flash-card" style="--fc:#FF9800;"><div class="flash-num">DFG ↓</div><div class="flash-label">IRC = progressif</div></div>
+      <div class="flash-card" style="--fc:#FF9800;"><div class="flash-num">Brutal</div><div class="flash-label">IRA = réversible</div></div>
+      <div class="flash-card" style="--fc:#FF9800;"><div class="flash-num">Thrill</div><div class="flash-label">FAV = vibration</div></div>
+      <div class="flash-card" style="--fc:#FF9800;"><div class="flash-num">K⁺ ↑</div><div class="flash-label">hyperkaliémie +++</div></div>
+    </div>
+
+    <div class="mindmap">
+      <div class="mm-center">INSUFFISANCES RÉNALES</div>
+      <div class="mm-stem"></div>
+      <div class="mm-branches">
+        <div class="mm-branch" style="--bc:#FF9800;">
+          <div class="mm-branch-head">🩺 IRC vs IRA</div>
+          <div class="mm-branch-body"><strong>IRC :</strong> altération progressive et irréversible (↓DFG) → dialyse/greffe.<br><strong>IRA :</strong> perte brutale, souvent réversible.</div>
+        </div>
+        <div class="mm-branch" style="--bc:#FFB74D;">
+          <div class="mm-branch-head">🧪 Complications</div>
+          <div class="mm-branch-body"><strong>IRC :</strong> anémie, hyperkaliémie, acidose, hypocalcémie/hyperphosphatémie.<br><strong>IRA :</strong> hyperkaliémie, acidose, OAP.</div>
+        </div>
+        <div class="mm-branch" style="--bc:#F57C00;">
+          <div class="mm-branch-head">⚠️ FDR de l'IRC</div>
+          <div class="mm-branch-body">Diabète · HTA · albuminurie · maladies héréditaires · ATCD urologiques.</div>
+        </div>
+        <div class="mm-branch" style="--bc:#EF6C00;">
+          <div class="mm-branch-head">💧 Dialyse péritonéale</div>
+          <div class="mm-branch-body">Épuration via le <strong>péritoine</strong> (membrane semi-perméable). Infusion + drainage.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fiche-schema">
+      <div class="fiche-schema-title">🩸 FAV — Fistule Artério-Veineuse</div>
+      <div class="mm-branches">
+        <div class="mm-branch" style="--bc:#2E7D32;">
+          <div class="mm-branch-head">✅ But</div>
+          <div class="mm-branch-body">Accès vasculaire <strong>durable</strong> : connexion artère + veine pour l'hémodialyse.</div>
+        </div>
+        <div class="mm-branch" style="--bc:#C62828;">
+          <div class="mm-branch-head">🚫 Précautions IDE</div>
+          <div class="mm-branch-body">Sur ce bras : <strong>PAS</strong> de TA, PAS de prise de sang, PAS de perfusion. Surveiller thrill + souffle.</div>
+        </div>
+        <div class="mm-branch" style="--bc:#F57C00;">
+          <div class="mm-branch-head">⚠️ Complications</div>
+          <div class="mm-branch-body">Thrombose · infection · hématome · sténose · saignement.</div>
+        </div>
+        <div class="mm-branch" style="--bc:#1565C0;">
+          <div class="mm-branch-head">💬 Conseils patient</div>
+          <div class="mm-branch-body">Vérifier le thrill chaque jour · éviter compression/montre serrée · consulter si absence de vibration.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="memo-essentiel">
+      <div class="memo-essentiel-title">⭐ Régime du dialysé</div>
+      <ul>
+        <li>Réduction du <strong>sel</strong> · restriction <strong>hydrique</strong></li>
+        <li>Surveillance du <strong>potassium</strong> et des <strong>protéines</strong></li>
+        <li>Suivi diététique régulier</li>
+      </ul>
+    </div>
+  `,
+
+  hepato: `
+    <div class="fiche-hero">
+      <h2>🟤 Hépatiques — l'essentiel</h2>
+      <p>Cirrhose · pancréatite aiguë</p>
+    </div>
+
+    <div class="flash-row">
+      <div class="flash-card" style="--fc:#795548;"><div class="flash-num">Irréversible</div><div class="flash-label">cirrhose = fibrose</div></div>
+      <div class="flash-card" style="--fc:#795548;"><div class="flash-num">40 + 40 %</div><div class="flash-label">calculs + alcool (pancréatite)</div></div>
+      <div class="flash-card" style="--fc:#795548;"><div class="flash-num">HTP</div><div class="flash-label">→ ascite + varices</div></div>
+    </div>
+
+    <div class="mindmap">
+      <div class="mm-center">CIRRHOSE</div>
+      <div class="mm-stem"></div>
+      <div class="mm-branches">
+        <div class="mm-branch" style="--bc:#795548;">
+          <div class="mm-branch-head">📖 Physiopath</div>
+          <div class="mm-branch-body">Inflammation chronique → destruction hépatocytes → <strong>nodules</strong> → fibrose → perte de fonction.</div>
+        </div>
+        <div class="mm-branch" style="--bc:#A1887F;">
+          <div class="mm-branch-head">⚠️ Étiologies</div>
+          <div class="mm-branch-body">Alcool · NASH (obésité) · hépatites B et C · hémochromatose · auto-immune.</div>
+        </div>
+        <div class="mm-branch" style="--bc:#6D4C41;">
+          <div class="mm-branch-head">💥 Complications</div>
+          <div class="mm-branch-body"><strong>Ascite</strong> · hémorragie digestive (varices) · encéphalopathie hépatique · carcinome hépatocellulaire.</div>
+        </div>
+        <div class="mm-branch" style="--bc:#5D4037;">
+          <div class="mm-branch-head">💊 Traitements</div>
+          <div class="mm-branch-body">Traiter la cause · surveiller/dépister · traiter complications · greffe si grave.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fiche-schema">
+      <div class="fiche-schema-title">🔥 Pancréatite aiguë</div>
+      <div class="mm-branches">
+        <div class="mm-branch" style="--bc:#795548;">
+          <div class="mm-branch-head">📖 Physiopath</div>
+          <div class="mm-branch-body">Activation prématurée des enzymes → <strong>auto-digestion</strong> du pancréas → inflammation.</div>
+        </div>
+        <div class="mm-branch" style="--bc:#A1887F;">
+          <div class="mm-branch-head">💊 Traitements</div>
+          <div class="mm-branch-body">Mise à jeun · hydratation IV (Ringer) · antalgiques IV · anticoag préventive · surveillance.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="memo-essentiel">
+      <div class="memo-essentiel-title">⭐ À retenir</div>
+      <ul>
+        <li><strong>Ascite</strong> = liquide dans la cavité péritonéale (hypertension portale).</li>
+        <li><strong>Varices œsophagiennes</strong> = dilatations veineuses → risque de rupture hémorragique.</li>
+        <li><strong>Pancréatite</strong> : douleurs abdo intenses, formes graves = défaillances d'organes.</li>
+      </ul>
+    </div>
+  `,
+
+  neuro: `
+    <div class="fiche-hero">
+      <h2>🧠 Neurologiques — l'essentiel</h2>
+      <p>SEP · maladie de Parkinson</p>
+    </div>
+
+    <div class="flash-row">
+      <div class="flash-card" style="--fc:#9C27B0;"><div class="flash-num">Démyélinisante</div><div class="flash-label">SEP (auto-immune)</div></div>
+      <div class="flash-card" style="--fc:#9C27B0;"><div class="flash-num">Dopamine ↓</div><div class="flash-label">Parkinson</div></div>
+      <div class="flash-card" style="--fc:#9C27B0;"><div class="flash-num">L-Dopa</div><div class="flash-label">TTT référence Parkinson</div></div>
+    </div>
+
+    <div class="mindmap">
+      <div class="mm-center">SCLÉROSE EN PLAQUES</div>
+      <div class="mm-stem"></div>
+      <div class="mm-branches">
+        <div class="mm-branch" style="--bc:#9C27B0;">
+          <div class="mm-branch-head">📖 Définition</div>
+          <div class="mm-branch-body">Maladie inflammatoire <strong>démyélinisante</strong> du SNC, auto-immune → altération de la conduction nerveuse.</div>
+        </div>
+        <div class="mm-branch" style="--bc:#BA68C8;">
+          <div class="mm-branch-head">🔍 Signes</div>
+          <div class="mm-branch-body">Névrite optique · paresthésies · faiblesse/spasticité · troubles marche/sphinctériens · <strong>fatigue ++</strong>.</div>
+        </div>
+        <div class="mm-branch" style="--bc:#8E24AA;">
+          <div class="mm-branch-head">🩺 Examens</div>
+          <div class="mm-branch-body">IRM cérébrale et médullaire · ponction lombaire · bilan bio.</div>
+        </div>
+        <div class="mm-branch" style="--bc:#7B1FA2;">
+          <div class="mm-branch-head">💊 Traitements</div>
+          <div class="mm-branch-body">Poussées : corticoïdes IV · Fond : immunomodulateurs · Symptomatique : rééducation.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fiche-schema">
+      <div class="fiche-schema-title">🫨 Maladie de Parkinson — la TRIADE</div>
+      <div class="flow">
+        <div class="flow-step" style="border-top-color:#9C27B0;"><div class="flow-step-title">Tremblement</div><div class="flow-step-body">de repos</div></div>
+        <div class="flow-arrow">+</div>
+        <div class="flow-step" style="border-top-color:#9C27B0;"><div class="flow-step-title">Bradykinésie</div><div class="flow-step-body">lenteur</div></div>
+        <div class="flow-arrow">+</div>
+        <div class="flow-step" style="border-top-color:#9C27B0;"><div class="flow-step-title">Rigidité</div><div class="flow-step-body">musculaire</div></div>
+      </div>
+      <div class="fiche-schema-caption">Destruction des neurones dopaminergiques de la substance noire · TTT : L-Dopa, agonistes dopaminergiques, neurostimulation</div>
+    </div>
+
+    <div class="memo-essentiel">
+      <div class="memo-essentiel-title">⭐ Conseils IDE (SEP & Parkinson)</div>
+      <ul>
+        <li><strong>Éducation :</strong> expliquer la maladie, favoriser l'observance, soutien psy.</li>
+        <li><strong>Prévention :</strong> chutes, nutrition, troubles urinaires, déglutition.</li>
+        <li><strong>Rééducation :</strong> kiné, orthophonie, activité physique adaptée.</li>
+        <li><strong>Quotidien :</strong> adapter l'environnement, aides techniques, soutien famille.</li>
+      </ul>
+    </div>
+  `,
+
+  vieillissement: `
+    <div class="fiche-hero">
+      <h2>👴 Vieillissement — l'essentiel</h2>
+      <p>Alzheimer · confusion vs démence · dépression PA</p>
+    </div>
+
+    <div class="flash-row">
+      <div class="flash-card" style="--fc:#607D8B;"><div class="flash-num">MMSE</div><div class="flash-label">test cognitif clé</div></div>
+      <div class="flash-card" style="--fc:#607D8B;"><div class="flash-num">Réversible</div><div class="flash-label">confusion = aigu</div></div>
+      <div class="flash-card" style="--fc:#607D8B;"><div class="flash-num">Irréversible</div><div class="flash-label">démence = chronique</div></div>
+    </div>
+
+    <div class="mindmap">
+      <div class="mm-center">MALADIE D'ALZHEIMER</div>
+      <div class="mm-stem"></div>
+      <div class="mm-branches">
+        <div class="mm-branch" style="--bc:#607D8B;">
+          <div class="mm-branch-head">📖 Physiopath</div>
+          <div class="mm-branch-body">Plaques <strong>bêta-amyloïdes</strong> · dégénérescence neurofibrillaire · mort neuronale.</div>
+        </div>
+        <div class="mm-branch" style="--bc:#90A4AE;">
+          <div class="mm-branch-head">🔍 Signes</div>
+          <div class="mm-branch-body">Troubles mémoire <strong>récente</strong> · désorientation temporo-spatiale · troubles langage/comportement · perte autonomie.</div>
+        </div>
+        <div class="mm-branch" style="--bc:#546E7A;">
+          <div class="mm-branch-head">🩺 Examens</div>
+          <div class="mm-branch-body">Évaluation cognitive · <strong>MMSE</strong> · IRM cérébrale · bilan bio.</div>
+        </div>
+        <div class="mm-branch" style="--bc:#455A64;">
+          <div class="mm-branch-head">💊 Traitements</div>
+          <div class="mm-branch-body">Inhibiteurs acétylcholinestérase · mémantine · stimulation cognitive · maintien autonomie.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fiche-schema">
+      <div class="fiche-schema-title">🤯 Confusion vs Démence — le piège du partiel</div>
+      <div class="mm-branches">
+        <div class="mm-branch" style="--bc:#FF9800;">
+          <div class="mm-branch-head">⚡ Syndrome CONFUSIONNEL</div>
+          <div class="mm-branch-body"><strong>Aigu, fluctuant, RÉVERSIBLE.</strong><br>Cause organique (infection, déshydratation, médics, douleur).<br>Signes : désorientation, agitation, hallucinations, inversion jour/nuit.</div>
+        </div>
+        <div class="mm-branch" style="--bc:#7B1FA2;">
+          <div class="mm-branch-head">🧠 Syndrome DÉMENTIEL</div>
+          <div class="mm-branch-body"><strong>Chronique, progressif, IRRÉVERSIBLE.</strong><br>Alzheimer, démence vasculaire, corps de Lewy.<br>Signes : troubles mémoire/jugement, aphasie/apraxie, perte autonomie.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="memo-essentiel">
+      <div class="memo-essentiel-title">⭐ Actions IDE face à une confusion</div>
+      <ul>
+        <li>Surveillance rapprochée · <strong>réorientation</strong> régulière · hydratation</li>
+        <li>Prévention des chutes · rechercher et traiter la cause · environnement calme</li>
+        <li><strong>Dépression PA</strong> : tristesse persistante, ralentissement psychomoteur, perte d'intérêt.</li>
+      </ul>
+    </div>
+  `,
+
+  mi: `
+    <div class="fiche-hero">
+      <h2>🦵 Membres inférieurs — l'essentiel</h2>
+      <p>IPS · ulcères artériel/veineux · varices</p>
+    </div>
+
+    <div class="flash-row">
+      <div class="flash-card" style="--fc:#009688;"><div class="flash-num">cheville/bras</div><div class="flash-label">formule IPS</div></div>
+      <div class="flash-card" style="--fc:#009688;"><div class="flash-num">0,9–1,3</div><div class="flash-label">IPS normal</div></div>
+      <div class="flash-card" style="--fc:#009688;"><div class="flash-num">&lt; 0,4</div><div class="flash-label">ischémie critique</div></div>
+    </div>
+
+    <div class="fiche-schema">
+      <div class="fiche-schema-title">📏 Grille IPS — repère visuel</div>
+      <svg viewBox="0 0 480 110" xmlns="http://www.w3.org/2000/svg">
+        <rect x="10" y="40" width="80" height="30" fill="#C62828"/>
+        <rect x="90" y="40" width="80" height="30" fill="#EF6C00"/>
+        <rect x="170" y="40" width="80" height="30" fill="#F9A825"/>
+        <rect x="250" y="40" width="120" height="30" fill="#2E7D32"/>
+        <rect x="370" y="40" width="100" height="30" fill="#1565C0"/>
+        <text x="50" y="60" text-anchor="middle" font-size="10" font-weight="700" fill="white">&lt;0,4</text>
+        <text x="130" y="60" text-anchor="middle" font-size="10" font-weight="700" fill="white">0,4–0,7</text>
+        <text x="210" y="60" text-anchor="middle" font-size="10" font-weight="700" fill="white">0,7–0,9</text>
+        <text x="310" y="60" text-anchor="middle" font-size="10" font-weight="700" fill="white">0,9–1,3</text>
+        <text x="420" y="60" text-anchor="middle" font-size="10" font-weight="700" fill="white">&gt;1,3</text>
+        <text x="50" y="88" text-anchor="middle" font-size="8.5" fill="#C62828">ischémie</text>
+        <text x="130" y="88" text-anchor="middle" font-size="8.5" fill="#EF6C00">sévère</text>
+        <text x="210" y="88" text-anchor="middle" font-size="8.5" fill="#F9A825">modérée</text>
+        <text x="310" y="88" text-anchor="middle" font-size="8.5" fill="#2E7D32">NORMAL</text>
+        <text x="420" y="88" text-anchor="middle" font-size="8.5" fill="#1565C0">calcifié</text>
+        <text x="240" y="25" text-anchor="middle" font-size="12" font-weight="700" fill="#009688">IPS = pression cheville / pression bras</text>
+      </svg>
+    </div>
+
+    <div class="mindmap">
+      <div class="mm-center">ULCÈRES DE JAMBE</div>
+      <div class="mm-stem"></div>
+      <div class="mm-branches">
+        <div class="mm-branch" style="--bc:#C62828;">
+          <div class="mm-branch-head">🔴 Ulcère ARTÉRIEL</div>
+          <div class="mm-branch-body"><strong>Très douloureux</strong> · extrémités froides · plaie creusante/nécrotique · pouls diminués · siège : pieds, orteils.<br><span class="mm-tag">PAS de compression forte</span></div>
+        </div>
+        <div class="mm-branch" style="--bc:#1565C0;">
+          <div class="mm-branch-head">🔵 Ulcère VEINEUX</div>
+          <div class="mm-branch-body">Peu douloureux · peau ocre · plaie suintante · siège : malléole interne.<br><span class="mm-tag">Compression si IPS compatible</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="memo-essentiel">
+      <div class="memo-essentiel-title">⭐ Varices</div>
+      <ul>
+        <li>Dilatation permanente des <strong>veines superficielles</strong> (insuffisance veineuse).</li>
+        <li>Conseils : bas de contention, marche, surélever les jambes, éviter chaleur/station debout.</li>
+      </ul>
+    </div>
+  `,
+
+  endocrino: `
+    <div class="fiche-hero">
+      <h2>⚗️ Endocrinologie — l'essentiel</h2>
+      <p>Thyroïde · Cushing · acromégalie · glandes</p>
+    </div>
+
+    <div class="flash-row">
+      <div class="flash-card" style="--fc:#F44336;"><div class="flash-num">TSH ↑</div><div class="flash-label">hypothyroïdie</div></div>
+      <div class="flash-card" style="--fc:#F44336;"><div class="flash-num">TSH ↓</div><div class="flash-label">hyperthyroïdie</div></div>
+      <div class="flash-card" style="--fc:#F44336;"><div class="flash-num">Cortisol ↑</div><div class="flash-label">Cushing</div></div>
+      <div class="flash-card" style="--fc:#F44336;"><div class="flash-num">GH ↑</div><div class="flash-label">acromégalie</div></div>
+    </div>
+
+    <div class="mindmap">
+      <div class="mm-center">PATHOLOGIES ENDOCRINIENNES</div>
+      <div class="mm-stem"></div>
+      <div class="mm-branches">
+        <div class="mm-branch" style="--bc:#1565C0;">
+          <div class="mm-branch-head">🔻 Hypothyroïdie</div>
+          <div class="mm-branch-body">↓ hormones → métabolisme ralenti. <strong>TSH↑ T4↓</strong>. Cause : Hashimoto. TTT : hormones substitutives.</div>
+        </div>
+        <div class="mm-branch" style="--bc:#C62828;">
+          <div class="mm-branch-head">🔺 Hyperthyroïdie</div>
+          <div class="mm-branch-body">↑ hormones → métabolisme accéléré. <strong>TSH↓ T3/T4↑</strong>. Cause : Basedow. TTT : antithyroïdiens, bêtabloquants, iode radioactif.</div>
+        </div>
+        <div class="mm-branch" style="--bc:#FF9800;">
+          <div class="mm-branch-head">🌕 Cushing</div>
+          <div class="mm-branch-body">Excès de <strong>cortisol</strong> (adénome hypophysaire / corticothérapie). Test freinage dexaméthasone.</div>
+        </div>
+        <div class="mm-branch" style="--bc:#9C27B0;">
+          <div class="mm-branch-head">📈 Acromégalie</div>
+          <div class="mm-branch-body">Excès <strong>GH</strong> après la puberté → ↑ extrémités. Adénome somatotrope. IGF-1↑.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="memo-essentiel">
+      <div class="memo-essentiel-title">⭐ Rôles des glandes endocrines</div>
+      <ul>
+        <li><strong>Hypophyse</strong> : contrôle les autres glandes (chef d'orchestre)</li>
+        <li><strong>Thyroïde</strong> : métabolisme · <strong>Parathyroïdes</strong> : calcium</li>
+        <li><strong>Surrénales</strong> : cortisol, adrénaline · <strong>Pancréas</strong> : glycémie</li>
+        <li><strong>Ovaires / testicules</strong> : hormones sexuelles</li>
+      </ul>
+    </div>
+  `,
+
+  orl: `
+    <div class="fiche-hero">
+      <h2>👂 ORL — l'essentiel</h2>
+      <p>Surdités · maladie de Ménière</p>
+    </div>
+
+    <div class="flash-row">
+      <div class="flash-card" style="--fc:#00BCD4;"><div class="flash-num">Transmission</div><div class="flash-label">système vibratoire</div></div>
+      <div class="flash-card" style="--fc:#00BCD4;"><div class="flash-num">Perception</div><div class="flash-label">neurosensorielle</div></div>
+      <div class="flash-card" style="--fc:#00BCD4;"><div class="flash-num">Hydrops</div><div class="flash-label">Ménière</div></div>
+    </div>
+
+    <div class="mindmap">
+      <div class="mm-center">LES SURDITÉS</div>
+      <div class="mm-stem"></div>
+      <div class="mm-branches">
+        <div class="mm-branch" style="--bc:#00BCD4;">
+          <div class="mm-branch-head">🔧 Transmission</div>
+          <div class="mm-branch-body">Atteinte du <strong>système vibratoire</strong> (pavillon, conduit, tympan, osselets).<br>Causes : cérumen, otites, otospongiose.<br>TTT : médical, chirurgie, BAHA.</div>
+        </div>
+        <div class="mm-branch" style="--bc:#0097A7;">
+          <div class="mm-branch-head">🧠 Perception</div>
+          <div class="mm-branch-body">Atteinte <strong>neurosensorielle</strong> (cochlée, nerf auditif).<br>Causes : presbyacousie, trauma sonore, ototoxiques, Ménière.<br>TTT : prothèses, implant cochléaire.</div>
+        </div>
+        <div class="mm-branch" style="--bc:#4DD0E1;">
+          <div class="mm-branch-head">🩺 Examens</div>
+          <div class="mm-branch-body">Acoumétrie · audiométrie tonale/vocale · PEA · OEA.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fiche-schema">
+      <div class="fiche-schema-title">🌀 Maladie de Ménière</div>
+      <div class="mm-branches">
+        <div class="mm-branch" style="--bc:#00BCD4;">
+          <div class="mm-branch-head">🔍 Signes (triade)</div>
+          <div class="mm-branch-body"><strong>Vertiges rotatoires</strong> + <strong>hypoacousie</strong> fluctuante + <strong>acouphènes</strong>. + oreille pleine, nausées.</div>
+        </div>
+        <div class="mm-branch" style="--bc:#C62828;">
+          <div class="mm-branch-head">⚠️ Risque majeur</div>
+          <div class="mm-branch-body"><strong>Chute</strong> liée aux vertiges · évolution vers surdité progressive.</div>
+        </div>
+        <div class="mm-branch" style="--bc:#FF9800;">
+          <div class="mm-branch-head">💊 TTT crise</div>
+          <div class="mm-branch-body">Antiémétiques · anti-vertigineux · repos au calme.</div>
+        </div>
+        <div class="mm-branch" style="--bc:#2E7D32;">
+          <div class="mm-branch-head">🛡️ TTT fond</div>
+          <div class="mm-branch-body">Bétahistine · régime hyposodé · ↓ alcool/café · gestion stress.</div>
+        </div>
+      </div>
+    </div>
+  `,
+
+  rhumato: `
+    <div class="fiche-hero">
+      <h2>🦴 Rhumatismales — l'essentiel</h2>
+      <p>Arthrose · sarcopénie · ostéoporose</p>
+    </div>
+
+    <div class="flash-row">
+      <div class="flash-card" style="--fc:#8BC34A;"><div class="flash-num">Cartilage</div><div class="flash-label">arthrose</div></div>
+      <div class="flash-card" style="--fc:#8BC34A;"><div class="flash-num">Muscle</div><div class="flash-label">sarcopénie</div></div>
+      <div class="flash-card" style="--fc:#8BC34A;"><div class="flash-num">Os</div><div class="flash-label">ostéoporose</div></div>
+    </div>
+
+    <div class="mindmap">
+      <div class="mm-center">3 PATHOLOGIES DU VIEILLISSEMENT</div>
+      <div class="mm-stem"></div>
+      <div class="mm-branches">
+        <div class="mm-branch" style="--bc:#8BC34A;">
+          <div class="mm-branch-head">🦴 Arthrose</div>
+          <div class="mm-branch-body">Dégradation du <strong>cartilage</strong> + os sous-chondral.<br>Causes : âge, génétique, surpoids, trauma.<br>Risques : douleurs, ↓ mobilité, perte autonomie.</div>
+        </div>
+        <div class="mm-branch" style="--bc:#AED581;">
+          <div class="mm-branch-head">💪 Sarcopénie</div>
+          <div class="mm-branch-body">↓ masse + force <strong>musculaire</strong>.<br>Causes : âge, sédentarité, dénutrition.<br>Risques : chutes, fractures, dépendance.</div>
+        </div>
+        <div class="mm-branch" style="--bc:#689F38;">
+          <div class="mm-branch-head">🦴 Ostéoporose</div>
+          <div class="mm-branch-body">↓ densité <strong>osseuse</strong> → fragilité.<br>Causes : ménopause, âge, corticoïdes, tabac/alcool.<br>Risque : <strong>fracture col du fémur</strong>.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="memo-essentiel">
+      <div class="memo-essentiel-title">⭐ Rôle IDE (commun aux 3)</div>
+      <ul>
+        <li><strong>Arthrose :</strong> évaluer douleur, aide mobilité, conseils activité/poids, surveiller antalgiques.</li>
+        <li><strong>Sarcopénie :</strong> prévention chutes, activité physique, surveiller nutrition/protéines.</li>
+        <li><strong>Ostéoporose :</strong> prévention fractures/chutes, calcium + vitamine D, activité physique.</li>
+      </ul>
+    </div>
+  `,
+
+  diabete: `
+    <div class="fiche-hero">
+      <h2>🩸 Diabète — l'essentiel</h2>
+      <p>DT1 · DT2 · hypo/hyper · complications</p>
+    </div>
+
+    <div class="flash-row">
+      <div class="flash-card" style="--fc:#E91E63;"><div class="flash-num">&lt; 0,70</div><div class="flash-label">g/L = hypoglycémie</div></div>
+      <div class="flash-card" style="--fc:#E91E63;"><div class="flash-num">&gt; 1,26</div><div class="flash-label">g/L à jeun = hyper</div></div>
+      <div class="flash-card" style="--fc:#E91E63;"><div class="flash-num">&lt; 7 %</div><div class="flash-label">objectif HbA1c</div></div>
+      <div class="flash-card" style="--fc:#E91E63;"><div class="flash-num">2-3 mois</div><div class="flash-label">HbA1c reflète</div></div>
+    </div>
+
+    <div class="mindmap">
+      <div class="mm-center">DIABÈTE TYPE 1 & 2</div>
+      <div class="mm-stem"></div>
+      <div class="mm-branches">
+        <div class="mm-branch" style="--bc:#E91E63;">
+          <div class="mm-branch-head">1️⃣ Type 1</div>
+          <div class="mm-branch-body"><strong>Auto-immune</strong> : destruction cellules bêta → carence absolue en insuline. <strong>Insuline obligatoire.</strong></div>
+        </div>
+        <div class="mm-branch" style="--bc:#F48FB1;">
+          <div class="mm-branch-head">2️⃣ Type 2</div>
+          <div class="mm-branch-body"><strong>Insulinorésistance</strong> + épuisement pancréatique. TTT : règles hygiéno-diét, ADO, ± insuline.</div>
+        </div>
+        <div class="mm-branch" style="--bc:#C2185B;">
+          <div class="mm-branch-head">🔍 Signes annonciateurs</div>
+          <div class="mm-branch-body">Polyurie · polydipsie · amaigrissement · asthénie · polyphagie · infections répétées.</div>
+        </div>
+        <div class="mm-branch" style="--bc:#AD1457;">
+          <div class="mm-branch-head">⚠️ Complications</div>
+          <div class="mm-branch-body">Rétinopathie · néphropathie · neuropathie · artériopathie · risque CV.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fiche-schema">
+      <div class="fiche-schema-title">⚡ Hypo vs Hyper — réflexe</div>
+      <div class="mm-branches">
+        <div class="mm-branch" style="--bc:#1565C0;">
+          <div class="mm-branch-head">📉 HYPO (&lt; 0,70 g/L)</div>
+          <div class="mm-branch-body">Sueurs, tremblements, faim, malaise, troubles conscience.<br><strong>CAT :</strong> resucrage rapide → contrôle → collation.</div>
+        </div>
+        <div class="mm-branch" style="--bc:#C62828;">
+          <div class="mm-branch-head">📈 HYPER (&gt; 1,26 g/L)</div>
+          <div class="mm-branch-body">Soif, polyurie, fatigue, haleine acétonique.<br><strong>CAT :</strong> contrôle glycémie/cétonurie → hydratation → adaptation TTT.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="memo-essentiel">
+      <div class="memo-essentiel-title">⭐ Surveillance & soins des pieds</div>
+      <ul>
+        <li><strong>Organes :</strong> yeux (fond d'œil), reins (créat + microalbuminurie), pieds (podologie), cœur (TA/ECG), nerfs (sensibilité).</li>
+        <li><strong>Pieds :</strong> inspection quotidienne, chaussures adaptées, ne pas marcher pieds nus, consulter si plaie.</li>
+        <li><strong>Neuropathie diabétique :</strong> perte de sensibilité → pied diabétique → risque ulcères/amputations.</li>
+        <li><strong>Diabète gestationnel :</strong> hyperglycémie pendant la grossesse (insulinorésistance gravidique).</li>
+      </ul>
+    </div>
+  `
+};
+
 // =================== ÉTAT ===================
 let currentTheme = null;
 let currentTab = 'cours';
+
 let quizState = {
   questions: [],
   idx: 0,
@@ -2062,6 +2947,7 @@ function openTheme(themeId) {
 
   // Render tabs
   renderCours(themeId);
+  renderFiche(themeId);
   renderQuestions(themeId);
 
   switchTab('cours');
@@ -2071,7 +2957,7 @@ function openTheme(themeId) {
 function switchTab(tab) {
   currentTab = tab;
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
-  ['cours', 'questions', 'quiz'].forEach(t => {
+  ['cours', 'fiche', 'questions', 'quiz'].forEach(t => {
     document.getElementById(`tab-${t}`).style.display = t === tab ? 'block' : 'none';
   });
 
@@ -2094,7 +2980,7 @@ function renderHome() {
   grid.innerHTML = THEMES.map(t => `
     <div class="theme-card" style="border-left-color: ${t.color};" onclick="openTheme('${t.id}')">
       <div class="theme-card-name">${t.label}</div>
-      <div class="theme-card-count">${(QA[t.id] || []).length} questions · cours · quiz</div>
+      <div class="theme-card-count">${(QA[t.id] || []).length} questions · cours · fiche · quiz</div>
     </div>
   `).join('');
 
@@ -2122,6 +3008,11 @@ function selectAllFilters(state) {
 // =================== RENDER COURS ===================
 function renderCours(themeId) {
   document.getElementById('tab-cours').innerHTML = COURS[themeId] || '<p>Cours en cours de rédaction.</p>';
+}
+
+// =================== RENDER FICHE VISUELLE ===================
+function renderFiche(themeId) {
+  document.getElementById('tab-fiche').innerHTML = MEMO[themeId] || '<p>Fiche en cours de rédaction.</p>';
 }
 
 // =================== RENDER QUESTIONS ===================
