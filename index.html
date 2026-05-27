@@ -170,6 +170,122 @@
   .global-quiz-btn .icon { font-size: 32px; flex-shrink: 0; }
   .global-quiz-btn .title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
   .global-quiz-btn .desc { font-size: 13px; opacity: 0.9; }
+  .partiel-btn { margin-top: -12px; margin-bottom: 24px; }
+
+  /* ========== PARTIEL BLANC ========== */
+  .partiel-intro {
+    background: linear-gradient(135deg, #00897B, #00695C);
+    color: white;
+    padding: 22px;
+    border-radius: var(--radius);
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-lg);
+  }
+  .partiel-intro h2 { color: white !important; margin-bottom: 6px; font-size: 18px; }
+  .partiel-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .partiel-stat {
+    background: rgba(255,255,255,0.18);
+    border-radius: var(--radius-sm);
+    padding: 10px;
+    text-align: center;
+  }
+  .partiel-stat-num { font-size: 22px; font-weight: 800; }
+  .partiel-stat-label { font-size: 11px; opacity: 0.9; text-transform: uppercase; letter-spacing: 0.5px; }
+  .partiel-theme-block { margin-bottom: 28px; }
+  .partiel-theme-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--border);
+  }
+  .partiel-theme-title { font-size: 17px; font-weight: 700; flex: 1; }
+  .partiel-theme-count {
+    font-size: 12px;
+    color: var(--text-soft);
+    background: var(--bg);
+    padding: 3px 10px;
+    border-radius: 12px;
+  }
+  .partiel-q {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 18px;
+    margin-bottom: 14px;
+    box-shadow: var(--shadow);
+    border-top: 4px solid var(--pq, var(--primary));
+  }
+  .partiel-q-num {
+    display: inline-block;
+    background: var(--pq, var(--primary));
+    color: white;
+    padding: 3px 12px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+  }
+  .partiel-q-text {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 12px;
+    line-height: 1.5;
+  }
+  .partiel-area {
+    width: 100%;
+    min-height: 90px;
+    padding: 10px 12px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 14px;
+    background: var(--bg);
+    color: var(--text);
+    resize: vertical;
+  }
+  .partiel-area:focus { outline: none; border-color: var(--pq, var(--primary)); }
+  .partiel-area.done { border-color: var(--green); background: rgba(46, 125, 50, 0.04); }
+  .partiel-correct-btn {
+    background: var(--pq, var(--primary));
+    color: white;
+    border: none;
+    padding: 9px 16px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    font-family: inherit;
+    margin-top: 10px;
+  }
+  .partiel-correct-btn:hover { opacity: 0.9; }
+  .partiel-correction {
+    display: none;
+    margin-top: 12px;
+    padding: 12px 14px;
+    background: var(--green-light);
+    border-left: 4px solid var(--green);
+    border-radius: var(--radius-sm);
+    font-size: 13.5px;
+    line-height: 1.65;
+    white-space: pre-wrap;
+  }
+  .partiel-correction.show { display: block; }
+  .partiel-correction-title {
+    font-weight: 700;
+    color: var(--green);
+    margin-bottom: 6px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
 
   .section-label {
     font-size: 11px;
@@ -829,6 +945,15 @@
     <span style="font-size: 24px;">→</span>
   </button>
 
+  <button class="global-quiz-btn partiel-btn" onclick="showSection('partielblanc')" style="background: linear-gradient(135deg, #00897B, #00695C);">
+    <span class="icon">📝</span>
+    <div>
+      <div class="title">Partiel blanc</div>
+      <div class="desc">~33 questions sélectionnées · style examen avec corrections</div>
+    </div>
+    <span style="font-size: 24px;">→</span>
+  </button>
+
   <div class="section-label">📚 Choisir une pathologie</div>
   <div class="theme-grid" id="themeGrid"></div>
 
@@ -877,6 +1002,31 @@
   <div id="globalQuizGame" style="display:none;"></div>
 </section>
 
+<!-- ================ PARTIEL BLANC ================ -->
+<section id="partielblanc" class="section">
+  <div class="cat-header">
+    <button class="back-btn" onclick="showSection('home')">← Retour</button>
+    <div class="cat-title">📝 Partiel blanc</div>
+  </div>
+
+  <div class="partiel-intro">
+    <h2 style="margin-top:0;">🎯 Conditions d'examen</h2>
+    <p style="margin: 4px 0;">Sélection des <strong>questions les plus susceptibles de tomber</strong> au partiel (1 à 5 par pathologie selon le volume du chapitre). Réponds dans la zone, puis clique sur "Voir la correction" pour comparer.</p>
+    <div class="partiel-stats">
+      <div class="partiel-stat"><div class="partiel-stat-num" id="partielTotal">0</div><div class="partiel-stat-label">Questions</div></div>
+      <div class="partiel-stat"><div class="partiel-stat-num" id="partielDone">0</div><div class="partiel-stat-label">Traitées</div></div>
+      <div class="partiel-stat"><div class="partiel-stat-num" id="partielThemes">12</div><div class="partiel-stat-label">Thèmes</div></div>
+    </div>
+    <div style="display:flex; gap:8px; margin-top: 14px; flex-wrap: wrap;">
+      <button class="btn-secondary" onclick="revealAllPartiel()" style="background: rgba(255,255,255,0.15); color: white; border-color: rgba(255,255,255,0.3);">👁️ Tout révéler</button>
+      <button class="btn-secondary" onclick="hideAllPartiel()" style="background: rgba(255,255,255,0.15); color: white; border-color: rgba(255,255,255,0.3);">🙈 Tout masquer</button>
+      <button class="btn-secondary" onclick="resetPartiel()" style="background: rgba(255,255,255,0.15); color: white; border-color: rgba(255,255,255,0.3);">🔄 Réinitialiser mes réponses</button>
+    </div>
+  </div>
+
+  <div id="partielContent"></div>
+</section>
+
 </main>
 
 <footer>
@@ -923,12 +1073,6 @@ const QA = {
     { q: "Définissez les termes suivants : rythme sinusal, bradycardie, tachycardie, arythmie, Brady arythmie, tachyarythmie, extrasystole.", a: "Rythme sinusal : normal\nBradycardie : <60 bpm\nTachycardie : >100 bpm\nArythmie : irrégulier\nBradyarythmie : lent + irrégulier\nTachyarythmie : rapide + irrégulier\nExtrasystole : battement prématuré" },
     { q: "Décrivez les caractéristiques d'un ECG normal.", a: "Onde P avant QRS, QRS fin, rythme régulier" },
     { q: "Qu'est-ce qu'une extrasystole atriale (ESA) ? Quelles sont ses causes et ses conséquences ?", a: "Battement prématuré auriculaire.\nCauses : stress, fatigue, excitants (alcool, café, tabac), déséquilibres électrolytiques (hypokaliémie), pathologies cardiaques, hyperthyroïdie.\nConséquences : généralement bénin ou, palpitations, sensation de pause, anxiété." },
-    { q: "Qu'est-ce que la fibrillation auriculaire (FA) ou l'arythmie complète par fibrillation auriculaire (ACFA) ? Quelles sont ses conséquences et ses traitements ?", a: "C'est un rythme irrégulier rapide.\nRisques : AVC\nTraitements : anticoagulants + contrôle fréquence." },
-    { q: "Qu'est-ce que le flutter auriculaire ? Quelles sont ses caractéristiques et ses traitements ?", a: "Rythme auriculaire rapide irrégulier.\nTraitement : cardioversion, anticoagulant" },
-    { q: "Qu'est-ce qu'une extrasystole ventriculaire (ESV) ? Quelles sont ses caractéristiques et ses traitements ?", a: "Battement prématuré ventriculaire.\nCaractéristiques : QRS large\nTraitement : surveillance" },
-    { q: "Décrivez les différents types de blocs auriculo-ventriculaires ?", a: "BAV 1 : PR allongé\nBAV 2 : bloc intermittent\nBAV 3 : bloc complet" },
-    { q: "Qu'est-ce qu'un pacemaker ? Dans quelles situations est-il indiqué ?", a: "Stimulation cardiaque indiqué pour les bradycardies sévères et les BAV" },
-    { q: "Quelle est la physiopathologie de l'œdème aigu du poumon ?", a: "Augmentation de la pression créant du liquide dans les alvéoles." },
     { q: "Quels sont les signes cliniques de l'OAP ?", a: "Dyspnée brutale, orthopnée, anxiété" },
     { q: "Quelles sont les actions infirmières que vous mettez immédiatement en place auprès d'un patient qui présente un œdème aigu du poumon ?", a: "Position demi-assise, oxygène, alerte" },
     { q: "Quels sont les examens complémentaires à réaliser en cas de suspicion d'OAP ?", a: "Radio du thorax, gaz du sang, ECG" },
@@ -1162,37 +1306,10 @@ const COURS = {
       <p>Battement prématuré auriculaire.</p>
       <p><strong>Causes :</strong> stress, fatigue, excitants (alcool, café, tabac), déséquilibres électrolytiques (hypokaliémie), pathologies cardiaques, hyperthyroïdie.</p>
       <p><strong>Conséquences :</strong> généralement bénin — palpitations, sensation de pause, anxiété.</p>
-
-      <h3>Fibrillation auriculaire (FA / ACFA)</h3>
-      <p>C'est un <strong>rythme irrégulier rapide</strong>.</p>
-      <p><strong>Risque :</strong> AVC.<br>
-      <strong>Traitements :</strong> anticoagulants + contrôle de la fréquence.</p>
-
-      <h3>Flutter auriculaire</h3>
-      <p>Rythme auriculaire rapide irrégulier.<br>
-      <strong>Traitement :</strong> cardioversion, anticoagulant.</p>
-
-      <h3>Extrasystole ventriculaire (ESV)</h3>
-      <p>Battement prématuré ventriculaire.<br>
-      <strong>Caractéristique :</strong> QRS large.<br>
-      <strong>Traitement :</strong> surveillance.</p>
-
-      <h3>Blocs auriculo-ventriculaires (BAV)</h3>
-      <ul>
-        <li><strong>BAV 1</strong> : PR allongé</li>
-        <li><strong>BAV 2</strong> : bloc intermittent</li>
-        <li><strong>BAV 3</strong> : bloc complet</li>
-      </ul>
-
-      <h3>Pacemaker</h3>
-      <p>Stimulation cardiaque artificielle. <strong>Indications :</strong> bradycardies sévères et BAV.</p>
     </div>
 
     <div class="cours-section">
       <h2>🌊 OAP — Œdème aigu du poumon</h2>
-
-      <h3>Physiopathologie</h3>
-      <p>Augmentation de la pression créant du liquide dans les alvéoles.</p>
 
       <h3>Signes cliniques</h3>
       <p>Dyspnée brutale, orthopnée, anxiété.</p>
@@ -2213,7 +2330,7 @@ const MEMO = {
       <div class="flash-card" style="--fc:#E63946;"><div class="flash-num">&lt; 60</div><div class="flash-label">bpm = bradycardie</div></div>
       <div class="flash-card" style="--fc:#E63946;"><div class="flash-num">&gt; 100</div><div class="flash-label">bpm = tachycardie</div></div>
       <div class="flash-card" style="--fc:#E63946;"><div class="flash-num">BNP</div><div class="flash-label">marqueur clé de l'IC</div></div>
-      <div class="flash-card" style="--fc:#E63946;"><div class="flash-num">FAST</div><div class="flash-label">FA → risque AVC</div></div>
+      <div class="flash-card" style="--fc:#E63946;"><div class="flash-num">ESA</div><div class="flash-label">battement prématuré</div></div>
     </div>
 
     <div class="mindmap">
@@ -2247,26 +2364,6 @@ const MEMO = {
       </div>
     </div>
 
-    <div class="fiche-schema-title" style="text-align:center; margin: 24px 0 8px; color: var(--primary); font-weight:700;">⚡ Les troubles du rythme en bref</div>
-    <div class="mm-branches">
-      <div class="mm-branch" style="--bc:#E63946;">
-        <div class="mm-branch-head">FA / ACFA</div>
-        <div class="mm-branch-body">Rythme irrégulier rapide → <strong>risque AVC</strong>. TTT : anticoagulants + contrôle fréquence.</div>
-      </div>
-      <div class="mm-branch" style="--bc:#FF6B6B;">
-        <div class="mm-branch-head">Flutter</div>
-        <div class="mm-branch-body">Rythme auriculaire rapide. TTT : cardioversion + anticoagulant.</div>
-      </div>
-      <div class="mm-branch" style="--bc:#D62828;">
-        <div class="mm-branch-head">ESA / ESV</div>
-        <div class="mm-branch-body">Battements prématurés (auriculaire / ventriculaire). ESV = QRS large. TTT : surveillance.</div>
-      </div>
-      <div class="mm-branch" style="--bc:#A4161A;">
-        <div class="mm-branch-head">BAV</div>
-        <div class="mm-branch-body">BAV1 : PR allongé · BAV2 : intermittent · BAV3 : complet → <strong>pacemaker</strong>.</div>
-      </div>
-    </div>
-
     <div class="fiche-schema">
       <div class="fiche-schema-title">🌊 OAP — réflexe d'urgence</div>
       <div class="flow">
@@ -2278,7 +2375,7 @@ const MEMO = {
         <div class="flow-arrow">→</div>
         <div class="flow-step"><div class="flow-step-title">4. TTT</div><div class="flow-step-body">diurétiques, nitrés, morphine</div></div>
       </div>
-      <div class="fiche-schema-caption">Physiopath : ↑ pression → liquide dans les alvéoles · Signes : dyspnée brutale, orthopnée, anxiété</div>
+      <div class="fiche-schema-caption">Signes : dyspnée brutale, orthopnée, anxiété</div>
     </div>
 
     <div class="memo-essentiel">
@@ -3158,6 +3255,123 @@ function backToGlobalSetup() {
   document.getElementById('globalQuizGame').style.display = 'none';
 }
 
+// =================== PARTIEL BLANC ===================
+// Sélection des questions les plus susceptibles de tomber au partiel,
+// basée sur les questions les plus générales/transversales/IDE.
+// On référence les questions par leur index dans QA[themeId].
+const PARTIEL = [
+  { themeId: "cardio", indices: [0, 6, 7, 8, 10, 21, 23] },        // IC + types, IC gauche, IC droite, prise TA, hygiéno HTA, actions OAP, PEC OAP
+  { themeId: "ophtalmo", indices: [0, 1] },                          // DMLA, Cataracte
+  { themeId: "respi", indices: [1, 2, 8] },                          // IRA, IRC, tableau acido-basique
+  { themeId: "renale", indices: [0, 2, 8, 11] },                     // IRC vs IRA, complications IRC, précautions FAV, conseils FAV
+  { themeId: "hepato", indices: [1, 2, 8] },                         // Cirrhose def+complications, étiologies cirrhose, TTT pancréatite
+  { themeId: "neuro", indices: [0, 5, 8] },                          // Définition SEP, triade Parkinson, conseils IDE
+  { themeId: "vieillissement", indices: [0, 4, 9] },                 // Alzheimer définition, confusion vs démence, signes/actions confusion
+  { themeId: "mi", indices: [2, 3, 4] },                             // Grille IPS, ulcères, actions selon ulcère
+  { themeId: "endocrino", indices: [0, 1] },                         // Hypothyroïdie, Hyperthyroïdie
+  { themeId: "orl", indices: [0, 5] },                               // Types surdité, maladie de Ménière
+  { themeId: "rhumato", indices: [0, 3] },                           // Définitions, rôles IDE
+  { themeId: "diabete", indices: [0, 2, 3, 8] }                      // DT1/DT2, hypo/hyper signes, CAT, soins pieds
+];
+
+const PARTIEL_HELPERS = {
+  cardio: { label: "🫀 Cardiaques", color: "#E63946" },
+  ophtalmo: { label: "👁️ Ophtalmiques", color: "#2196F3" },
+  respi: { label: "🫁 Respiratoires", color: "#4CAF50" },
+  renale: { label: "🩺 Rénales", color: "#FF9800" },
+  hepato: { label: "🟤 Hépatiques", color: "#795548" },
+  neuro: { label: "🧠 Neurologiques", color: "#9C27B0" },
+  vieillissement: { label: "👴 Vieillissement", color: "#607D8B" },
+  mi: { label: "🦵 Membres inférieurs", color: "#009688" },
+  endocrino: { label: "⚗️ Endocrinologie", color: "#F44336" },
+  orl: { label: "👂 ORL", color: "#00BCD4" },
+  rhumato: { label: "🦴 Rhumatismales", color: "#8BC34A" },
+  diabete: { label: "🩸 Diabète", color: "#E91E63" }
+};
+
+let partielTotalCount = 0;
+
+function renderPartiel() {
+  const container = document.getElementById('partielContent');
+  let total = 0;
+  let html = '';
+
+  PARTIEL.forEach(group => {
+    const meta = PARTIEL_HELPERS[group.themeId];
+    const questions = group.indices.map(i => QA[group.themeId][i]).filter(Boolean);
+    if (questions.length === 0) return;
+
+    html += `
+      <div class="partiel-theme-block">
+        <div class="partiel-theme-header" style="border-bottom-color: ${meta.color};">
+          <div class="partiel-theme-title" style="color: ${meta.color};">${meta.label}</div>
+          <div class="partiel-theme-count">${questions.length} question${questions.length>1?'s':''}</div>
+        </div>
+    `;
+
+    questions.forEach((q, i) => {
+      total++;
+      const savedKey = `partiel_${group.themeId}_${group.indices[i]}`;
+      const saved = localStorage.getItem(savedKey) || '';
+      html += `
+        <div class="partiel-q" style="--pq: ${meta.color};">
+          <div class="partiel-q-num">Q${total}</div>
+          <div class="partiel-q-text">${escapeHtml(q.q)}</div>
+          <textarea class="partiel-area${saved ? ' done' : ''}" placeholder="Ta réponse ici…" data-save-key="${savedKey}" oninput="savePartiel(this)">${escapeHtml(saved)}</textarea>
+          <button class="partiel-correct-btn" onclick="this.nextElementSibling.classList.toggle('show')">Voir la correction</button>
+          <div class="partiel-correction">
+            <div class="partiel-correction-title">✅ Réponse attendue</div>
+            ${escapeHtml(q.a)}
+          </div>
+        </div>
+      `;
+    });
+
+    html += `</div>`;
+  });
+
+  container.innerHTML = html;
+  partielTotalCount = total;
+  document.getElementById('partielTotal').textContent = total;
+  updatePartielDoneCount();
+}
+
+function savePartiel(textarea) {
+  const key = textarea.dataset.saveKey;
+  if (textarea.value.trim()) {
+    localStorage.setItem(key, textarea.value);
+    textarea.classList.add('done');
+  } else {
+    localStorage.removeItem(key);
+    textarea.classList.remove('done');
+  }
+  updatePartielDoneCount();
+}
+
+function updatePartielDoneCount() {
+  const done = document.querySelectorAll('#partielContent .partiel-area.done').length;
+  const el = document.getElementById('partielDone');
+  if (el) el.textContent = done;
+}
+
+function revealAllPartiel() {
+  document.querySelectorAll('#partielContent .partiel-correction').forEach(el => el.classList.add('show'));
+}
+
+function hideAllPartiel() {
+  document.querySelectorAll('#partielContent .partiel-correction').forEach(el => el.classList.remove('show'));
+}
+
+function resetPartiel() {
+  if (!confirm('Effacer toutes tes réponses ?')) return;
+  document.querySelectorAll('#partielContent .partiel-area').forEach(ta => {
+    localStorage.removeItem(ta.dataset.saveKey);
+    ta.value = '';
+    ta.classList.remove('done');
+  });
+  updatePartielDoneCount();
+}
+
 // =================== THEME (clair/sombre) ===================
 const themeBtn = document.getElementById('themeBtn');
 function setTheme(theme) {
@@ -3176,6 +3390,7 @@ function init() {
   else if (window.matchMedia('(prefers-color-scheme: dark)').matches) setTheme('dark');
 
   renderHome();
+  renderPartiel();
 }
 
 init();
