@@ -287,6 +287,113 @@
     letter-spacing: 0.8px;
   }
 
+  /* QCM options */
+  .qcm-options { display: flex; flex-direction: column; gap: 8px; margin: 4px 0; }
+  .qcm-opt {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: var(--bg);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-size: 14px;
+  }
+  .qcm-opt:hover { border-color: var(--pq, var(--primary)); }
+  .qcm-opt input { accent-color: var(--pq, var(--primary)); width: 18px; height: 18px; flex-shrink: 0; }
+  .qcm-opt-text { flex: 1; }
+  .qcm-opt-mark { font-weight: 700; }
+  .qcm-opt.qcm-correct { background: var(--green-light); border-color: var(--green); }
+  .qcm-opt.qcm-correct .qcm-opt-mark::after { content: '✓'; color: var(--green); }
+  .qcm-opt.qcm-wrong { background: var(--red-light); border-color: var(--red); }
+  .qcm-opt.qcm-wrong .qcm-opt-mark::after { content: '✗'; color: var(--red); }
+  .qcm-opt.qcm-missed { background: var(--orange-light); border-color: var(--orange); }
+  .qcm-opt.qcm-missed .qcm-opt-mark::after { content: '← bonne réponse'; color: var(--orange); font-size: 11px; }
+
+  /* V/F list */
+  .vf-list { display: flex; flex-direction: column; gap: 6px; margin: 4px 0; }
+  .vf-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    background: var(--bg);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 13.5px;
+  }
+  .vf-text { flex: 1; }
+  .vf-choice {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    padding: 2px 8px;
+    border-radius: 6px;
+  }
+  .vf-choice input { accent-color: var(--pq, var(--primary)); }
+  .vf-choice span { font-weight: 700; font-size: 13px; }
+  .vf-row.vf-correct { background: var(--green-light); border-color: var(--green); }
+  .vf-row.vf-wrong { background: var(--red-light); border-color: var(--red); }
+  .vf-choice.vf-good span { color: var(--green); text-decoration: underline; }
+
+  /* ========== MODAL BILAN ========== */
+  .bilan-modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+  .bilan-modal-content {
+    background: var(--card);
+    border-radius: var(--radius);
+    max-width: 700px;
+    width: 100%;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-lg);
+    animation: bilanIn 0.25s ease;
+  }
+  @keyframes bilanIn { from { opacity:0; transform:translateY(20px);} to {opacity:1; transform:translateY(0);} }
+  .bilan-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--border);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--primary);
+  }
+  .bilan-close {
+    background: var(--bg);
+    border: none;
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    color: var(--text-soft);
+  }
+  .bilan-close:hover { background: var(--border); }
+  .bilan-modal-body {
+    padding: 22px;
+    overflow-y: auto;
+  }
+  .bilan-error {
+    background: var(--bg);
+    border-left: 4px solid var(--primary);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    margin-bottom: 12px;
+  }
+
   .section-label {
     font-size: 11px;
     text-transform: uppercase;
@@ -949,7 +1056,16 @@
     <span class="icon">📝</span>
     <div>
       <div class="title">Partiel blanc</div>
-      <div class="desc">~33 questions sélectionnées · style examen avec corrections</div>
+      <div class="desc">~38 questions sélectionnées · QCM, V/F & ouvertes avec corrections</div>
+    </div>
+    <span style="font-size: 24px;">→</span>
+  </button>
+
+  <button class="global-quiz-btn qcm-btn" onclick="showSection('qcmcomplet')" style="background: linear-gradient(135deg, #5E35B1, #4527A0); margin-top:-12px; margin-bottom:24px;">
+    <span class="icon">🎯</span>
+    <div>
+      <div class="title">Mode QCM complet</div>
+      <div class="desc">TOUTES les questions en QCM (définitions en ouvert) · par pathologie</div>
     </div>
     <span style="font-size: 24px;">→</span>
   </button>
@@ -1027,7 +1143,44 @@
   <div id="partielContent"></div>
 </section>
 
+<!-- ================ QCM COMPLET ================ -->
+<section id="qcmcomplet" class="section">
+  <div class="cat-header">
+    <button class="back-btn" onclick="showSection('home')">← Retour</button>
+    <div class="cat-title">🎯 Mode QCM complet</div>
+  </div>
+
+  <div class="partiel-intro" style="background: linear-gradient(135deg, #5E35B1, #4527A0);">
+    <h2 style="margin-top:0;">🎯 Toutes les questions en QCM</h2>
+    <p style="margin: 4px 0;">L'intégralité des questions du guide transformées en <strong>QCM</strong> (coche les bonnes réponses puis valide). Les <strong>définitions</strong> restent en questions ouvertes. Les mauvaises propositions sont là pour t'entraîner — les bonnes réponses viennent à 100 % de ton cours.</p>
+    <div class="partiel-stats">
+      <div class="partiel-stat"><div class="partiel-stat-num" id="qcmTotal">0</div><div class="partiel-stat-label">Questions</div></div>
+      <div class="partiel-stat"><div class="partiel-stat-num" id="qcmDone">0</div><div class="partiel-stat-label">Traitées</div></div>
+      <div class="partiel-stat"><div class="partiel-stat-num" id="qcmScore">0</div><div class="partiel-stat-label">Score QCM</div></div>
+    </div>
+    <div style="margin-top: 14px;">
+      <label style="font-size: 13px; opacity: 0.95;">Filtrer par pathologie :</label>
+      <select id="qcmFilter" onchange="renderQcmComplet()" style="width:100%; margin-top:6px; padding:8px 10px; border-radius:8px; border:none; font-family:inherit; font-size:14px;">
+        <option value="all">🔀 Toutes les pathologies</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="qcmContent"></div>
+</section>
+
 </main>
+
+<!-- MODAL BILAN -->
+<div id="qcmBilanModal" class="bilan-modal">
+  <div class="bilan-modal-content">
+    <div class="bilan-modal-header">
+      <span>🏁 Bilan de la session</span>
+      <button class="bilan-close" onclick="closeQcmBilan()">✕</button>
+    </div>
+    <div id="bilanBody" class="bilan-modal-body"></div>
+  </div>
+</div>
 
 <footer>
   Fiche de révision UE 2.7 · IFSI Semestre 4 · 100 % cours de la prof
@@ -3256,22 +3409,347 @@ function backToGlobalSetup() {
 }
 
 // =================== PARTIEL BLANC ===================
-// Sélection des questions les plus susceptibles de tomber au partiel,
-// basée sur les questions les plus générales/transversales/IDE.
-// On référence les questions par leur index dans QA[themeId].
-const PARTIEL = [
-  { themeId: "cardio", indices: [0, 6, 7, 8, 10, 21, 23] },        // IC + types, IC gauche, IC droite, prise TA, hygiéno HTA, actions OAP, PEC OAP
-  { themeId: "ophtalmo", indices: [0, 1] },                          // DMLA, Cataracte
-  { themeId: "respi", indices: [1, 2, 8] },                          // IRA, IRC, tableau acido-basique
-  { themeId: "renale", indices: [0, 2, 8, 11] },                     // IRC vs IRA, complications IRC, précautions FAV, conseils FAV
-  { themeId: "hepato", indices: [1, 2, 8] },                         // Cirrhose def+complications, étiologies cirrhose, TTT pancréatite
-  { themeId: "neuro", indices: [0, 5, 8] },                          // Définition SEP, triade Parkinson, conseils IDE
-  { themeId: "vieillissement", indices: [0, 4, 9] },                 // Alzheimer définition, confusion vs démence, signes/actions confusion
-  { themeId: "mi", indices: [2, 3, 4] },                             // Grille IPS, ulcères, actions selon ulcère
-  { themeId: "endocrino", indices: [0, 1] },                         // Hypothyroïdie, Hyperthyroïdie
-  { themeId: "orl", indices: [0, 5] },                               // Types surdité, maladie de Ménière
-  { themeId: "rhumato", indices: [0, 3] },                           // Définitions, rôles IDE
-  { themeId: "diabete", indices: [0, 2, 3, 8] }                      // DT1/DT2, hypo/hyper signes, CAT, soins pieds
+// Mix de définitions (ouvertes) + QCM multi-choix + V/F + choix unique
+// Format type partiel IFSI UE 2.7
+
+const PARTIEL_Q = [
+  // 🫀 CARDIO (7)
+  { theme: "cardio", type: "open",
+    q: "Définir l'insuffisance cardiaque (IC) et ses différents types.",
+    correction: "L'insuffisance cardiaque c'est un déséquilibre entre le débit cardiaque et les besoins en O₂.\nLes différents types d'IC sont : IC gauche / droite / globale, IC aiguë / chronique." },
+  { theme: "cardio", type: "qcm_multi",
+    q: "Parmi les propositions suivantes, lesquelles sont des signes cliniques de l'IC GAUCHE ? (plusieurs réponses possibles)",
+    options: [
+      { t: "Dyspnée / orthopnée", c: true },
+      { t: "OAP", c: true },
+      { t: "Œdèmes des membres inférieurs", c: false },
+      { t: "Hépatomégalie", c: false },
+      { t: "Turgescence jugulaire", c: false }
+    ],
+    correction: "IC gauche : dyspnée / orthopnée, OAP.\nLes 3 autres propositions (œdèmes MI, hépatomégalie, turgescence jugulaire) sont des signes d'IC DROITE." },
+  { theme: "cardio", type: "qcm_multi",
+    q: "Parmi les propositions suivantes, lesquelles sont des signes cliniques de l'IC DROITE ? (plusieurs réponses possibles)",
+    options: [
+      { t: "Dyspnée", c: false },
+      { t: "Orthopnée", c: false },
+      { t: "Œdèmes des membres inférieurs", c: true },
+      { t: "Hépatomégalie", c: true },
+      { t: "Turgescence jugulaire", c: true }
+    ],
+    correction: "IC droite : œdèmes MI, hépatomégalie, turgescence jugulaire.\nLes 2 autres sont des signes d'IC gauche." },
+  { theme: "cardio", type: "qcm_multi",
+    q: "Quelles sont les conditions essentielles pour une prise de pression artérielle correcte ? (plusieurs réponses)",
+    options: [
+      { t: "Repos 5 minutes", c: true },
+      { t: "Patient assis ou allongé", c: true },
+      { t: "Plusieurs mesures", c: true },
+      { t: "Brassard adapté", c: true },
+      { t: "Patient debout", c: false },
+      { t: "Une seule mesure suffit", c: false }
+    ],
+    correction: "Repos 5 minutes, patient assis ou allongé, plusieurs mesures, brassard adapté." },
+  { theme: "cardio", type: "qcm_multi",
+    q: "Quelles règles hygiéno-diététiques conseillerez-vous à un patient hypertendu ? (plusieurs réponses)",
+    options: [
+      { t: "Diminution du sel", c: true },
+      { t: "Activité physique", c: true },
+      { t: "Arrêt du tabac", c: true },
+      { t: "Diminution de l'alcool", c: true },
+      { t: "Perte de poids", c: true },
+      { t: "Augmentation des protéines animales", c: false },
+      { t: "Restriction hydrique stricte", c: false }
+    ],
+    correction: "↓ sel · activité physique · arrêt tabac · ↓ alcool · perte de poids." },
+  { theme: "cardio", type: "qcm_multi",
+    q: "Devant un patient en OAP, quelles sont les actions infirmières IMMÉDIATES ? (plusieurs réponses)",
+    options: [
+      { t: "Position demi-assise", c: true },
+      { t: "Oxygène", c: true },
+      { t: "Alerte médicale", c: true },
+      { t: "Position allongée jambes surélevées", c: false },
+      { t: "Remplissage massif IV", c: false }
+    ],
+    correction: "Position demi-assise · Oxygène · Alerte médicale.\nLa position allongée et le remplissage AGGRAVERAIENT l'OAP." },
+  { theme: "cardio", type: "qcm_multi",
+    q: "Concernant la prise en charge médicamenteuse de l'OAP, quelles propositions sont VRAIES ? (plusieurs réponses)",
+    options: [
+      { t: "Oxygène", c: true },
+      { t: "Diurétiques", c: true },
+      { t: "Morphine", c: true },
+      { t: "Nitrés", c: true },
+      { t: "Antibiotiques systématiques", c: false },
+      { t: "Bêtabloquants en urgence", c: false }
+    ],
+    correction: "PEC OAP : Oxygène · Diurétiques · Morphine · Nitrés." },
+
+  // 👁️ OPHTALMO (2)
+  { theme: "ophtalmo", type: "open",
+    q: "Définir la DMLA, ses signes cliniques et son traitement.",
+    correction: "DMLA : Dégénérescence Maculaire Liée à l'Âge. Affection chronique et évolutive de la macula (zone centrale de la rétine responsable de la vision fine). La vision périphérique est conservée.\nSignes : baisse d'acuité visuelle, scotome central, difficulté à lire / à reconnaître les visages, besoin accru de lumière.\nTTT : surveillance régulière, supplémentation en antioxydants (vitamines C, E, zinc, lutéine), mesures hygiéno-diététiques, injections intravitréennes d'anti-VEGF." },
+  { theme: "ophtalmo", type: "open",
+    q: "Définir la cataracte, ses signes cliniques et son traitement.",
+    correction: "Cataracte : opacification progressive du cristallin.\nSignes : baisse d'acuité visuelle, vision floue, photophobie, éblouissement, diminution des contrastes, diplopie monoculaire, altération de la perception des couleurs.\nTTT : chirurgical (phacoémulsification + implantation d'un cristallin artificiel). Suites post-op : collyres AINS et antibiotiques." },
+
+  // 🫁 RESPI (3)
+  { theme: "respi", type: "qcm_multi",
+    q: "Quels sont les signes CLINIQUES de l'insuffisance respiratoire aiguë (IRA) ? (plusieurs réponses)",
+    options: [
+      { t: "Dyspnée aiguë", c: true },
+      { t: "Cyanose", c: true },
+      { t: "FR > 25 / min", c: true },
+      { t: "SpO₂ < 90 %", c: true },
+      { t: "Utilisation des muscles accessoires", c: true },
+      { t: "Troubles de la conscience", c: true },
+      { t: "Bradypnée < 12 / min", c: false }
+    ],
+    correction: "Signes cliniques IRA : dyspnée aiguë, cyanose, FR > 25/min, SpO₂ < 90 %, muscles accessoires, troubles de la conscience." },
+  { theme: "respi", type: "open",
+    q: "Définir l'insuffisance respiratoire chronique (IRC) et citer les traitements possibles.",
+    correction: "IRC : PaO₂ < 70 mmHg au repos, en dehors d'un épisode aigu.\nTTT : traitement de la cause, arrêt du tabac, oxygénothérapie longue durée (OLD), réhabilitation respiratoire, VNI si hypercapnie." },
+  { theme: "respi", type: "qcm_single",
+    q: "Un patient présente : pH 7,28 · PaCO₂ 55 mmHg · HCO₃⁻ normale. De quel trouble s'agit-il ?",
+    options: [
+      { t: "Acidose respiratoire aiguë", c: true },
+      { t: "Alcalose respiratoire aiguë", c: false },
+      { t: "Acidose métabolique", c: false },
+      { t: "Alcalose métabolique", c: false }
+    ],
+    correction: "pH < 7,35 (acidose) + PaCO₂ > 45 (élevée) + HCO₃⁻ normale → Acidose respiratoire aiguë." },
+
+  // 🩺 RÉNALE (4)
+  { theme: "renale", type: "open",
+    q: "Définir l'insuffisance rénale chronique (IRC) et l'insuffisance rénale aiguë (IRA).",
+    correction: "IRC : altération progressive et irréversible de la fonction rénale avec baisse du DFG. Peut évoluer vers la dialyse ou la greffe.\nIRA : perte brutale, complète ou partielle, des fonctions rénales, souvent réversible." },
+  { theme: "renale", type: "qcm_multi",
+    q: "Quelles sont les principales complications biologiques de l'IRC ? (plusieurs réponses)",
+    options: [
+      { t: "Anémie", c: true },
+      { t: "Hyperkaliémie", c: true },
+      { t: "Acidose métabolique", c: true },
+      { t: "Hypocalcémie / hyperphosphatémie", c: true },
+      { t: "Hyperglycémie systématique", c: false },
+      { t: "Hypocoagulation", c: false }
+    ],
+    correction: "Complications IRC : anémie · hyperkaliémie · acidose métabolique · hypocalcémie/hyperphosphatémie." },
+  { theme: "renale", type: "qcm_multi",
+    q: "Quelles sont les précautions à prendre par l'IDE en présence d'une fistule artério-veineuse (FAV) ? (plusieurs réponses)",
+    options: [
+      { t: "Pas de TA sur ce bras", c: true },
+      { t: "Pas de prise de sang sur ce bras", c: true },
+      { t: "Pas de perfusion sur ce bras", c: true },
+      { t: "Surveiller le thrill et le souffle", c: true },
+      { t: "Surveiller l'état cutané", c: true },
+      { t: "TA possible si le patient est stable", c: false },
+      { t: "Prise de sang autorisée si veines difficiles", c: false }
+    ],
+    correction: "Sur le bras porteur de la FAV : PAS de TA, PAS de prise de sang, PAS de perfusion. Surveiller le thrill, le souffle et l'état cutané." },
+  { theme: "renale", type: "qcm_multi",
+    q: "Quels conseils donner à un patient porteur d'une fistule artério-veineuse ? (plusieurs réponses)",
+    options: [
+      { t: "Vérifier chaque jour la vibration (thrill)", c: true },
+      { t: "Éviter les traumatismes / compression", c: true },
+      { t: "Éviter montre serrée et vêtements serrés", c: true },
+      { t: "Consulter si douleur, rougeur ou absence de thrill", c: true },
+      { t: "Porter des charges lourdes pour stimuler la FAV", c: false },
+      { t: "Dormir avec le bras compressé", c: false }
+    ],
+    correction: "Vérifier la vibration chaque jour · éviter compression / traumatismes / vêtements serrés · consulter si douleur, rougeur ou absence de thrill." },
+
+  // 🟤 HÉPATO (3)
+  { theme: "hepato", type: "open",
+    q: "Définir la cirrhose et ses complications majeures.",
+    correction: "Cirrhose : maladie chronique irréversible du foie avec fibrose et altération des fonctions hépatiques.\nComplications majeures : ascite · hémorragie digestive (varices œsophagiennes) · encéphalopathie hépatique · carcinome hépatocellulaire." },
+  { theme: "hepato", type: "qcm_multi",
+    q: "Quelles sont les étiologies de la cirrhose ? (plusieurs réponses)",
+    options: [
+      { t: "Alcool", c: true },
+      { t: "NASH (obésité)", c: true },
+      { t: "Hépatite B", c: true },
+      { t: "Hépatite C", c: true },
+      { t: "Hémochromatose", c: true },
+      { t: "Maladies auto-immunes", c: true },
+      { t: "Diabète insulinodépendant", c: false }
+    ],
+    correction: "Étiologies cirrhose : alcool, NASH (obésité), hépatites B et C, hémochromatose, maladies auto-immunes, causes médicamenteuses ou génétiques." },
+  { theme: "hepato", type: "qcm_multi",
+    q: "Quels sont les traitements de la pancréatite aiguë ? (plusieurs réponses)",
+    options: [
+      { t: "Mise à jeun", c: true },
+      { t: "Hydratation IV (Ringer)", c: true },
+      { t: "Antalgiques IV", c: true },
+      { t: "Anticoagulation préventive", c: true },
+      { t: "Surveillance rapprochée", c: true },
+      { t: "Alimentation hyperprotéinée immédiate", c: false },
+      { t: "Antibiothérapie systématique", c: false }
+    ],
+    correction: "TTT pancréatite aiguë : mise à jeun · hydratation IV (Ringer) · antalgiques IV · anticoagulation préventive · surveillance rapprochée." },
+
+  // 🧠 NEURO (3)
+  { theme: "neuro", type: "open",
+    q: "Définir la sclérose en plaques (SEP).",
+    correction: "Maladie inflammatoire démyélinisante du système nerveux central (cerveau + moelle), d'origine dysimmunitaire, entraînant une altération de la conduction nerveuse." },
+  { theme: "neuro", type: "qcm_multi",
+    q: "Quels sont les signes de la TRIADE CLASSIQUE de la maladie de Parkinson ? (plusieurs réponses)",
+    options: [
+      { t: "Tremblement de repos", c: true },
+      { t: "Bradykinésie (lenteur)", c: true },
+      { t: "Rigidité", c: true },
+      { t: "Chorée", c: false },
+      { t: "Athétose", c: false },
+      { t: "Hypertonie pyramidale", c: false }
+    ],
+    correction: "La triade classique de la maladie de Parkinson : tremblement de repos · bradykinésie (lenteur) · rigidité." },
+  { theme: "neuro", type: "qcm_multi",
+    q: "Quels conseils l'IDE peut prodiguer à un patient atteint de SEP ou de Parkinson et à sa famille ? (plusieurs réponses)",
+    options: [
+      { t: "Expliquer la maladie, favoriser l'observance", c: true },
+      { t: "Soutien psychologique", c: true },
+      { t: "Prévention des chutes", c: true },
+      { t: "Surveillance nutrition et déglutition", c: true },
+      { t: "Kinésithérapie, orthophonie, activité physique adaptée", c: true },
+      { t: "Adapter l'environnement, aides techniques, soutien famille", c: true },
+      { t: "Restriction totale d'activité physique", c: false },
+      { t: "Isolement social conseillé pour repos", c: false }
+    ],
+    correction: "Éducation · soutien psychologique · prévention complications (chutes, nutrition, déglutition, troubles urinaires) · rééducation (kiné, orthophonie, APA) · adapter l'environnement et soutenir la famille." },
+
+  // 👴 VIEILLISSEMENT (3)
+  { theme: "vieillissement", type: "open",
+    q: "Définir la maladie d'Alzheimer et expliquer sa physiopathologie.",
+    correction: "Maladie d'Alzheimer : maladie neurodégénérative progressive responsable d'une détérioration cognitive, surtout de la mémoire.\nPhysiopathologie : accumulation de plaques bêta-amyloïdes, dégénérescence neurofibrillaire, mort neuronale progressive." },
+  { theme: "vieillissement", type: "open",
+    q: "Définir le syndrome confusionnel ET le syndrome démentiel en expliquant leurs physiopathologies.",
+    correction: "CONFUSIONNEL : trouble aigu, fluctuant et réversible de la conscience et de l'attention. Physiopath : souffrance cérébrale aiguë secondaire à une cause organique.\nDÉMENTIEL : déclin cognitif chronique progressif avec retentissement sur l'autonomie. Physiopath : atteinte neuronale progressive irréversible." },
+  { theme: "vieillissement", type: "qcm_multi",
+    q: "Devant un syndrome confusionnel, quelles ÉTIOLOGIES devez-vous rechercher ? (plusieurs réponses)",
+    options: [
+      { t: "Infection", c: true },
+      { t: "Déshydratation", c: true },
+      { t: "Médicaments", c: true },
+      { t: "Douleur", c: true },
+      { t: "Rétention urinaire", c: true },
+      { t: "Troubles métaboliques", c: true },
+      { t: "Manque de motivation du patient", c: false }
+    ],
+    correction: "Étiologies à rechercher : infection · déshydratation · médicaments · douleur · rétention urinaire · troubles métaboliques." },
+
+  // 🦵 MI (3)
+  { theme: "mi", type: "qcm_single",
+    q: "Un patient a un IPS à 0,55. À quel niveau d'artériopathie correspond cette valeur ?",
+    options: [
+      { t: "Normal", c: false },
+      { t: "Artériopathie modérée (IPS 0,7 – 0,9)", c: false },
+      { t: "Artériopathie sévère (IPS 0,4 – 0,7)", c: true },
+      { t: "Ischémie critique (IPS < 0,4)", c: false },
+      { t: "Artères rigides / calcifiées (IPS > 1,3)", c: false }
+    ],
+    correction: "Grille IPS : >1,3 = calcifiées · 0,9–1,3 = normal · 0,7–0,9 = modérée · 0,4–0,7 = sévère · <0,4 = ischémie critique.\nIPS 0,55 = artériopathie SÉVÈRE." },
+  { theme: "mi", type: "qcm_multi",
+    q: "Parmi les propositions, lesquelles caractérisent un ULCÈRE ARTÉRIEL ? (plusieurs réponses)",
+    options: [
+      { t: "Très douloureux", c: true },
+      { t: "Extrémités froides", c: true },
+      { t: "Plaie creusante, nécrotique", c: true },
+      { t: "Pouls diminués ou absents", c: true },
+      { t: "Siège : pieds, orteils", c: true },
+      { t: "Peau ocre", c: false },
+      { t: "Plaie suintante", c: false },
+      { t: "Siège : malléole interne", c: false }
+    ],
+    correction: "Ulcère ARTÉRIEL : très douloureux · extrémités froides · plaie creusante/nécrotique · pouls diminués/absents · siège pieds/orteils.\nLes 3 dernières propositions caractérisent l'ulcère VEINEUX." },
+  { theme: "mi", type: "qcm_multi",
+    q: "Devant un ulcère VEINEUX, quelles actions sont à mettre en place ? (plusieurs réponses)",
+    options: [
+      { t: "Compression veineuse (si IPS compatible)", c: true },
+      { t: "Surélévation des jambes", c: true },
+      { t: "Mobilisation / marche", c: true },
+      { t: "Soins locaux", c: true },
+      { t: "Compression artérielle forte", c: false },
+      { t: "Alitement strict prolongé", c: false }
+    ],
+    correction: "Ulcère VEINEUX : compression veineuse si IPS compatible · surélévation jambes · mobilisation/marche · soins locaux.\n⚠️ La compression forte est CONTRE-INDIQUÉE dans l'ulcère artériel." },
+
+  // ⚗️ ENDOCRINO (2)
+  { theme: "endocrino", type: "open",
+    q: "Définir l'hypothyroïdie, ses étiologies, ses examens complémentaires et son traitement.",
+    correction: "Diminution de la production des hormones thyroïdiennes entraînant un ralentissement du métabolisme.\nÉtiologies : thyroïdite d'Hashimoto, carence en iode, thyroïdectomie, médicaments.\nExamens : TSH augmentée, T4 diminuée, anticorps antithyroïdiens, échographie thyroïdienne.\nTTT : hormones thyroïdiennes substitutives." },
+  { theme: "endocrino", type: "open",
+    q: "Définir l'hyperthyroïdie, ses étiologies, ses examens complémentaires et son traitement.",
+    correction: "Production excessive d'hormones thyroïdiennes provoquant une accélération du métabolisme.\nÉtiologies : maladie de Basedow, nodule toxique, goitre multinodulaire toxique.\nExamens : TSH basse, T3/T4 élevées, scintigraphie thyroïdienne, échographie thyroïdienne.\nTTT : antithyroïdiens de synthèse, bêtabloquants, iode radioactif, chirurgie." },
+
+  // 👂 ORL (2)
+  { theme: "orl", type: "open",
+    q: "Définir les 3 types de surdité.",
+    correction: "Surdité de TRANSMISSION : atteinte du système vibratoire (pavillon, conduit auditif, tympan ou osselets).\nSurdité de PERCEPTION : atteinte neurosensorielle (cochlée, nerf auditif ou voies auditives centrales).\nSurdité MIXTE : association d'une surdité de transmission et de perception." },
+  { theme: "orl", type: "qcm_multi",
+    q: "Quels sont les signes cliniques de la maladie de Ménière ? (plusieurs réponses)",
+    options: [
+      { t: "Vertiges rotatoires récidivants", c: true },
+      { t: "Hypoacousie fluctuante", c: true },
+      { t: "Acouphènes", c: true },
+      { t: "Sensation d'oreille pleine", c: true },
+      { t: "Nausées / vomissements", c: true },
+      { t: "Otorrhée purulente", c: false },
+      { t: "Otalgie aiguë intense", c: false }
+    ],
+    correction: "Triade Ménière : vertiges rotatoires + hypoacousie fluctuante + acouphènes (+ oreille pleine, nausées)." },
+
+  // 🦴 RHUMATO (2)
+  { theme: "rhumato", type: "open",
+    q: "Définir l'arthrose, la sarcopénie et l'ostéoporose.",
+    correction: "ARTHROSE : maladie articulaire chronique caractérisée par une dégradation du cartilage avec atteinte de l'os sous-chondral.\nSARCOPÉNIE : diminution progressive de la masse et de la force musculaire liée au vieillissement.\nOSTÉOPOROSE : maladie diffuse du squelette avec diminution de la densité osseuse entraînant une fragilité osseuse et un risque de fracture." },
+  { theme: "rhumato", type: "vf_table",
+    q: "Indiquez VRAI ou FAUX pour chaque proposition :",
+    options: [
+      { t: "L'arthrose provoque des douleurs chroniques et une limitation de la mobilité", c: true },
+      { t: "La sarcopénie augmente le risque de chutes et de fractures", c: true },
+      { t: "L'ostéoporose se complique principalement de fracture du col du fémur", c: true },
+      { t: "L'arthrose est responsable de la fracture du col du fémur", c: false },
+      { t: "L'ostéoporose entraîne des douleurs articulaires chroniques", c: false }
+    ],
+    correction: "L'arthrose donne des douleurs chroniques articulaires (pas la fracture du col du fémur — c'est l'ostéoporose).\nLa sarcopénie favorise les chutes. L'ostéoporose se manifeste par les fractures, pas par les douleurs articulaires." },
+
+  // 🩸 DIABÈTE (4)
+  { theme: "diabete", type: "open",
+    q: "Définir le diabète de type 1 et le diabète de type 2 et leurs physiopathologies.",
+    correction: "DT1 : maladie auto-immune avec destruction des cellules bêta du pancréas provoquant l'absence d'insuline. Physiopath : carence absolue en insuline → hyperglycémie.\nDT2 : maladie métabolique avec insulinorésistance puis épuisement pancréatique. Physiopath : insuline inefficace + diminution progressive de sa sécrétion." },
+  { theme: "diabete", type: "qcm_multi",
+    q: "Parmi les propositions suivantes, lesquelles sont des signes d'HYPOGLYCÉMIE ? (plusieurs réponses)",
+    options: [
+      { t: "Sueurs", c: true },
+      { t: "Tremblements", c: true },
+      { t: "Faim", c: true },
+      { t: "Malaise", c: true },
+      { t: "Troubles de la conscience", c: true },
+      { t: "Polyurie", c: false },
+      { t: "Haleine acétonique", c: false },
+      { t: "Soif intense", c: false }
+    ],
+    correction: "Hypoglycémie (< 0,70 g/L) : sueurs · tremblements · faim · malaise · troubles de la conscience.\nLes 3 dernières propositions sont des signes d'HYPERGLYCÉMIE." },
+  { theme: "diabete", type: "qcm_multi",
+    q: "Devant une HYPOGLYCÉMIE, quelles sont les conduites à tenir ? (plusieurs réponses)",
+    options: [
+      { t: "Resucrage rapide", c: true },
+      { t: "Contrôle de la glycémie", c: true },
+      { t: "Collation secondaire", c: true },
+      { t: "Injection d'insuline", c: false },
+      { t: "Mise à jeun stricte", c: false },
+      { t: "Hydratation massive seule", c: false }
+    ],
+    correction: "CAT hypoglycémie : resucrage rapide → contrôle glycémie → collation secondaire (glucides complexes).\n⚠️ Ne jamais injecter d'insuline en hypoglycémie." },
+  { theme: "diabete", type: "qcm_multi",
+    q: "Quels conseils donner à un patient diabétique pour le soin de ses pieds ? (plusieurs réponses)",
+    options: [
+      { t: "Inspection quotidienne des pieds", c: true },
+      { t: "Bonne hygiène et séchage soigneux", c: true },
+      { t: "Chaussures adaptées", c: true },
+      { t: "Couper les ongles correctement", c: true },
+      { t: "Ne pas marcher pieds nus", c: true },
+      { t: "Consulter rapidement si plaie", c: true },
+      { t: "Marcher pieds nus pour stimuler la circulation", c: false },
+      { t: "Couper la peau morte avec une lame", c: false }
+    ],
+    correction: "Inspection quotidienne · hygiène/séchage · chaussures adaptées · ongles coupés correctement · jamais pieds nus · consulter rapidement si plaie." }
 ];
 
 const PARTIEL_HELPERS = {
@@ -3289,51 +3767,113 @@ const PARTIEL_HELPERS = {
   diabete: { label: "🩸 Diabète", color: "#E91E63" }
 };
 
-let partielTotalCount = 0;
-
 function renderPartiel() {
   const container = document.getElementById('partielContent');
-  let total = 0;
   let html = '';
+  let total = 0;
+  let qNum = 0;
 
-  PARTIEL.forEach(group => {
-    const meta = PARTIEL_HELPERS[group.themeId];
-    const questions = group.indices.map(i => QA[group.themeId][i]).filter(Boolean);
-    if (questions.length === 0) return;
+  // Grouper par thème (les questions sont déjà dans l'ordre)
+  const grouped = {};
+  PARTIEL_Q.forEach((q, idx) => {
+    if (!grouped[q.theme]) grouped[q.theme] = [];
+    grouped[q.theme].push({ ...q, origIdx: idx });
+  });
+
+  // Ordre des thèmes
+  Object.keys(PARTIEL_HELPERS).forEach(themeId => {
+    const qs = grouped[themeId];
+    if (!qs || qs.length === 0) return;
+    const meta = PARTIEL_HELPERS[themeId];
 
     html += `
       <div class="partiel-theme-block">
         <div class="partiel-theme-header" style="border-bottom-color: ${meta.color};">
           <div class="partiel-theme-title" style="color: ${meta.color};">${meta.label}</div>
-          <div class="partiel-theme-count">${questions.length} question${questions.length>1?'s':''}</div>
+          <div class="partiel-theme-count">${qs.length} question${qs.length > 1 ? 's' : ''}</div>
         </div>
     `;
 
-    questions.forEach((q, i) => {
+    qs.forEach(q => {
+      qNum++;
       total++;
-      const savedKey = `partiel_${group.themeId}_${group.indices[i]}`;
-      const saved = localStorage.getItem(savedKey) || '';
-      html += `
-        <div class="partiel-q" style="--pq: ${meta.color};">
-          <div class="partiel-q-num">Q${total}</div>
-          <div class="partiel-q-text">${escapeHtml(q.q)}</div>
-          <textarea class="partiel-area${saved ? ' done' : ''}" placeholder="Ta réponse ici…" data-save-key="${savedKey}" oninput="savePartiel(this)">${escapeHtml(saved)}</textarea>
-          <button class="partiel-correct-btn" onclick="this.nextElementSibling.classList.toggle('show')">Voir la correction</button>
-          <div class="partiel-correction">
-            <div class="partiel-correction-title">✅ Réponse attendue</div>
-            ${escapeHtml(q.a)}
-          </div>
-        </div>
-      `;
+      html += renderPartielQuestion(q, qNum, meta.color);
     });
 
     html += `</div>`;
   });
 
   container.innerHTML = html;
-  partielTotalCount = total;
   document.getElementById('partielTotal').textContent = total;
   updatePartielDoneCount();
+}
+
+function renderPartielQuestion(q, num, color) {
+  const tag = q.type === 'open' ? '✍️ Ouverte'
+            : q.type === 'qcm_multi' ? '☑️ Choix multiples'
+            : q.type === 'qcm_single' ? '🔘 Choix unique'
+            : q.type === 'vf_table' ? '✓✗ Vrai / Faux'
+            : '';
+
+  let body = '';
+  const qid = `pq-${q.origIdx}`;
+
+  if (q.type === 'open') {
+    const savedKey = `ue27_partiel_open_${q.origIdx}`;
+    const saved = localStorage.getItem(savedKey) || '';
+    body = `
+      <textarea class="partiel-area${saved ? ' done' : ''}" placeholder="Ta réponse ici…" data-save-key="${savedKey}" oninput="savePartiel(this)">${escapeHtml(saved)}</textarea>
+      <button class="partiel-correct-btn" onclick="this.nextElementSibling.classList.toggle('show')">Voir la réponse attendue</button>
+      <div class="partiel-correction">
+        <div class="partiel-correction-title">✅ Réponse attendue</div>
+        ${escapeHtml(q.correction)}
+      </div>
+    `;
+  } else if (q.type === 'qcm_multi' || q.type === 'qcm_single') {
+    const inputType = q.type === 'qcm_multi' ? 'checkbox' : 'radio';
+    const opts = q.options.map((o, i) => `
+      <label class="qcm-opt" data-correct="${o.c}">
+        <input type="${inputType}" name="${qid}" data-i="${i}" data-correct="${o.c}">
+        <span class="qcm-opt-text">${escapeHtml(o.t)}</span>
+        <span class="qcm-opt-mark"></span>
+      </label>
+    `).join('');
+    body = `
+      <div class="qcm-options" id="${qid}">${opts}</div>
+      <button class="partiel-correct-btn" onclick="validateQcm('${qid}', this)">Valider</button>
+      <div class="partiel-correction">
+        <div class="partiel-correction-title">✅ Explication</div>
+        ${escapeHtml(q.correction)}
+      </div>
+    `;
+  } else if (q.type === 'vf_table') {
+    const opts = q.options.map((o, i) => `
+      <div class="vf-row" data-correct="${o.c}">
+        <div class="vf-text">${escapeHtml(o.t)}</div>
+        <label class="vf-choice"><input type="radio" name="${qid}_${i}" data-val="true"><span>V</span></label>
+        <label class="vf-choice"><input type="radio" name="${qid}_${i}" data-val="false"><span>F</span></label>
+      </div>
+    `).join('');
+    body = `
+      <div class="vf-list" id="${qid}">${opts}</div>
+      <button class="partiel-correct-btn" onclick="validateVf('${qid}', this)">Valider</button>
+      <div class="partiel-correction">
+        <div class="partiel-correction-title">✅ Explication</div>
+        ${escapeHtml(q.correction)}
+      </div>
+    `;
+  }
+
+  return `
+    <div class="partiel-q" style="--pq: ${color};">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <div class="partiel-q-num">Q${num}</div>
+        <span style="font-size: 11px; color: var(--text-soft); font-weight: 600;">${tag}</span>
+      </div>
+      <div class="partiel-q-text">${escapeHtml(q.q)}</div>
+      ${body}
+    </div>
+  `;
 }
 
 function savePartiel(textarea) {
@@ -3348,10 +3888,66 @@ function savePartiel(textarea) {
   updatePartielDoneCount();
 }
 
+function validateQcm(qid, btn) {
+  const container = document.getElementById(qid);
+  let correct = 0, total = 0;
+  container.querySelectorAll('.qcm-opt').forEach(opt => {
+    const input = opt.querySelector('input');
+    const isCorrect = opt.dataset.correct === 'true';
+    const isChecked = input.checked;
+    if (isCorrect) total++;
+    input.disabled = true;
+    opt.classList.remove('qcm-correct', 'qcm-wrong', 'qcm-missed');
+    if (isCorrect && isChecked) { opt.classList.add('qcm-correct'); correct++; }
+    else if (!isCorrect && isChecked) opt.classList.add('qcm-wrong');
+    else if (isCorrect && !isChecked) opt.classList.add('qcm-missed');
+  });
+  btn.textContent = `Résultat : ${correct} / ${total} ✓`;
+  btn.disabled = true;
+  // Auto-afficher correction
+  const corr = btn.nextElementSibling;
+  if (corr && !corr.classList.contains('show')) corr.classList.add('show');
+  // Marquer comme done
+  container.dataset.done = '1';
+  updatePartielDoneCount();
+}
+
+function validateVf(qid, btn) {
+  const container = document.getElementById(qid);
+  let correct = 0, total = 0, unanswered = 0;
+  container.querySelectorAll('.vf-row').forEach(row => {
+    total++;
+    const expected = row.dataset.correct === 'true' ? 'true' : 'false';
+    const checked = row.querySelector('input:checked');
+    row.querySelectorAll('input').forEach(inp => inp.disabled = true);
+    if (!checked) {
+      row.classList.add('vf-wrong');
+      unanswered++;
+    } else if (checked.dataset.val === expected) {
+      row.classList.add('vf-correct');
+      correct++;
+    } else {
+      row.classList.add('vf-wrong');
+    }
+    // Highlight bonne réponse
+    row.querySelectorAll('input').forEach(inp => {
+      if (inp.dataset.val === expected) inp.parentElement.classList.add('vf-good');
+    });
+  });
+  btn.textContent = `Résultat : ${correct} / ${total} ✓`;
+  btn.disabled = true;
+  const corr = btn.nextElementSibling;
+  if (corr && !corr.classList.contains('show')) corr.classList.add('show');
+  container.dataset.done = '1';
+  updatePartielDoneCount();
+}
+
 function updatePartielDoneCount() {
-  const done = document.querySelectorAll('#partielContent .partiel-area.done').length;
+  const openDone = document.querySelectorAll('#partielContent .partiel-area.done').length;
+  const qcmDone = document.querySelectorAll('#partielContent .qcm-options[data-done="1"]').length;
+  const vfDone = document.querySelectorAll('#partielContent .vf-list[data-done="1"]').length;
   const el = document.getElementById('partielDone');
-  if (el) el.textContent = done;
+  if (el) el.textContent = openDone + qcmDone + vfDone;
 }
 
 function revealAllPartiel() {
@@ -3363,13 +3959,406 @@ function hideAllPartiel() {
 }
 
 function resetPartiel() {
-  if (!confirm('Effacer toutes tes réponses ?')) return;
+  if (!confirm('Effacer toutes tes réponses et recommencer ?')) return;
+  // Effacer les textareas
   document.querySelectorAll('#partielContent .partiel-area').forEach(ta => {
-    localStorage.removeItem(ta.dataset.saveKey);
-    ta.value = '';
-    ta.classList.remove('done');
+    if (ta.dataset.saveKey) localStorage.removeItem(ta.dataset.saveKey);
   });
-  updatePartielDoneCount();
+  // Re-render
+  renderPartiel();
+}
+
+// =================== MODE QCM COMPLET ===================
+// Génère un QCM à partir de chaque question du guide.
+// Les définitions restent en ouvert ; les listes deviennent des QCM multi-choix.
+// Distracteurs : items réels tirés d'autres réponses (même catégorie en priorité),
+// donc pédagogiques (pièges classiques inter-pathologies).
+
+// Détecte si une question est une "définition" (→ format ouvert)
+function isDefinitionQ(q, a) {
+  const ql = q.toLowerCase();
+  if (/^\s*(définir|définissez|définition|qu'est-ce|expliquez l|expliquez la|expliquez le|expliquez votre)/.test(ql)) return true;
+  if (/quelle est la physiopathologie|méthode de calcul|que signifie|but de/.test(ql)) return true;
+  return false;
+}
+
+// Découpe une réponse en items atomiques
+function splitItems(answer) {
+  let items = [];
+  answer.split('\n').forEach(line => {
+    line = line.trim();
+    if (!line) return;
+    // retirer un préfixe court type "Causes :", "Signes cliniques :"
+    line = line.replace(/^[A-Za-zÀ-ÿ'’()\/\s-]{1,45}\s*:\s*/, '');
+    // splitter sur séparateurs courants
+    line.split(/·|,|\/| - |;/).forEach(part => {
+      part = part.trim().replace(/\.$/, '');
+      // nettoyer items entre parenthèses orphelines
+      if (part.length >= 2 && part.length <= 75 && !/^\(/.test(part)) {
+        items.push(part);
+      }
+    });
+  });
+  // normaliser et dédupliquer
+  const seen = new Set();
+  return items.filter(it => {
+    const key = it.toLowerCase();
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+// Construit un pool de distracteurs par catégorie
+function buildDistractorPool() {
+  const pool = {};
+  Object.keys(QA).forEach(tid => {
+    pool[tid] = new Set();
+    QA[tid].forEach(item => {
+      if (isDefinitionQ(item.q, item.a)) return;
+      splitItems(item.a).forEach(it => pool[tid].add(it));
+    });
+    pool[tid] = [...pool[tid]];
+  });
+  return pool;
+}
+
+let qcmData = null;
+let qcmScoreTotal = 0;
+let qcmDoneTotal = 0;
+
+function buildQcmData() {
+  const pool = buildDistractorPool();
+  const allThemes = Object.keys(QA);
+  const data = [];
+
+  Object.keys(QA).forEach(tid => {
+    QA[tid].forEach((item, qi) => {
+      const key = tid + '_' + qi;
+      if (isDefinitionQ(item.q, item.a)) {
+        data.push({ theme: tid, type: 'open', q: item.q, correction: item.a, key });
+        return;
+      }
+      const correctItems = splitItems(item.a);
+      if (correctItems.length < 2) {
+        // pas assez d'items pour un QCM → ouvert
+        data.push({ theme: tid, type: 'open', q: item.q, correction: item.a, key });
+        return;
+      }
+      // bonnes réponses (max 6)
+      const corrects = correctItems.slice(0, 6);
+      const correctLower = new Set(corrects.map(c => c.toLowerCase()));
+
+      // nombre de distracteurs : au moins autant que de bonnes réponses (mini 3, maxi 6)
+      // pour un vrai mélange équilibré
+      const nbDistractors = Math.min(6, Math.max(3, corrects.length));
+
+      // distracteurs : même catégorie d'abord (mélange déterministe par clé), puis autres
+      let distractors = [];
+      const samePool = seededShuffle(
+        pool[tid].filter(it => !correctLower.has(it.toLowerCase())),
+        key + '_same'
+      );
+      distractors = samePool.slice(0, nbDistractors);
+
+      // compléter avec d'autres catégories si pas assez
+      if (distractors.length < nbDistractors) {
+        const others = [];
+        allThemes.filter(t => t !== tid).forEach(t => others.push(...pool[t]));
+        const othersShuffled = seededShuffle(others, key + '_other');
+        for (const o of othersShuffled) {
+          if (distractors.length >= nbDistractors) break;
+          if (!correctLower.has(o.toLowerCase()) && !distractors.some(d => d.toLowerCase() === o.toLowerCase())) {
+            distractors.push(o);
+          }
+        }
+      }
+
+      // mélange final DÉTERMINISTE (ordre stable mais bonnes/mauvaises bien mélangées)
+      const options = seededShuffle([
+        ...corrects.map(t => ({ t, c: true })),
+        ...distractors.map(t => ({ t, c: false }))
+      ], key + '_opts');
+
+      data.push({ theme: tid, type: 'qcm', q: item.q, options, correction: item.a, key });
+    });
+  });
+
+  return data;
+}
+
+function shuffleArr(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+// Mélange DÉTERMINISTE (même ordre à chaque chargement, mais bien mélangé)
+function hashSeed(str) {
+  let h = 2166136261;
+  for (let i = 0; i < str.length; i++) {
+    h ^= str.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
+function mulberry32(a) {
+  return function() {
+    a |= 0; a = a + 0x6D2B79F5 | 0;
+    let t = Math.imul(a ^ a >>> 15, 1 | a);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+function seededShuffle(arr, seedStr) {
+  const rng = mulberry32(hashSeed(seedStr));
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function initQcmFilter() {
+  const sel = document.getElementById('qcmFilter');
+  THEMES.forEach(t => {
+    const opt = document.createElement('option');
+    opt.value = t.id;
+    opt.textContent = t.label;
+    sel.appendChild(opt);
+  });
+}
+
+function renderQcmComplet() {
+  if (!qcmData) qcmData = buildQcmData();
+  const filter = document.getElementById('qcmFilter').value;
+  const container = document.getElementById('qcmContent');
+  qcmScoreTotal = 0;
+  qcmDoneTotal = 0;
+
+  const themesToShow = filter === 'all' ? Object.keys(PARTIEL_HELPERS) : [filter];
+  let html = '';
+  let total = 0;
+  let globalNum = 0;
+
+  themesToShow.forEach(tid => {
+    const meta = PARTIEL_HELPERS[tid];
+    const qs = qcmData.filter(d => d.theme === tid);
+    if (qs.length === 0) return;
+
+    html += `
+      <div class="partiel-theme-block">
+        <div class="partiel-theme-header" style="border-bottom-color: ${meta.color};">
+          <div class="partiel-theme-title" style="color: ${meta.color};">${meta.label}</div>
+          <div class="partiel-theme-count">${qs.length} question${qs.length > 1 ? 's' : ''}</div>
+        </div>
+    `;
+
+    qs.forEach(q => {
+      globalNum++;
+      total++;
+      const qid = 'qcmc-' + q.key;
+      const tag = q.type === 'open' ? '✍️ Ouverte' : '☑️ QCM';
+
+      let body = '';
+      if (q.type === 'open') {
+        const savedKey = 'ue27_qcmc_open_' + q.key;
+        const saved = localStorage.getItem(savedKey) || '';
+        body = `
+          <textarea class="partiel-area${saved ? ' done' : ''}" placeholder="Ta réponse ici…" data-save-key="${savedKey}" oninput="savePartiel(this)">${escapeHtml(saved)}</textarea>
+          <button class="partiel-correct-btn" onclick="this.nextElementSibling.classList.toggle('show')">Voir la réponse attendue</button>
+          <div class="partiel-correction">
+            <div class="partiel-correction-title">✅ Réponse attendue</div>
+            ${escapeHtml(q.correction)}
+          </div>
+        `;
+      } else {
+        const opts = q.options.map((o, i) => `
+          <label class="qcm-opt" data-correct="${o.c}">
+            <input type="checkbox" data-i="${i}" data-correct="${o.c}">
+            <span class="qcm-opt-text">${escapeHtml(o.t)}</span>
+            <span class="qcm-opt-mark"></span>
+          </label>
+        `).join('');
+        body = `
+          <div class="qcm-options" id="${qid}">${opts}</div>
+          <button class="partiel-correct-btn" onclick="validateQcmC('${qid}', this)">Valider</button>
+          <div class="partiel-correction">
+            <div class="partiel-correction-title">✅ Réponse attendue (cours)</div>
+            ${escapeHtml(q.correction)}
+          </div>
+        `;
+      }
+
+      html += `
+        <div class="partiel-q" style="--pq: ${meta.color};">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <div class="partiel-q-num">Q${globalNum}</div>
+            <span style="font-size: 11px; color: var(--text-soft); font-weight: 600;">${tag}</span>
+          </div>
+          <div class="partiel-q-text">${escapeHtml(q.q)}</div>
+          ${body}
+        </div>
+      `;
+    });
+
+    html += `</div>`;
+  });
+
+  container.innerHTML = html;
+  document.getElementById('qcmTotal').textContent = total;
+
+  // Bouton bilan en bas
+  if (total > 0) {
+    const bilanBtn = document.createElement('div');
+    bilanBtn.style.cssText = 'text-align:center; margin: 24px 0;';
+    bilanBtn.innerHTML = `
+      <button class="btn-primary" style="background:#5E35B1; font-size:15px; padding:14px 28px;" onclick="showQcmBilan()">🏁 Terminer & voir le bilan de mes erreurs</button>
+      <button class="btn-secondary" style="margin-left:8px;" onclick="resetQcmComplet()">🔄 Réinitialiser</button>
+    `;
+    container.appendChild(bilanBtn);
+  }
+
+  // Restaurer les réponses sauvegardées
+  restoreQcmState();
+}
+
+// Restaure les QCM validés lors des sessions précédentes
+function restoreQcmState() {
+  document.querySelectorAll('#qcmContent .qcm-options').forEach(container => {
+    const key = container.id.replace('qcmc-', '');
+    const saved = localStorage.getItem('ue27_qcmc_ans_' + key);
+    if (!saved) return;
+    try {
+      const data = JSON.parse(saved);
+      if (!data.validated) return;
+      // Re-cocher les options par texte
+      container.querySelectorAll('.qcm-opt').forEach(opt => {
+        const txt = opt.querySelector('.qcm-opt-text').textContent;
+        if (data.checked.includes(txt)) opt.querySelector('input').checked = true;
+      });
+      // Re-valider (affiche couleurs + correction)
+      const btn = container.nextElementSibling;
+      validateQcmC(container.id, btn, true);
+    } catch(e) {}
+  });
+  // Mettre à jour les compteurs (inclut les questions ouvertes déjà remplies)
+  qcmDoneTotal = document.querySelectorAll('#qcmContent .qcm-options[data-done="1"]').length
+               + document.querySelectorAll('#qcmContent .partiel-area.done').length;
+  qcmScoreTotal = document.querySelectorAll('#qcmContent .qcm-options[data-perfect="1"]').length;
+  document.getElementById('qcmDone').textContent = qcmDoneTotal;
+  document.getElementById('qcmScore').textContent = qcmScoreTotal;
+}
+
+function validateQcmC(qid, btn, isRestore) {
+  const container = document.getElementById(qid);
+  const key = qid.replace('qcmc-', '');
+  let correct = 0, total = 0, userErrors = 0;
+  const checkedTexts = [];
+  container.querySelectorAll('.qcm-opt').forEach(opt => {
+    const input = opt.querySelector('input');
+    const isCorrect = opt.dataset.correct === 'true';
+    const isChecked = input.checked;
+    if (isChecked) checkedTexts.push(opt.querySelector('.qcm-opt-text').textContent);
+    if (isCorrect) total++;
+    input.disabled = true;
+    if (isCorrect && isChecked) { opt.classList.add('qcm-correct'); correct++; }
+    else if (!isCorrect && isChecked) { opt.classList.add('qcm-wrong'); userErrors++; }
+    else if (isCorrect && !isChecked) opt.classList.add('qcm-missed');
+  });
+  const perfect = (correct === total && userErrors === 0);
+  btn.textContent = `Résultat : ${correct} / ${total} ✓${userErrors > 0 ? ' · ' + userErrors + ' erreur(s)' : ''}`;
+  btn.disabled = true;
+  container.dataset.done = '1';
+  if (perfect) container.dataset.perfect = '1';
+  const corr = btn.nextElementSibling;
+  if (corr && !corr.classList.contains('show')) corr.classList.add('show');
+
+  // Sauvegarder l'état (sauf si on est en train de restaurer)
+  if (!isRestore) {
+    localStorage.setItem('ue27_qcmc_ans_' + key, JSON.stringify({ checked: checkedTexts, validated: true }));
+  }
+
+  // Mettre à jour stats
+  qcmDoneTotal = document.querySelectorAll('#qcmContent .qcm-options[data-done="1"]').length
+               + document.querySelectorAll('#qcmContent .partiel-area.done').length;
+  qcmScoreTotal = document.querySelectorAll('#qcmContent .qcm-options[data-perfect="1"]').length;
+  document.getElementById('qcmDone').textContent = qcmDoneTotal;
+  document.getElementById('qcmScore').textContent = qcmScoreTotal;
+}
+
+// Bilan des erreurs en fin de session
+function showQcmBilan() {
+  if (!qcmData) return;
+  const filter = document.getElementById('qcmFilter').value;
+  const themesToShow = filter === 'all' ? Object.keys(PARTIEL_HELPERS) : [filter];
+
+  const errors = [];
+  let validatedCount = 0;
+  let perfectCount = 0;
+
+  themesToShow.forEach(tid => {
+    const qs = qcmData.filter(d => d.theme === tid && d.type === 'qcm');
+    qs.forEach(q => {
+      const cont = document.getElementById('qcmc-' + q.key);
+      if (!cont || cont.dataset.done !== '1') return;
+      validatedCount++;
+      if (cont.dataset.perfect === '1') { perfectCount++; return; }
+      // Erreur : récupérer ce qui a été mal coché / oublié
+      const wrong = [...cont.querySelectorAll('.qcm-opt.qcm-wrong')].map(o => o.querySelector('.qcm-opt-text').textContent);
+      const missed = [...cont.querySelectorAll('.qcm-opt.qcm-missed')].map(o => o.querySelector('.qcm-opt-text').textContent);
+      errors.push({ theme: tid, q: q.q, wrong, missed, correction: q.correction });
+    });
+  });
+
+  let html = '';
+  if (validatedCount === 0) {
+    html = `<p style="text-align:center; color:var(--text-soft); padding:20px;">Tu n'as encore validé aucun QCM. Réponds à quelques questions puis reviens voir ton bilan !</p>`;
+  } else {
+    const pct = Math.round(perfectCount / validatedCount * 100);
+    const emoji = pct >= 80 ? '🌟' : pct >= 60 ? '👍' : pct >= 40 ? '💪' : '📚';
+    html = `
+      <div style="text-align:center; margin-bottom:20px;">
+        <div style="font-size:42px;">${emoji}</div>
+        <div style="font-size:28px; font-weight:800; color:var(--primary);">${perfectCount} / ${validatedCount}</div>
+        <div style="color:var(--text-soft);">QCM réussis sans erreur (${pct} %)</div>
+      </div>
+    `;
+    if (errors.length === 0) {
+      html += `<div class="box box-success"><div class="box-title">🎉 Parfait !</div>Aucune erreur sur les QCM validés. Bravo !</div>`;
+    } else {
+      html += `<div style="font-weight:700; color:var(--red); margin-bottom:12px; font-size:16px;">📋 Tes ${errors.length} erreur${errors.length>1?'s':''} à revoir :</div>`;
+      errors.forEach((e, i) => {
+        const meta = PARTIEL_HELPERS[e.theme];
+        html += `
+          <div class="bilan-error" style="border-left-color:${meta.color};">
+            <div style="font-size:12px; color:${meta.color}; font-weight:700; margin-bottom:4px;">${meta.label}</div>
+            <div style="font-weight:600; margin-bottom:8px;">${escapeHtml(e.q)}</div>
+            ${e.wrong.length ? `<div style="font-size:13px; color:var(--red); margin:3px 0;">✗ Tu as coché à tort : ${e.wrong.map(escapeHtml).join(', ')}</div>` : ''}
+            ${e.missed.length ? `<div style="font-size:13px; color:var(--orange); margin:3px 0;">⚠️ Tu as oublié : ${e.missed.map(escapeHtml).join(', ')}</div>` : ''}
+            <div style="margin-top:8px; padding:8px 10px; background:var(--green-light); border-radius:6px; font-size:13px; white-space:pre-wrap;"><strong style="color:var(--green);">Réponse du cours :</strong>\n${escapeHtml(e.correction)}</div>
+          </div>
+        `;
+      });
+    }
+  }
+
+  document.getElementById('bilanBody').innerHTML = html;
+  document.getElementById('qcmBilanModal').style.display = 'flex';
+}
+
+function closeQcmBilan() {
+  document.getElementById('qcmBilanModal').style.display = 'none';
+}
+
+function resetQcmComplet() {
+  if (!confirm('Effacer toutes tes réponses du Mode QCM complet ?')) return;
+  // Supprimer toutes les sauvegardes qcmc
+  Object.keys(localStorage).filter(k => k.startsWith('ue27_qcmc_')).forEach(k => localStorage.removeItem(k));
+  renderQcmComplet();
 }
 
 // =================== THEME (clair/sombre) ===================
@@ -3391,6 +4380,8 @@ function init() {
 
   renderHome();
   renderPartiel();
+  initQcmFilter();
+  renderQcmComplet();
 }
 
 init();
